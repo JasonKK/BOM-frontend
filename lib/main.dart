@@ -1,115 +1,324 @@
+// import 'package:flutter/material.dart';
+// import 'package:bom_front/view/main_view.dart';
+//
+// void main() {
+//   runApp(const TimerApp());
+// }
+//
+// class TimerApp extends StatelessWidget {
+//   const TimerApp({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         title: 'TimerApp',
+//         debugShowCheckedModeBanner: false,
+//         theme: ThemeData(
+//           primaryColor: Colors.deepPurple,
+//         ),
+//         home: MainPage());
+//   }
+// }
 import 'package:flutter/material.dart';
+import 'package:simple_timer/simple_timer.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Simple Timer Widget Demo'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  TimerController? _timerController;
+  TimerStyle _timerStyle = TimerStyle.ring;
+  TimerProgressIndicatorDirection _progressIndicatorDirection =
+      TimerProgressIndicatorDirection.clockwise;
+  TimerProgressTextCountDirection _progressTextCountDirection =
+      TimerProgressTextCountDirection.count_down;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    // initialize timercontroller
+    _timerController = TimerController(this);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          textAlign: TextAlign.center,
+        ),
+        centerTitle: true,
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          child: Column(
+        children: <Widget>[
+          Expanded(
+              child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: SimpleTimer(
+              duration: const Duration(seconds: 5),
+              controller: _timerController,
+              timerStyle: _timerStyle,
+              onStart: handleTimerOnStart,
+              onEnd: handleTimerOnEnd,
+              valueListener: timerValueChangeListener,
+              backgroundColor: Colors.grey,
+              progressIndicatorColor: Colors.green,
+              progressIndicatorDirection: _progressIndicatorDirection,
+              progressTextCountDirection: _progressTextCountDirection,
+              progressTextStyle: TextStyle(color: Colors.black),
+              strokeWidth: 10,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          )),
+          Column(
+            children: <Widget>[
+              const Text(
+                "Timer Status",
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  TextButton(
+                      onPressed: _timerController.start,
+                      child: const Text("Start",
+                          style: TextStyle(color: Colors.white)),
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.green)),
+                  TextButton(
+                      onPressed: _timerController.pause,
+                      child: const Text("Pause",
+                          style: TextStyle(color: Colors.white)),
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.blue)),
+                  TextButton(
+                      onPressed: _timerController.reset,
+                      child: const Text("Reset",
+                          style: TextStyle(color: Colors.white)),
+                      style: TextButton.styleFrom(backgroundColor: Colors.red)),
+                  TextButton(
+                      onPressed: _timerController.restart,
+                      child: const Text("Restart",
+                          style: TextStyle(color: Colors.white)),
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.orange)),
+                ],
+              )
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              const Text(
+                "Timer Style",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Flexible(
+                      child: TextButton(
+                          onPressed: () => _setStyle(TimerStyle.ring),
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue),
+                          child: const Text("Ring",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white)))),
+                  Flexible(
+                    child: TextButton(
+                        onPressed: () => _setStyle(TimerStyle.expanding_circle),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.green),
+                        child: const Text("Expanding Circle",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white))),
+                  ),
+                  Flexible(
+                    child: TextButton(
+                        onPressed: () => _setStyle(TimerStyle.expanding_sector),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.orange),
+                        child: const Text("Expanding Sector",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white))),
+                  ),
+                  Flexible(
+                    child: TextButton(
+                        onPressed: () =>
+                            _setStyle(TimerStyle.expanding_segment),
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.red),
+                        child: const Text("Expanding Segment",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white))),
+                  )
+                ],
+              )
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              const Text(
+                "Timer Count Direction",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () => _setCountDirection(
+                        TimerProgressTextCountDirection.count_up),
+                    style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Flexible(
+                            child: const Text("Count Up",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white))),
+                        Flexible(
+                            child: Icon(Icons.arrow_upward,
+                                size: 18, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => _setCountDirection(
+                        TimerProgressTextCountDirection.count_down),
+                    style: TextButton.styleFrom(backgroundColor: Colors.orange),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Flexible(
+                            child: const Text("Count Down",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white))),
+                        Icon(Icons.arrow_downward,
+                            size: 18, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              const Text(
+                "Timer Progress Indicator Direction",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () => _setProgressIndicatorDirection(
+                        TimerProgressIndicatorDirection.clockwise),
+                    style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Flexible(
+                            child: const Text("Clockwise",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white))),
+                        Flexible(
+                            child: Icon(Icons.subdirectory_arrow_left,
+                                size: 18, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => _setProgressIndicatorDirection(
+                        TimerProgressIndicatorDirection.both),
+                    style: TextButton.styleFrom(backgroundColor: Colors.green),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Flexible(
+                            child: const Text("Both",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white))),
+                        Icon(Icons.compare_arrows,
+                            size: 18, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => _setProgressIndicatorDirection(
+                        TimerProgressIndicatorDirection.counter_clockwise),
+                    style: TextButton.styleFrom(backgroundColor: Colors.orange),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Flexible(
+                            child: const Text("Counter Clockwise",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white))),
+                        Icon(Icons.subdirectory_arrow_right,
+                            size: 18, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      )),
     );
+  }
+
+  void _setCountDirection(TimerProgressTextCountDirection countDirection) {
+    setState(() {
+      _progressTextCountDirection = countDirection;
+    });
+  }
+
+  void _setProgressIndicatorDirection(
+      TimerProgressIndicatorDirection progressIndicatorDirection) {
+    setState(() {
+      _progressIndicatorDirection = progressIndicatorDirection;
+    });
+  }
+
+  void _setStyle(TimerStyle timerStyle) {
+    setState(() {
+      _timerStyle = timerStyle;
+    });
+  }
+
+  void timerValueChangeListener(Duration timeElapsed) {}
+
+  void handleTimerOnStart() {
+    print("timer has just started");
+  }
+
+  void handleTimerOnEnd() {
+    print("timer has ended");
   }
 }
