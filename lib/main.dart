@@ -111,41 +111,25 @@ class _PlanscreenState extends State<Planscreen> with TickerProviderStateMixin {
                   formatButtonVisible: false,
                 ),
                 calendarBuilders: CalendarBuilders(
-                  // selectedBuilder: (context, date, _) {
-                  //   return FadeTransition(
-                  //     opacity: Tween(begin: 0.0, end: 1.0)
-                  //         .animate(_animationController),
-                  //     child: Container(
-                  //       margin: const EdgeInsets.all(4.0),
-                  //       padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-                  //       color: Colors.deepOrange[300],
-                  //       width: 100,
-                  //       height: 100,
-                  //       child: Text(
-                  //         '${date.day}',
-                  //         style: TextStyle().copyWith(fontSize: 16.0),
-                  //       ),
-                  //     ),
-                  //   );
-                  // },
                   todayBuilder: (context, date, _) {
                     return Container(
                       margin: const EdgeInsets.all(4.0),
                       // padding: const EdgeInsets.only(top: 5.0, left: 6.0),
                       width: 100,
                       height: 100,
-                      child: Image.asset('images/jake.png')
+                      child: Image.asset('images/character.png')
                     );
                   },
                 ),
-                selectedDayPredicate: (day) {
-                  // Use `selectedDayPredicate` to determine which day is currently selected.
-                  // If this returns true, then `day` will be marked as selected.
-
-                  // Using `isSameDay` is recommended to disregard
-                  // the time-part of compared DateTime objects.
-                  return isSameDay(_selectedDay, day);
-                },
+                // 아래를 풀면 날짜 선택시 고정
+                // selectedDayPredicate: (day) {
+                //   // Use `selectedDayPredicate` to determine which day is currently selected.
+                //   // If this returns true, then `day` will be marked as selected.
+                //
+                //   // Using `isSameDay` is recommended to disregard
+                //   // the time-part of compared DateTime objects.
+                //   return isSameDay(_selectedDay, day);
+                // },
                 onDaySelected: (selectedDay, focusedDay) {
                   if (!isSameDay(_selectedDay, selectedDay)) {
                     // Call `setState()` when updating the selected day
