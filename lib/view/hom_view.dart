@@ -1,4 +1,5 @@
 import 'package:bom_front/view/components/calendar.dart';
+import 'package:bom_front/view/components/plan.dart';
 import 'package:flutter/material.dart';
 
 class homeScreen extends StatefulWidget {
@@ -8,24 +9,23 @@ class homeScreen extends StatefulWidget {
   State<homeScreen> createState() => _homeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
-
+class _homeScreenState extends State<homeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(''),
+            title: const Text(''),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             // 좌측
             leading: IconButton(
-                icon: Icon(Icons.menu, color: Colors.grey),
+                icon: const Icon(Icons.menu, color: Colors.grey),
                 onPressed: () {},
                 iconSize: 30.0),
             // 우측
             actions: [
               IconButton(
-                icon: Icon(Icons.verified, color: Colors.grey),
+                icon: const Icon(Icons.verified, color: Colors.grey),
                 onPressed: () {},
                 iconSize: 30.0,
               )
@@ -34,7 +34,7 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
           child: Column(
             children: [
               bomCalendar(),
-              SizedBox(height: 4), // to protect appBar block
+              const SizedBox(height: 4), // to protect appBar block
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(children: const <Widget>[
@@ -47,6 +47,9 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
                           height: 20, thickness: 0.3, color: Colors.grey)),
                 ]),
               ),
+              const SizedBox(height: 14),
+              Expanded(flex: 1, child: Plan()),
+              const SizedBox(height: 19),
             ],
           ),
         ),
@@ -57,7 +60,7 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
 Widget _bottomNavigationBarWidget() {
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
-    items: [
+    items: const [
       BottomNavigationBarItem(icon: Icon(Icons.group), label: "커뮤니티"),
       BottomNavigationBarItem(icon: Icon(Icons.sports_esports), label: "게임"),
       BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
