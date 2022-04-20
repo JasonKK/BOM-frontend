@@ -28,7 +28,7 @@ class MainPage extends StatelessWidget {
               final plan = Plan(1, 0);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TimerPage(title: "과목")),
+                MaterialPageRoute(builder: (context) => TimerApp()),
               );
             },
           ))),
