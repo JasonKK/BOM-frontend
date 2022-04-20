@@ -19,7 +19,18 @@ class _TimerPageState extends State<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }ㄴ
+    return Scaffold(
+        backgroundColor: Colors.grey.shade900,
+        body: Column(children: <Widget>[
+          Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
+              child: Text("Stopwatch",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ))),
+        ]));
+  }
 }
