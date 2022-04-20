@@ -17,6 +17,43 @@ class _TimerPageState extends State<TimerPage> {
   Stopwatch stopwatch = Stopwatch();
   late Timer timer;
 
+  void start() {
+    stopwatch.start();
+    timer = Timer.periodic(Duration(milliseconds: 1), update);
+  }
+
+  void update(Timer t) {
+    if (stopwatch.isRunning) {
+      setState(() {
+        timeString =
+            (stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
+                ":" +
+                (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, "0") +
+                ":" +
+                (stopwatch.elapsed.inMilliseconds % 1000 / 10)
+                    .clamp(0, 99)
+                    .toStringAsFixed(0)
+                    .padLeft(2, "0");
+      });
+    }
+  }
+
+  void stop() {
+    setState(() {
+      timer.cancel();
+      stopwatch.stop();
+    });
+  }
+
+  void reset() {
+    timer.cancel();
+    stopwatch.reset();
+    setState(() {
+      timeString = "00:00:00";
+    });
+    stopwatch.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
