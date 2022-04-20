@@ -58,6 +58,37 @@ class _TimerPageState extends State<TimerPage> {
                     )
                   ])),
         ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 60),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                      onPressed: () {},
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(10, 10),
+                                color: Colors.black38,
+                                blurRadius: 15),
+                            BoxShadow(
+                                offset: Offset(-10, -10),
+                                color: Colors.white.withOpacity(0.85),
+                                blurRadius: 15)
+                          ],
+                        ),
+                        child: Icon(
+                            stopwatch.isRunning
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                            size: 60),
+                      )),
+                ]))
       ]),
     );
   }
