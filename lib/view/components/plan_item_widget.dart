@@ -12,6 +12,7 @@ class PlanItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todo = ref.watch(currentTodo);
+    print(todo.check);
     final itemFocusNode = useFocusNode();
     final itemIsFocused = useIsFocused(itemFocusNode);
     final textEditingController = useTextEditingController();
@@ -29,14 +30,16 @@ class PlanItem extends HookConsumerWidget {
             focusNode: itemFocusNode,
             onFocusChange: (focused) {
               if (focused) {
-                textEditingController.text = todo.description;
+                textEditingController.text = todo.planName;
               } else {
                 // Commit changes only when the textfield is unfocused, for performance
-                ref.read(todoListProvider.notifier).edit(
-                    // 수정하기
-                    id: todo.id,
-                    description: textEditingController.text);
-              }
+                // 🌟
+                // ref.read(todoListProvider.notifier).edit(
+                //     // 수정하기
+                //     id: todo.planId,
+                //     description: textEditingController.text);
+                // 🌟
+            }
             },
             child: ListTile(
               // enabled: false, -> 체크시 일정 종료 (+색변경) 활용
@@ -48,9 +51,8 @@ class PlanItem extends HookConsumerWidget {
               trailing: Checkbox(
                 shape: const CircleBorder(),
                 activeColor: const Color(0xffA876DE),
-                value: todo.completed,
-                onChanged: (value) =>
-                    ref.read(todoListProvider.notifier).toggle(todo.id),
+                value: todo.check,
+                onChanged: (value) => ref.read(todoListProvider.notifier).toggle(todo.planId),
               ),
               title: itemIsFocused
                   ? TextField(
@@ -58,7 +60,7 @@ class PlanItem extends HookConsumerWidget {
                       focusNode: textFieldFocusNode,
                       controller: textEditingController,
                     )
-                  : Text(todo.description),
+                  : Text(todo.planName),
             ),
           ),
         ));

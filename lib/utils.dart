@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
@@ -46,3 +47,10 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+
+String getToday(){
+  final now = DateTime.now();
+  DateFormat formatter = DateFormat('yyyy-MM-dd');
+  String strToday = formatter.format(now);
+  return strToday;
+}
