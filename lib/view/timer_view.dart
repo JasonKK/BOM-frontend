@@ -20,17 +20,45 @@ class _TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        body: Column(children: <Widget>[
-          Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
-              child: Text("Stopwatch",
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ))),
-        ]));
+      backgroundColor: Colors.grey.shade900,
+      body: Column(children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
+            child: Text("Stopwatch",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ))),
+        Expanded(
+          child: Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(10, 10),
+                      color: Colors.black38,
+                      blurRadius: 15),
+                  BoxShadow(
+                      offset: Offset(-10, -10),
+                      color: Colors.white.withOpacity(0.55),
+                      blurRadius: 15),
+                ],
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "00:00:00",
+                      style:
+                          TextStyle(fontSize: 40, color: Colors.grey.shade900),
+                    )
+                  ])),
+        ),
+      ]),
+    );
   }
 }
