@@ -8,7 +8,6 @@ class BarChartData {
   BarChartData({
     required this.x,
     required this.y,
-    this.barColor = Colors.grey;
-});
-  }
-
+    this.barColor = Colors.grey,
+  });
+}
