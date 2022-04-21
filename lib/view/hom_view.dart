@@ -1,3 +1,4 @@
+import 'package:bom_front/view/add_view.dart';
 import 'package:bom_front/view/components/calendar.dart';
 import 'package:bom_front/view/components/plan.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,12 @@ class _homeScreenState extends State<homeScreen> {
               const SizedBox(height: 19),
             ],
           ),
-        ),
+        ),floatingActionButton: FloatingActionButton(
+      child: Icon(Icons.add),backgroundColor: Color(0xffA876DE),
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlan()));
+      },
+    ),
         bottomNavigationBar: _bottomNavigationBarWidget());
   }
 }

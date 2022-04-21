@@ -52,7 +52,7 @@ class PlanItem extends HookConsumerWidget {
                 shape: const CircleBorder(),
                 activeColor: const Color(0xffA876DE),
                 value: todo.check,
-                onChanged: (value) => ref.read(todoListProvider.notifier).toggle(todo.planId),
+                onChanged: (value) => ref.read(todoListProvider.notifier).toggle(todo.planId!),
               ),
               title: itemIsFocused
                   ? TextField(

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
 
 @immutable
 class Todo {
-  final int planId;
+  final int? planId;
   final String planName;
   final int time;
   final bool check;
@@ -46,80 +45,3 @@ class Todo {
     return data;
   }
 }
-
-
-class TodoList extends StateNotifier<List<Todo>> {
-  TodoList([List<Todo>? initialTodos]) : super(initialTodos ?? []); //
-
-  void add(String description) { // 추후 수정
-    state = [
-      ...state,
-      Todo(
-        planId: 55,
-        planName: description,
-        time: 0,
-        repetitionType: 0,
-        dailyId: 0,
-        categoryId: 0,
-        check: false,
-      )
-    ];
-  }
-
-  void toggle(int id) {
-    state = [
-      for (final todo in state) //
-        if (todo.planId == id)
-          Todo(
-            planId: todo.planId,
-            planName: todo.planName,
-            check: !todo.check,
-            categoryId: todo.categoryId,
-            dailyId: todo.dailyId,
-            repetitionType: todo.repetitionType,
-            time: todo.time
-          )
-        else
-          todo,
-    ];
-  }
-
-  void edit({required String id, required String description}) {
-    state = [
-      for (final todo in state)
-        if (todo.planId == id)
-          Todo(
-              planId: todo.planId,
-              planName: description,
-              check: todo.check,
-              categoryId: todo.categoryId,
-              dailyId: todo.dailyId,
-              repetitionType: todo.repetitionType,
-              time: todo.time
-          )
-        else
-          todo,
-    ];
-  }
-
-  void remove(Todo target) {
-    state = state.where((todo) => todo.planId != target.planId).toList();
-  }
-}
-
-
-
-// class Todo {
-//   final String id;
-//   final String description;
-//   final bool completed;
-//
-//   const Todo(
-//       {required this.id, required this.description, this.completed = false});
-//
-//   @override
-//   String toString() {
-//     // TODO: implement toString
-//     return 'Todo(description: $description, completed: $completed)';
-//   }
-// }

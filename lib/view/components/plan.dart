@@ -1,4 +1,5 @@
 import 'package:bom_front/provider/todo_provider.dart';
+import 'package:bom_front/repository/plan_repository.dart';
 import 'package:bom_front/view/components/filter_button_widget.dart';
 import 'package:bom_front/view/components/plan_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,9 @@ class Plan extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture);
-    print('$asyncTodos in plan.dart');
+    // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
+    final todos = ref.watch(todoListProvider);
     // final todos = ref.watch(filteredTodos);
-    // final newTodoController = useTextEditingController(); // import 'package:flutter_hooks/flutter_hooks.dart';
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -30,11 +30,7 @@ class Plan extends HookConsumerWidget {
           ),
           Expanded(
             flex: 6,
-            child: asyncTodos.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('${err.toString()}')),
-              data: (todos){
-                return  ListView( // ListView.builder 또한 ok
+            child: ListView( // ListView.builder 또한 ok
                   children: [
                     const SizedBox(height: 19),
                     for (var i = 0; i < todos.length; i++) ...[
@@ -53,24 +49,35 @@ class Plan extends HookConsumerWidget {
                         ),
                       ),
                     ],
-                    // TextField(
-                    //   key: addTodoKey,
-                    //   controller: newTodoController,
-                    //   decoration: const InputDecoration(
-                    //     labelText: '추가하기',
-                    //   ),
-                    //   onSubmitted: (value) {
-                    //     ref.read(todoListProvider.notifier).add(value);
-                    //     newTodoController.clear();
-                    //   },
-                    // ),
                   ],
-                );
-              },
-            ),
+                ),
           ),
         ],
       ),
     );
+  }
+}
+
+
+class hi extends StatefulWidget { // 나중에 stateful 로 빠궈서 initState 활용
+  const hi({Key? key}) : super(key: key);
+
+  @override
+  State<hi> createState() => _hiState();
+}
+
+class _hiState extends State<hi> {
+  TodoRepository _todoRepository = TodoRepository();
+  List<Todo> dataTodo = [];
+  @override
+  void initState() {
+    _todoRepository.loadTodos().then((value){
+      setState(() => dataTodo = value);
+    });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
