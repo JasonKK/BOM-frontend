@@ -2,14 +2,14 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:bom_front/utils.dart';
 import 'package:flutter/material.dart';
 
-class bomCalendar extends StatefulWidget {
-  const bomCalendar({Key? key}) : super(key: key);
+class BomCalendar extends StatefulWidget {
+  const BomCalendar({Key? key}) : super(key: key);
 
   @override
-  State<bomCalendar> createState() => _bomCalendarState();
+  State<BomCalendar> createState() => _BomCalendarState();
 }
 
-class _bomCalendarState extends State<bomCalendar> with TickerProviderStateMixin {
+class _BomCalendarState extends State<BomCalendar> with TickerProviderStateMixin {
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
@@ -41,6 +41,11 @@ class _bomCalendarState extends State<bomCalendar> with TickerProviderStateMixin
         CalendarFormat.month: '',
         CalendarFormat.week: ''
       },
+      // headerVisible:false,
+      // daysOfWeekVisible: false,
+      rowHeight: 42.0,
+        daysOfWeekHeight: 20.0,
+        // pageAnimationEnabled:false,
       calendarStyle: CalendarStyle(
         // outsideDaysVisible: false,
         weekendTextStyle:

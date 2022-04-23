@@ -14,13 +14,13 @@ class FilterButtons extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(todoListFilter);
     Color textColorFor(TodoListFilter value) =>
-        filter == value ? Colors.white : Colors.black;
+        filter == value ? Colors.white : Color(0xffA876DE);
     Color primaryColorFor(TodoListFilter value) =>
         filter == value ? Color(0xffA876DE) : Colors.white;
 
     return Material(
         child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,

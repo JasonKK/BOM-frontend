@@ -20,7 +20,7 @@ class PlanItem extends HookConsumerWidget {
 
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Material(
           color: Colors.white,
           elevation: 3,
@@ -60,7 +60,7 @@ class PlanItem extends HookConsumerWidget {
                       focusNode: textFieldFocusNode,
                       controller: textEditingController,
                     )
-                  : Text(todo.planName),
+                  : Text(todo.planName, style: TextStyle(fontSize: 18.0)),
             ),
           ),
         ));

@@ -29,28 +29,31 @@ class Plan extends HookConsumerWidget {
               child: FilterButtons()
           ),
           Expanded(
-            flex: 6,
-            child: ListView( // ListView.builder 또한 ok
-                  children: [
-                    const SizedBox(height: 19),
-                    for (var i = 0; i < todos.length; i++) ...[
-                      if (i > 0) const SizedBox(height: 5),
-                      Dismissible(
-                        key: ValueKey(todos[i].planId),
-                        onDismissed: (_) {
-                          // print(ref.read(todoListProvider.notifier).runtimeType);
-                          // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
-                        },
-                        child: ProviderScope(
-                          overrides: [
-                            currentTodo.overrideWithValue(todos[i]),
-                          ],
-                          child: const PlanItem(),
+            flex: 7,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ListView( // ListView.builder 또한 ok
+                    children: [
+                      const SizedBox(height: 2.0),
+                      for (var i = 0; i < todos.length; i++) ...[
+                        if (i > 0) const SizedBox(height: 5),
+                        Dismissible(
+                          key: ValueKey(todos[i].planId),
+                          onDismissed: (_) {
+                            // print(ref.read(todoListProvider.notifier).runtimeType);
+                            // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
+                          },
+                          child: ProviderScope(
+                            overrides: [
+                              currentTodo.overrideWithValue(todos[i]),
+                            ],
+                            child: const PlanItem(),
+                          ),
                         ),
-                      ),
+                      ],
                     ],
-                  ],
-                ),
+                  ),
+            ),
           ),
         ],
       ),

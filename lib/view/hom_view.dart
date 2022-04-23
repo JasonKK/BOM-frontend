@@ -1,40 +1,30 @@
 import 'package:bom_front/view/add_view.dart';
+import 'package:bom_front/view/components/appbar.dart';
 import 'package:bom_front/view/components/calendar.dart';
 import 'package:bom_front/view/components/plan.dart';
 import 'package:flutter/material.dart';
 
-class homeScreen extends StatefulWidget {
-  const homeScreen({Key? key}) : super(key: key);
+import 'components/bottom_navigation.dart';
+import 'home_detail_view.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<homeScreen> createState() => _homeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
+  int index = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Text(''),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            // 좌측
-            leading: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.grey),
-                onPressed: () {},
-                iconSize: 30.0),
-            // 우측
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.verified, color: Colors.grey),
-                onPressed: () {},
-                iconSize: 30.0,
-              )
-            ]),
+        appBar: BomAppBar(),
         body: Center(
           child: Column(
             children: [
-              bomCalendar(),
+              BomCalendar(),
               const SizedBox(height: 4), // to protect appBar block
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -53,28 +43,15 @@ class _homeScreenState extends State<homeScreen> {
               const SizedBox(height: 19),
             ],
           ),
-        ),floatingActionButton: FloatingActionButton(
-      child: Icon(Icons.add),backgroundColor: Color(0xffA876DE),
-      onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlan()));
-      },
-    ),
-        bottomNavigationBar: _bottomNavigationBarWidget());
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.arrow_forward),
+          backgroundColor: Color(0xffA876DE),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeDetailScreen()));
+          },
+        ),
+        bottomNavigationBar: BottomNavigationBarWidget(index: index));
   }
-}
-
-Widget _bottomNavigationBarWidget() {
-  return BottomNavigationBar(
-    type: BottomNavigationBarType.fixed,
-    items: const [
-      BottomNavigationBarItem(icon: Icon(Icons.group), label: "커뮤니티"),
-      BottomNavigationBarItem(icon: Icon(Icons.sports_esports), label: "게임"),
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
-      BottomNavigationBarItem(icon: Icon(Icons.work_outline), label: "캐릭터"),
-      BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "마이페이지"),
-    ],
-    currentIndex: 2,
-    onTap: (index) {},
-    selectedItemColor: Colors.deepPurple,
-  );
 }

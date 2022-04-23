@@ -40,7 +40,6 @@ class TodoList extends StateNotifier<List<Todo>> {
     return plans;
   }
 
-
   void add(String description) { // 추후 수정
     state = [
       ...state,
