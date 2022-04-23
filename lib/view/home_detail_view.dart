@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'components/appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
@@ -21,18 +22,19 @@ class _HomeDetailScreenState extends State<HomeDetailScreen> {
         body: Center(
           child: Column(
             children: [
-              BomCalendar(),
+              BomCalendar(pageCalendarFormat: CalendarFormat.week),
+
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.arrow_back),
-          backgroundColor: Color(0xffA876DE),
+          child: Icon(Icons.expand_less),
+          backgroundColor: Color(0xffdddddd),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
         bottomNavigationBar: BottomNavigationBarWidget(index: index));
   }
 }

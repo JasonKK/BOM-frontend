@@ -3,6 +3,7 @@ import 'package:bom_front/view/components/appbar.dart';
 import 'package:bom_front/view/components/calendar.dart';
 import 'package:bom_front/view/components/plan.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'components/bottom_navigation.dart';
 import 'home_detail_view.dart';
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Center(
           child: Column(
             children: [
-              BomCalendar(),
+              BomCalendar(pageCalendarFormat: CalendarFormat.month),
               const SizedBox(height: 4), // to protect appBar block
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -45,13 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.arrow_forward),
+          child: Icon(Icons.expand_more),
           backgroundColor: Color(0xffA876DE),
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomeDetailScreen()));
           },
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: BottomNavigationBarWidget(index: index));
   }
 }
