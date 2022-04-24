@@ -22,15 +22,8 @@
 import 'package:bom_front/view/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_timer/simple_timer.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(
-    ProviderScope(
-      child: MyApp(),
-    ), //riverpod provider 사용시 전체위젯을 providerscope로 감싸줌
-  );
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
