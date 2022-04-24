@@ -1,7 +1,6 @@
 import 'package:table_calendar/table_calendar.dart';
 import 'package:bom_front/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 class BomCalendar extends StatefulWidget {
   late CalendarFormat pageCalendarFormat;

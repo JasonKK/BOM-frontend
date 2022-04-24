@@ -7,6 +7,7 @@ class TodoRepository{
   static const urlApi = 'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
 
   Future<List<Todo>> loadTodos() async{
+    print('Fetch plan data...');
     // var url =  Uri.parse(urlApi+'/plan/all?date=2022-04-18&userId=1');
     var url =  Uri.parse(urlApi+'/plan/all?date=${getToday()}&userId=1');
     var response = await http.get(url);
@@ -31,10 +32,10 @@ class TodoRepository{
 
   }
 
-  Future createTodo(Todo plans) async{
+  Future createTodo(int dailyId, String planName, int categoryId) async{
     var url =  Uri.parse(urlApi+'/plan');
     // var url =  Uri.parse(urlApi+'/plan/all?date=${getToday()}&userId=1');
-    var response = await http.post(url, body: jsonEncode(plans), headers: <String, String> {'Content-type': 'application/json'});
+    var response = await http.post(url, body: jsonEncode({dailyId, planName, categoryId}), headers: <String, String> {'Content-type': 'application/json'});
     print(response.body);
     if(response.body == null){
       print('error with get');

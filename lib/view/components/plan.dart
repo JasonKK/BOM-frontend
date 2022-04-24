@@ -5,8 +5,6 @@ import 'package:bom_front/view/components/plan_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-
 import '../../model/todo.dart';
 
 class Plan extends HookConsumerWidget {
@@ -16,48 +14,49 @@ class Plan extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('plan rebuilding...');
     // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
-    final todos = ref.watch(todoListProvider);
-    // final todos = ref.watch(filteredTodos);
+    // final todos = ref.watch(todoListProvider);
+    final todos = ref.watch(filteredTodos);
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 2,
-              child: FilterButtons()
-          ),
-          Expanded(
-            flex: 7,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: ListView( // ListView.builder 또한 ok
-                    children: [
-                      const SizedBox(height: 2.0),
-                      for (var i = 0; i < todos.length; i++) ...[
-                        if (i > 0) const SizedBox(height: 5),
-                        Dismissible(
-                          key: ValueKey(todos[i].planId),
-                          onDismissed: (_) {
-                            // print(ref.read(todoListProvider.notifier).runtimeType);
-                            // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
-                          },
-                          child: ProviderScope(
-                            overrides: [
-                              currentTodo.overrideWithValue(todos[i]),
-                            ],
-                            child: const PlanItem(),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 2,
+                child: FilterButtons()
             ),
-          ),
-        ],
-      ),
-    );
+            Expanded(
+              flex: 7,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: ListView( // ListView.builder 또한 ok
+                      children: [
+                        const SizedBox(height: 2.0),
+                        for (var i = 0; i < todos.length; i++) ...[
+                          if (i > 0) const SizedBox(height: 5),
+                          Dismissible(
+                            key: ValueKey(todos[i].planId),
+                            onDismissed: (_) {
+                              // print(ref.read(todoListProvider.notifier).runtimeType);
+                              // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
+                            },
+                            child: ProviderScope(
+                              overrides: [
+                                currentTodo.overrideWithValue(todos[i]),
+                              ],
+                              child: const PlanItem(),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+              ),
+            ),
+          ],
+        ),
+      );
   }
 }
 

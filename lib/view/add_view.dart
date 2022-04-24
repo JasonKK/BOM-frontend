@@ -54,15 +54,11 @@ class _AddPlanState extends State<AddPlan> {
                   onPressed: () {
                     ref
                         .read(todoListProvider.notifier)
-                        .createReadPost(Todo(
-                                planId: 99,
-                                planName: title.text,
-                                time: 2022 - 04 - 18,
-                                check: false,
-                                repetitionType: 11,
-                                dailyId: 99,
-                                categoryId:
-                                    99) // 수정 필요.. id는 atuo increment인가? 줄 필요가 없나?
+                        .createReadTodo(
+                            planName: title.text,
+                            dailyId: 4,
+                            categoryId:
+                                1 // 수정 필요.. id는 atuo increment인가? 줄 필요가 없나?
                             )
                         .then((val) => {
                               if (val == true)

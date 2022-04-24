@@ -9,7 +9,7 @@ final completedFilterKey = UniqueKey();
 final allFilterKey = UniqueKey();
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(const ProviderScope(child: MyApp())));
+  initializeDateFormatting('ko_KR', null).then((_) => runApp(const ProviderScope(child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {

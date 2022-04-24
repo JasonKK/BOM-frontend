@@ -11,8 +11,8 @@ class PlanItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('planItem rebuilding...');
     final todo = ref.watch(currentTodo);
-    print(todo.check);
     final itemFocusNode = useFocusNode();
     final itemIsFocused = useIsFocused(itemFocusNode);
     final textEditingController = useTextEditingController();

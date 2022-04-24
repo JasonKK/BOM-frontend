@@ -5,46 +5,47 @@ import 'general_provider.dart';
 
 enum TodoListFilter { all, completed, active }
 final todoListFilter = StateProvider((ref) => TodoListFilter.all);
-
-// final planStateFuture = FutureProvider<List<Todo>>((ref) async {
-//   TodoRepository _todoRepository = TodoRepository();
-//   var result = await _todoRepository.loadTodos();
-//   return result;
-// });
-//
-// final todoListProvider = StateNotifierProvider<TodoList, List<Todo>>((ref) {
-//   return TodoList();
-// });
+final lastPlanId = StateProvider((ref) => 0);
 
 final todoListProvider = StateNotifierProvider<TodoList, List<Todo>>((ref) {
   final todoData = ref.read(todoRepository);
-  return TodoList(todoData);
+  return TodoList(todoData, ref);
 });
+
+// final todoListProvider = StateNotifierProvider<TodoList, List<Todo>>((ref) async {
+//   final todoData = await ref.read(todoRepository).loadTodos(); (x)
+//   return TodoList(todoData);
+// });
 
 class TodoList extends StateNotifier<List<Todo>> {
   late final TodoRepository _repository; // final TodoRepository? _repository;
+  final ref;
 
-  TodoList(this._repository, [List<Todo>? initState]) : super([]){
+  TodoList(this._repository, this.ref, [List<Todo>? initState]) : super([]){
     getReadTodo();
-  } // [] ?
+  }
 
   Future<void> getReadTodo() async{
    final todos = await _repository.loadTodos(); // final todos = await _repository!.loadTodos();
-   if(mounted){ // check data
+   if(mounted) { // check data
      state = [...todos];
+     ref.read(lastPlanId.notifier).state = todos.length;
    }
   }
 
-  Future createReadPost(Todo plan) async{
-    final plans = await _repository.createTodo(plan); // final plans = await _repository!.createTodo(plan);
+  Future createReadTodo({required int dailyId, required String planName, required int categoryId}) async{
+    final plans = await _repository.createTodo(dailyId, planName, categoryId); // final plans = await _repository!.createTodo(plan);
     return plans;
   }
 
   void add(String description) { // 추후 수정
+    ref.read(lastPlanId.notifier).state + 1;
+    final lastId = ref.watch(lastPlanId);
+    print('마지막 아이디 = $lastId in todo_provider.dart');
     state = [
       ...state,
       Todo(
-        planId: 55,
+        planId: lastId,
         planName: description,
         time: 0,
         repetitionType: 0,
@@ -99,8 +100,6 @@ class TodoList extends StateNotifier<List<Todo>> {
 final filteredTodos = Provider<List<Todo>>((ref) {
   final filter = ref.watch(todoListFilter);
   final plans = ref.watch(todoListProvider);
-
-  print('$plans in todo_provider.dart');
 
   switch (filter) {
     case TodoListFilter.all:
