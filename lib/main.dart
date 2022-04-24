@@ -40,15 +40,8 @@ class MyApp extends StatelessWidget {
 // }
 import 'package:flutter/material.dart';
 import 'package:simple_timer/simple_timer.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(
-    ProviderScope(
-      child: MyApp(),
-    ), //riverpod provider 사용시 전체위젯을 providerscope로 감싸줌
-  );
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 >>>>>>> 4984a26 (Made TimerPage_appbar)
