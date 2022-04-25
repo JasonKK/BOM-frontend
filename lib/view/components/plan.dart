@@ -50,7 +50,7 @@ class Plan extends HookConsumerWidget {
                               overrides: [
                                 currentTodo.overrideWithValue(todos[i]),
                               ],
-                              child: const PlanItem(),
+                              child: const PlanItem(type: true),
                             ),
                           ),
                         ],

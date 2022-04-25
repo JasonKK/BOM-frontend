@@ -32,11 +32,11 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
           child: Column(
             children: [
               BomCalendar(pageCalendarFormat: CalendarFormat.week),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 120.0,
-                color: Color(0xffA876DE),
+                color: const Color(0xffA876DE),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -44,41 +44,72 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                         DateFormat('yyy.MM.dd EEE', 'ko_KR')
                             .format(DateTime.now())
                             .toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 20.0)),
-                    Text("00:00:00",
+                        style: const TextStyle(color: Colors.white, fontSize: 20.0)),
+                    const Text("00:00:00",
                         style: TextStyle(color: Colors.white, fontSize: 60.0)),
                   ],
                 ),
               ),
               Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: ListView(
-                      // ListView.builder 또한 ok
-                      children: [
-                        Container(color: Colors.red),
-                        const SizedBox(height: 2.0),
-                        for (var i = 0; i < todos.length; i++) ...[
-                          if (i > 0) const SizedBox(height: 5),
-                          Dismissible(
-                            key: ValueKey(todos[i].planId),
-                            onDismissed: (_) {
-                              // print(ref.read(todoListProvider.notifier).runtimeType);
-                              // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
-                            },
-                            child: ProviderScope(
-                              overrides: [
-                                currentTodo.overrideWithValue(todos[i]),
+                child: Container(
+                  color: Color(0xffefefef),
+                  child: ListView(
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          //모서리를 둥글게 하기 위해 사용
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        elevation: 1.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width - 60.0,
+                                padding: const EdgeInsets.only(left: 18.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Text('과목/목표',
+                                        style: TextStyle(
+                                          color: Color(0xff838383),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0,
+                                        )),
+                                    Text('공부시간',
+                                        style: TextStyle(
+                                          color: Color(0xff838383),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0,
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              for (var i = 0; i < todos.length; i++) ...[
+                                if (i > 0) const SizedBox(height: 5),
+                                Dismissible(
+                                  key: ValueKey(todos[i].planId),
+                                  onDismissed: (_) {
+                                    // print(ref.read(todoListProvider.notifier).runtimeType);
+                                    // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
+                                  },
+                                  child: ProviderScope(
+                                    overrides: [
+                                      currentTodo.overrideWithValue(todos[i]),
+                                    ],
+                                    child: const PlanItem(type: false),
+                                  ),
+                                ),
                               ],
-                              child: const PlanItem(),
-                            ),
+                            ],
                           ),
-                        ],
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -161,8 +192,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AddPlan(
-                                    type:
-                                        true,))); // 일단, 특정 플랜을 선택할 수 있게 하고 뒤에 그 플랜의 제목을 주어야한다.
+                                      type: true,
+                                    ))); // 일단, 특정 플랜을 선택할 수 있게 하고 뒤에 그 플랜의 제목을 주어야한다.
                         // 플랜을 눌렀을 때, 임시 수정할 수 있도록 하였다.
                       }),
                 ],
