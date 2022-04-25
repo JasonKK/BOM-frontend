@@ -18,9 +18,9 @@ class Plan extends HookConsumerWidget {
     // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
     // final todos = ref.watch(todoListProvider);
     final todos = ref.watch(filteredTodos);
-    print(todos.length);
+    print('current todos length = ${todos.length}');
     for (var i = 0; i < todos.length; i++){
-      print(todos[i].planId);
+      print('Each plan\'s repetitionType = ${todos[i].repetitionType}');
     }
 
     return GestureDetector(

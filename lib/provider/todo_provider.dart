@@ -12,11 +12,6 @@ final todoListProvider = StateNotifierProvider<TodoList, List<Todo>>((ref) {
   return TodoList(todoData, ref);
 });
 
-// final todoListProvider = StateNotifierProvider<TodoList, List<Todo>>((ref) async {
-//   final todoData = await ref.read(todoRepository).loadTodos(); (x)
-//   return TodoList(todoData);
-// });
-
 class TodoList extends StateNotifier<List<Todo>> {
   late final TodoRepository _repository; // final TodoRepository? _repository;
   final ref;
@@ -35,6 +30,12 @@ class TodoList extends StateNotifier<List<Todo>> {
 
   Future createReadTodo(Todo todo) async{
     final plans = await _repository.createTodo(todo); // final plans = await _repository!.createTodo(plan);
+    return plans;
+  }
+
+  Future editReadTodo(Todo todo) async{
+    print('${todo.repetitionType} in todo provider');
+    final plans = await _repository.editTodo(todo); // final plans = await _repository!.createTodo(plan);
     return plans;
   }
 

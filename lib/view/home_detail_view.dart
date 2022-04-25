@@ -131,8 +131,10 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                     backgroundColor: Colors.white,
                     label: '추가',
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddPlan()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddPlan(type: false)));
                     },
                     onLongPress: () => debugPrint('FIRST CHILD LONG PRESS'),
                   ),
@@ -142,20 +144,27 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                     ),
                     backgroundColor: Colors.white,
                     label: '삭제',
-                    onTap: () => debugPrint('SECOND CHILD'),
-                  ),
-                  SpeedDialChild(
-                    child: const Icon(
-                      Icons.edit_note,
-                    ),
-                    backgroundColor: Colors.white,
-                    // foregroundColor: Colors.white,
-                    label: '수정',
-                    visible: true,
                     onTap: () => ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text(("Third Child Pressed")))),
                     onLongPress: () => debugPrint('THIRD CHILD LONG PRESS'),
                   ),
+                  SpeedDialChild(
+                      child: const Icon(
+                        Icons.edit_note,
+                      ),
+                      backgroundColor: Colors.white,
+                      // foregroundColor: Colors.white,
+                      label: '수정',
+                      visible: true,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddPlan(
+                                    type:
+                                        true,))); // 일단, 특정 플랜을 선택할 수 있게 하고 뒤에 그 플랜의 제목을 주어야한다.
+                        // 플랜을 눌렀을 때, 임시 수정할 수 있도록 하였다.
+                      }),
                 ],
               ),
             ],

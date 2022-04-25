@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 @immutable
 class Todo {
   final int? planId;
-  final String planName;
+  final String? planName;
   final int? time;
   final bool? check;
   final int? repetitionType;
-  final int dailyId;
-  final int categoryId;
+  final int? dailyId;
+  final int? categoryId;
 
   const Todo(
       {this.planId,
       this.time,
       this.check,
       this.repetitionType,
-      required this.planName,
-      required this.dailyId,
-      required this.categoryId});
+      this.planName,
+      this.dailyId,
+      this.categoryId});
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(

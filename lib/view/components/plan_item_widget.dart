@@ -1,3 +1,4 @@
+import 'package:bom_front/view/add_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingController, useState, useEffect
@@ -25,43 +26,35 @@ class PlanItem extends HookConsumerWidget {
           color: Colors.white,
           elevation: 3,
           borderRadius: BorderRadius.circular(4),
-          child: Focus(
-            //
-            focusNode: itemFocusNode,
-            onFocusChange: (focused) {
-              if (focused) {
-                textEditingController.text = todo.planName;
-              } else {
-                // Commit changes only when the textfield is unfocused, for performance
-                // 🌟
-                // ref.read(todoListProvider.notifier).edit(
-                //     // 수정하기
-                //     id: todo.planId,
-                //     description: textEditingController.text);
-                // 🌟
-            }
+          child: ListTile(
+            // enabled: false, -> 체크시 일정 종료 (+색변경) 활용
+            onTap: () {
+              /* start/stop timer*/
             },
-            child: ListTile(
-              // enabled: false, -> 체크시 일정 종료 (+색변경) 활용
-              onTap: () {
-                itemFocusNode.requestFocus();
-                textFieldFocusNode.requestFocus();
-              },
-              // 추후 카테고리 넣기 (daily)
-              trailing: Checkbox(
-                shape: const CircleBorder(),
-                activeColor: const Color(0xffA876DE),
-                value: todo.check,
-                onChanged: (value) => ref.read(todoListProvider.notifier).toggle(todo.planId!),
-              ),
-              title: itemIsFocused
-                  ? TextField(
-                      autofocus: true,
-                      focusNode: textFieldFocusNode,
-                      controller: textEditingController,
-                    )
-                  : Text(todo.planName, style: TextStyle(fontSize: 18.0)),
+            onLongPress: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddPlan(
+                            type: true,
+                            data: todo,
+                          )));
+            },
+            // 추후 카테고리 넣기 (daily)
+            trailing: Checkbox(
+              shape: const CircleBorder(),
+              activeColor: const Color(0xffA876DE),
+              value: todo.check,
+              onChanged: (value) =>
+                  ref.read(todoListProvider.notifier).toggle(todo.planId!),
             ),
+            title: itemIsFocused
+                ? TextField(
+                    autofocus: true,
+                    focusNode: textFieldFocusNode,
+                    controller: textEditingController,
+                  )
+                : Text(todo.planName!, style: TextStyle(fontSize: 18.0)),
           ),
         ));
   }

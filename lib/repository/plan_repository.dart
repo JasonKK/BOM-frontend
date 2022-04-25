@@ -29,7 +29,6 @@ class TodoRepository{
       print('Request failed with status: ${response.statusCode}.');
       throw Exception('Can\'t get plans');
     }
-
   }
 
   Future createTodo(Todo todos) async{
@@ -46,7 +45,26 @@ class TodoRepository{
       print('Request failed with status: ${response.statusCode}.');
       return false;
     }
+  }
 
+  Future editTodo(Todo todos) async{
+    print('${todos.repetitionType} in eiditTodo func from plan_repository.dart');
+    print('${todos.check} in eiditTodo func from plan_repository.dart');
+    var url =  Uri.parse(urlApi+'/plan/'+'${todos.planId}');
+    // var url =  Uri.parse(urlApi+'/plan/all?date=${getToday()}&userId=1');
+    var response = await http.patch(url, body: jsonEncode(todos), headers: <String, String> {'Content-type': 'application/json'});
+    print(response.body);
+    print(response.headers);
+    print(response.statusCode);
+    if(response.body == null){
+      print('error with get');
+    }
+    if(response.statusCode == 404){
+      print('Request failed with status: ${response.statusCode}.');
+      return false;
+    }else{
+      return true;
+    }
   }
 
 
