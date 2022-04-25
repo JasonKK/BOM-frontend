@@ -31,86 +31,135 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
         body: Center(
           child: Column(
             children: [
-              BomCalendar(pageCalendarFormat: CalendarFormat.week),
-              const SizedBox(height: 15.0),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 120.0,
-                color: const Color(0xffA876DE),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        DateFormat('yyy.MM.dd EEE', 'ko_KR')
-                            .format(DateTime.now())
-                            .toString(),
-                        style: const TextStyle(color: Colors.white, fontSize: 20.0)),
-                    const Text("00:00:00",
-                        style: TextStyle(color: Colors.white, fontSize: 60.0)),
-                  ],
-                ),
-              ),
               Expanded(
-                child: Container(
-                  color: Color(0xffefefef),
-                  child: ListView(
-                    children: [
-                      Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          //모서리를 둥글게 하기 위해 사용
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        elevation: 1.0,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width - 60.0,
-                                padding: const EdgeInsets.only(left: 18.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text('과목/목표',
-                                        style: TextStyle(
-                                          color: Color(0xff838383),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16.0,
-                                        )),
-                                    Text('공부시간',
-                                        style: TextStyle(
-                                          color: Color(0xff838383),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16.0,
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 20.0),
-                              for (var i = 0; i < todos.length; i++) ...[
-                                if (i > 0) const SizedBox(height: 5),
-                                Dismissible(
-                                  key: ValueKey(todos[i].planId),
-                                  onDismissed: (_) {
-                                    // print(ref.read(todoListProvider.notifier).runtimeType);
-                                    // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
-                                  },
-                                  child: ProviderScope(
-                                    overrides: [
-                                      currentTodo.overrideWithValue(todos[i]),
-                                    ],
-                                    child: const PlanItem(type: false),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
+                child: ListView(
+                  children: [
+                    BomCalendar(pageCalendarFormat: CalendarFormat.week),
+                    const SizedBox(height: 15.0),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 120.0,
+                      color: const Color(0xffA876DE),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              DateFormat('yyy.MM.dd EEE', 'ko_KR')
+                                  .format(DateTime.now())
+                                  .toString(),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20.0)),
+                          const Text("00:00:00",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 60.0)),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      color: Color(0xffefefef),
+                      child: Column(
+                        children: [
+                          Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              //모서리를 둥글게 하기 위해 사용
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            elevation: 1.0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 25.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width -
+                                        60.0,
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: const [
+                                        Text('과목/목표',
+                                            style: TextStyle(
+                                              color: Color(0xff838383),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16.0,
+                                            )),
+                                        Text('공부시간',
+                                            style: TextStyle(
+                                              color: Color(0xff838383),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20.0),
+                                  for (var i = 0; i < todos.length; i++) ...[
+                                    if (i > 0) const SizedBox(height: 5),
+                                    Dismissible(
+                                      key: ValueKey(todos[i].planId),
+                                      onDismissed: (_) {
+                                        // print(ref.read(todoListProvider.notifier).runtimeType);
+                                        // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
+                                      },
+                                      child: ProviderScope(
+                                        overrides: [
+                                          currentTodo
+                                              .overrideWithValue(todos[i]),
+                                        ],
+                                        child: const PlanItem(type: false),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                          Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              //모서리를 둥글게 하기 위해 사용
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            elevation: 1.0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 25.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    // width: MediaQuery.of(context).size.width -
+                                    //     60.0,
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: const [
+                                        Text('통계',
+                                            style: TextStyle(
+                                              color: Color(0xff838383),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16.0,
+                                            )),
+                                        Text('2022년 4월 25일',
+                                            style: TextStyle(
+                                              color: Color(0xff838383),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20.0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

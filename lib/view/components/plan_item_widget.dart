@@ -5,6 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingC
 import 'package:bom_front/provider/todo_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../model/todo.dart';
+
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
   const PlanItem({
@@ -61,8 +63,17 @@ class _PlanItemState extends ConsumerState<PlanItem> {
               shape: const CircleBorder(),
               activeColor: const Color(0xffA876DE),
               value: todo.check,
-              onChanged: (value) =>
-                  ref.read(todoListProvider.notifier).toggle(todo.planId!),
+              onChanged: (value){
+                ref.read(todoListProvider.notifier).toggle(todo.planId!); // 바로 refresh 방지
+                ref.read(todoListProvider.notifier).toggleTodoCheck(Todo( // api는 false -> true 만 고려 / 이후 상의
+                    planName: todo.planName,
+                    dailyId: todo.dailyId,
+                    categoryId: todo.categoryId,
+                    planId: todo.planId,
+                    repetitionType: todo.repetitionType,
+                    check: todo.check,
+                    time: todo.time));
+              }
             ),
             Expanded(
               child: Material(

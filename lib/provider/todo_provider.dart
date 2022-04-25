@@ -34,8 +34,12 @@ class TodoList extends StateNotifier<List<Todo>> {
   }
 
   Future editReadTodo(Todo todo) async{
-    print('${todo.repetitionType} in todo provider');
-    final plans = await _repository.editTodo(todo); // final plans = await _repository!.createTodo(plan);
+    final plans = await _repository.editTodo(todo);
+    return plans;
+  }
+
+  Future toggleTodoCheck(Todo todo) async{
+    final plans = await _repository.toggleCheck(todo);
     return plans;
   }
 

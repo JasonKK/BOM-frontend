@@ -34,10 +34,9 @@ class Plan extends HookConsumerWidget {
             Expanded(
               flex: 7,
               child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ListView( // ListView.builder 또한 ok
+                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                child: ListView( // ListView.builder 또한 ok -> Listview: home에는 필요 detail에는 필요 x
                       children: [
-                        const SizedBox(height: 2.0),
                         for (var i = 0; i < todos.length; i++) ...[
                           if (i > 0) const SizedBox(height: 5),
                           Dismissible(
