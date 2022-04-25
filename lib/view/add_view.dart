@@ -16,8 +16,9 @@ class _AddPlanState extends State<AddPlan> {
   @override
   Widget build(BuildContext context) {
     // final newTodoController = useTextEditingController(); // import 'package:flutter_hooks/flutter_hooks.dart';
-    late TextEditingController title = TextEditingController();
-    late TextEditingController body = TextEditingController();
+    late TextEditingController planName = TextEditingController();
+    late TextEditingController dailyId = TextEditingController();
+    late TextEditingController categoryId = TextEditingController();
 
     return Consumer(builder: (context, ref, child) {
       // final todos = ref.watch(todoListProvider);
@@ -34,32 +35,42 @@ class _AddPlanState extends State<AddPlan> {
               children: [
                 TextField(
                   // obscureText: true,
-                  controller: title,
+                  controller: planName,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Title',
+                    labelText: 'planName',
                   ),
                 ),
                 SizedBox(height: 5),
                 TextField(
-                  controller: body,
+                  controller: dailyId,
                   // obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Body',
+                    labelText: 'dailyId',
+                  ),
+                ),
+                SizedBox(height: 5),
+                TextField(
+                  controller: categoryId,
+                  // obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'categoryId',
                   ),
                 ),
                 SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
+                    final userPlanName = planName.text;
+                    final userDailyId = int.parse(dailyId.text);
+                    final userCategoryId = int.parse(categoryId.text);
                     ref
                         .read(todoListProvider.notifier)
                         .createReadTodo(
-                            planName: title.text,
-                            dailyId: 4,
-                            categoryId:
-                                1 // 수정 필요.. id는 atuo increment인가? 줄 필요가 없나?
-                            )
+                            Todo(planName: userPlanName,
+                            dailyId: userDailyId,
+                            categoryId: userCategoryId))
                         .then((val) => {
                               if (val == true)
                                 {
@@ -72,13 +83,16 @@ class _AddPlanState extends State<AddPlan> {
                                         TextButton(
                                           onPressed: () {
                                             setState(() {
-                                              title.clear();
-                                              body.clear();
+                                              planName.clear();
+                                              dailyId.clear();
+                                              categoryId.clear();
                                             });
                                             ref
                                                 .refresh(
                                                     todoListProvider.notifier)
-                                                .getReadTodo();
+                                                .getReadTodo(); // 필수
+                                            // 아래는 삭제 네트워크 만들고 테스트하기
+                                            //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
                                             Navigator.of(ctx).pop(); // ok
                                           },
                                           child: Text("이응"),

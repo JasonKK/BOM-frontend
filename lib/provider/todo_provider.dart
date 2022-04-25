@@ -33,12 +33,12 @@ class TodoList extends StateNotifier<List<Todo>> {
    }
   }
 
-  Future createReadTodo({required int dailyId, required String planName, required int categoryId}) async{
-    final plans = await _repository.createTodo(dailyId, planName, categoryId); // final plans = await _repository!.createTodo(plan);
+  Future createReadTodo(Todo todo) async{
+    final plans = await _repository.createTodo(todo); // final plans = await _repository!.createTodo(plan);
     return plans;
   }
 
-  void add(String description) { // 추후 수정
+  void add(String planName, int dailyId, int categoryId, [int repetitionType = 0]) { // 추후 수정
     ref.read(lastPlanId.notifier).state + 1;
     final lastId = ref.watch(lastPlanId);
     print('마지막 아이디 = $lastId in todo_provider.dart');
@@ -46,11 +46,11 @@ class TodoList extends StateNotifier<List<Todo>> {
       ...state,
       Todo(
         planId: lastId,
-        planName: description,
+        planName: planName,
         time: 0,
-        repetitionType: 0,
-        dailyId: 0,
-        categoryId: 0,
+        repetitionType: repetitionType,
+        dailyId: dailyId,
+        categoryId: categoryId,
         check: false,
       )
     ];
@@ -63,7 +63,7 @@ class TodoList extends StateNotifier<List<Todo>> {
           Todo(
               planId: todo.planId,
               planName: todo.planName,
-              check: !todo.check,
+              check: !todo.check!,
               categoryId: todo.categoryId,
               dailyId: todo.dailyId,
               repetitionType: todo.repetitionType,
@@ -105,9 +105,9 @@ final filteredTodos = Provider<List<Todo>>((ref) {
     case TodoListFilter.all:
       return plans;
     case TodoListFilter.active:
-      return plans.where((plan) => !plan.check).toList(); //
+      return plans.where((plan) => !plan.check!).toList(); //
     case TodoListFilter.completed:
-      return plans.where((plan) => plan.check).toList();
+      return plans.where((plan) => plan.check!).toList();
   // default:
   //   return todos;
   }

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-
-const _uuid = Uuid();
 
 @immutable
 class Todo {
   final int? planId;
   final String planName;
-  final int time;
-  final bool check;
-  final int repetitionType;
+  final int? time;
+  final bool? check;
+  final int? repetitionType;
   final int dailyId;
   final int categoryId;
 
   const Todo(
-      {required this.planId,
+      {this.planId,
+      this.time,
+      this.check,
+      this.repetitionType,
       required this.planName,
-      required this.time,
-      required this.check,
-      required this.repetitionType,
       required this.dailyId,
       required this.categoryId});
 
@@ -33,6 +30,7 @@ class Todo {
       categoryId: json['categoryId'],
     );
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['planId'] = planId;

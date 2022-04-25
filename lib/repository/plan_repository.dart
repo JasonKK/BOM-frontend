@@ -32,10 +32,10 @@ class TodoRepository{
 
   }
 
-  Future createTodo(int dailyId, String planName, int categoryId) async{
+  Future createTodo(Todo todos) async{
     var url =  Uri.parse(urlApi+'/plan');
     // var url =  Uri.parse(urlApi+'/plan/all?date=${getToday()}&userId=1');
-    var response = await http.post(url, body: jsonEncode({dailyId, planName, categoryId}), headers: <String, String> {'Content-type': 'application/json'});
+    var response = await http.post(url, body: jsonEncode(todos), headers: <String, String> {'Content-type': 'application/json'});
     print(response.body);
     if(response.body == null){
       print('error with get');
