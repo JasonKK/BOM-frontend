@@ -41,7 +41,7 @@
 2. freezed
 3. dio
 
-## backend API Error Catching
+## backend API 🧐
 
 1. check path 부분을 보니 check은 false인 것을 true로 바꾸는 것으로 되어있음. toggle방법으로는 안되나?
     - 서버에서 로직을 구성 or 프론트에서 true/false를 정해서 patch해주는 방식
@@ -49,8 +49,30 @@
 2. dailyId의 time은 언제 update되는 것인가?
     - 항상 수동으로 해왔다. -> 채진이가 손 볼 것
 
-# Data fetching stateful widget code without riverpod
+## fontend 🧐 
+1. 기기별 사이즈 고려하기
+   - 수정: device height resolution : 2000.0px 이상일 경우 기존 유지, 2000.0px이하일 경우 크기 줄이고 오늘의 목표 제거 
 
+# 정현 part
+1. timer 넣는 곳 위치
+- plan_item_widget.dart
+```
+onTap: () {
+/* start/stop timer*/
+},
+```
+2. 통계 넣는 위치
+- home_detail_view.dart
+```
+Card( // 통계 위치
+...
+)
+```
+
+
+
+
+# Data fetching stateful widget code without riverpod
 ```
 class hi extends StatefulWidget {
   // 나중에 stateful 로 빠궈서 initState 활용
@@ -77,20 +99,4 @@ class _hiState extends State<hi> {
     return Container();
   }
 }
-```
-
-# 정현 part
-1. timer 넣는 곳 위치
-- plan_item_widget.dart
-```
-onTap: () {
-/* start/stop timer*/
-},
-```
-2. 통계 넣는 위치
-- home_detail_view.dart
-```
-Card( // 통계 위치
-...
-)
 ```

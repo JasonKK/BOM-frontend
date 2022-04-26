@@ -9,6 +9,8 @@ import 'components/filter_button_widget.dart';
 import 'components/plan_item_widget.dart';
 import 'home_detail_view.dart';
 
+final userDeviceHeight = StateProvider<double>((ref) => 0.0);
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -22,6 +24,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print('Home rebuilding...');
+    final deviceHeight = ref.watch(userDeviceHeight.notifier).state = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
     // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
     // final todos = ref.watch(todoListProvider);
     final todos = ref.watch(filteredTodos);
@@ -38,23 +41,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                   child: BomCalendar(pageCalendarFormat: CalendarFormat.month)),
               const SizedBox(height: 4), // to protect appBar block
-              Stack(
-                alignment: Alignment.center,
-                children: [Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(children: const <Widget>[
-                    Expanded(
-                        child: Divider(
-                            height: 1.0, thickness: 0.3, color: Colors.grey)),
-                    SizedBox(width: 70),
-                    Expanded(
-                        child: Divider(
-                            height: 1.0, thickness: 0.3, color: Colors.grey)),
-                  ]),
-                ),
-                  const Positioned(child: Text("오늘의 목표", style: TextStyle(color: Colors.grey)))  // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
-                ],
-              ),
+              deviceHeight > 2000.0 ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(children: const <Widget>[
+                  Expanded(
+                      child: Divider(
+                          height: 1.0, thickness: 0.3, color: Colors.grey)),
+                  Text("오늘의 목표", style: TextStyle(color: Colors.grey)),  // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
+                  Expanded(
+                      child: Divider(
+                          height: 1.0, thickness: 0.3, color: Colors.grey)),
+                ]),
+              ) : Container(),
               Expanded(
                 child: Container(
                   color: const Color(0xffefefef),

@@ -1,17 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:bom_front/utils.dart';
 import 'package:flutter/material.dart';
 
-class BomCalendar extends StatefulWidget {
+import '../hom_view.dart';
+
+class BomCalendar extends ConsumerStatefulWidget {
   late CalendarFormat pageCalendarFormat;
 
   BomCalendar({Key? key, required this.pageCalendarFormat}) : super(key: key);
 
   @override
-  State<BomCalendar> createState() => _BomCalendarState();
+  ConsumerState<BomCalendar> createState() => _BomCalendarState();
 }
 
-class _BomCalendarState extends State<BomCalendar>
+class _BomCalendarState extends ConsumerState<BomCalendar>
     with TickerProviderStateMixin {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -28,6 +31,7 @@ class _BomCalendarState extends State<BomCalendar>
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = ref.watch(userDeviceHeight);
     return TableCalendar(
       locale: 'ko-KR',
       firstDay: kFirstDay,
@@ -41,8 +45,8 @@ class _BomCalendarState extends State<BomCalendar>
       // headerVisible:false,
       // daysOfWeekVisible: false,
       // rangeSelectionMode: RangeSelectionMode.disabled,
-      rowHeight: 42.0,
-      daysOfWeekHeight: 20.0,
+      rowHeight: deviceHeight > 2000.0 ? 42.0 : 28.0,
+      daysOfWeekHeight: deviceHeight > 2000.0 ? 20.0 : 19.0,
       calendarStyle: CalendarStyle(
         // outsideDaysVisible: false,
         weekendTextStyle: const TextStyle().copyWith(color: Colors.red[800]), // 토, 일 따로 색 구분 불가
@@ -51,7 +55,9 @@ class _BomCalendarState extends State<BomCalendar>
       daysOfWeekStyle: DaysOfWeekStyle(
         weekendStyle: const TextStyle().copyWith(color: Colors.red[600]),
       ),
-      headerStyle: const HeaderStyle(
+      headerStyle: HeaderStyle(
+        titleTextStyle: deviceHeight > 2000.0 ? const TextStyle(fontSize: 17.0) : const TextStyle(fontSize: 15.0),
+        headerPadding: deviceHeight > 2000.0 ? EdgeInsets.symmetric(vertical: 8.0) : EdgeInsets.symmetric(vertical: 0.0),
         titleCentered: true,
         formatButtonVisible: false,
       ),
