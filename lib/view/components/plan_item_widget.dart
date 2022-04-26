@@ -67,15 +67,16 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                       ref
                           .read(todoListProvider.notifier)
                           .toggle(todo.planId!); // 바로 refresh 방지
-                      ref.read(todoListProvider.notifier).toggleTodoCheck(Todo(
-                          // api는 false -> true 만 고려 / 이후 상의
-                          planName: todo.planName,
-                          dailyId: todo.dailyId,
-                          categoryId: todo.categoryId,
-                          planId: todo.planId,
-                          repetitionType: todo.repetitionType,
-                          check: todo.check,
-                          time: todo.time));
+                      // 위의 toggle로직으로 프론트단에서 처리하므로 필요  x
+                      // ref.read(todoListProvider.notifier).toggleTodoCheck(Todo(
+                      //     // api는 false -> true 만 고려 / 이후 상의
+                      //     planName: todo.planName,
+                      //     dailyId: todo.dailyId,
+                      //     categoryId: todo.categoryId,
+                      //     planId: todo.planId,
+                      //     repetitionType: todo.repetitionType,
+                      //     check: todo.check,
+                      //     time: todo.time));
                     }),
                 Expanded(
                   child: Material(
@@ -101,7 +102,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Center(child: Text('경고')),
+                                    title: Row(mainAxisAlignment: MainAxisAlignment.start ,children: [Text('삭제')]),
                                     content: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -110,7 +111,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                       children: const <Widget>[
                                         Expanded(
                                           child: Text(
-                                            '정말 지우시겠습니까?',
+                                            '선택한 목표를 삭제하시겠습니까?  공부 시간은 삭제되지 않습니다.',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.red,
@@ -121,12 +122,12 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                          child: const Text('아니오'),
+                                          child: const Text('확인', style:TextStyle(color: Colors.red)),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           }),
                                       TextButton(
-                                          child: const Text('네'),
+                                          child: const Text('취소'),
                                           onPressed: () {
                                             ref
                                                 .read(todoListProvider.notifier)

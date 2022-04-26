@@ -110,7 +110,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                 ),
                               ),
                             ),
-                            Card(
+                            Card( // 통계 위치
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
                                 //모서리를 둥글게 하기 위해 사용

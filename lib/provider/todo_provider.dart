@@ -38,10 +38,11 @@ class TodoList extends StateNotifier<List<Todo>> {
     return plans;
   }
 
-  Future toggleTodoCheck(Todo todo) async{
-    final plans = await _repository.toggleCheck(todo);
-    return plans;
-  }
+  // 프론트 단에서 조정할 것이므로 필요x
+  // Future toggleTodoCheck(Todo todo) async{
+  //   final plans = await _repository.toggleCheck(todo);
+  //   return plans;
+  // }
 
   void add(String planName, int dailyId, int categoryId, [int repetitionType = 0]) { // 추후 수정
     ref.read(lastPlanId.notifier).state + 1;
