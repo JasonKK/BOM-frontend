@@ -34,7 +34,7 @@ class _BomCalendarState extends State<BomCalendar>
       lastDay: kLastDay,
       focusedDay: _focusedDay,
       calendarFormat: widget.pageCalendarFormat,
-      availableCalendarFormats: {
+      availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: ''
       },
@@ -45,13 +45,13 @@ class _BomCalendarState extends State<BomCalendar>
       daysOfWeekHeight: 20.0,
       calendarStyle: CalendarStyle(
         // outsideDaysVisible: false,
-        weekendTextStyle: TextStyle().copyWith(color: Colors.red[800]), // 토, 일 따로 색 구분 불가
-        holidayTextStyle: TextStyle().copyWith(color: Colors.red[800]),
+        weekendTextStyle: const TextStyle().copyWith(color: Colors.red[800]), // 토, 일 따로 색 구분 불가
+        holidayTextStyle: const TextStyle().copyWith(color: Colors.red[800]),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.red[600]),
+        weekendStyle: const TextStyle().copyWith(color: Colors.red[600]),
       ),
-      headerStyle: HeaderStyle(
+      headerStyle: const HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
       ),

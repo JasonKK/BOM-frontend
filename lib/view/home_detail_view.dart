@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../provider/general_provider.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
 import 'components/appbar.dart';
@@ -27,7 +28,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
     final todos = ref.watch(filteredTodos);
     print('Home detail rebuilding...');
     return Scaffold(
-        appBar: BomAppBar(),
+        appBar: const BomAppBar(),
         body: Center(
           child: Column(
             children: [
@@ -56,7 +57,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                       ),
                     ),
                     Container(
-                      color: Color(0xffefefef),
+                      color: const Color(0xffefefef),
                       child: Column(
                         children: [
                           Card(
@@ -100,8 +101,69 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                     Dismissible(
                                       key: ValueKey(todos[i].planId),
                                       onDismissed: (_) {
-                                        // print(ref.read(todoListProvider.notifier).runtimeType);
-                                        // 🌟 ref.read(todoListProvider.notifier).remove(todos[i]); // 삭제하기
+                                        print(ref.read(todoListProvider.notifier).runtimeType);
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Center(child: Text('경고')),
+                                              content: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: const <Widget>[
+                                                  Expanded(
+                                                    child: Text(
+                                                      '정말 지우시겠습니까?',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                    child: const Text('아니오'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    }),
+                                                TextButton(
+                                                    child: const Text('네'),
+                                                    onPressed: () {
+                                                      // _inputTextController.clear();
+                                                      // ref
+                                                      //     .read(todoListProvider.notifier)
+                                                      //     .remove(todos[i]); // 🌟
+                                                      ref
+                                                          .read(todoRepository)
+                                                          .deleteTodo(todos[i].planId)
+                                                          .then((value) => {
+                                                        if (value == true)
+                                                          {
+                                                            Dialog(
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                MainAxisSize.min,
+                                                                children: const [
+                                                                  CircularProgressIndicator(),
+                                                                  Text("삭제되었습니다."),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          }
+                                                      });
+                                                      ref
+                                                          .refresh(todoListProvider
+                                                          .notifier)
+                                                          .getReadTodo(); // 이걸 써보고 로딩이 너무 길으면 위의 로컬에서 우선 대처로 유저경험 확보하기
+                                                      Navigator.of(context).pop();
+                                                    })
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                       child: ProviderScope(
                                         overrides: [
@@ -171,8 +233,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
-                child: Icon(Icons.expand_more),
-                backgroundColor: Color(0xffffffff),
+                child: const Icon(Icons.expand_more),
+                backgroundColor: const Color(0xffffffff),
                 foregroundColor: Colors.grey,
                 elevation: 0.0,
                 mini: true,
@@ -182,9 +244,9 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                   Navigator.pop(context);
                 },
               ),
-              SizedBox(width: 105.0),
+              const SizedBox(width: 105.0),
               SpeedDial(
-                backgroundColor: Color(0xffA876DE),
+                backgroundColor: const Color(0xffA876DE),
                 // add 0xff to front
                 icon: Icons.add,
                 activeIcon: Icons.close,
@@ -214,7 +276,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AddPlan(type: false)));
+                              builder: (context) => const AddPlan(type: false)));
                     },
                     onLongPress: () => debugPrint('FIRST CHILD LONG PRESS'),
                   ),
@@ -240,7 +302,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddPlan(
+                                builder: (context) => const AddPlan(
                                       type: true,
                                     ))); // 일단, 특정 플랜을 선택할 수 있게 하고 뒤에 그 플랜의 제목을 주어야한다.
                         // 플랜을 눌렀을 때, 임시 수정할 수 있도록 하였다.

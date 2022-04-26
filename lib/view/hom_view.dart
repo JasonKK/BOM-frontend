@@ -1,28 +1,37 @@
-import 'package:bom_front/view/add_view.dart';
 import 'package:bom_front/view/components/appbar.dart';
 import 'package:bom_front/view/components/calendar.dart';
-import 'package:bom_front/view/components/plan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import '../provider/todo_provider.dart';
 import 'components/bottom_navigation.dart';
+import 'components/filter_button_widget.dart';
+import 'components/plan_item_widget.dart';
 import 'home_detail_view.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int index = 2;
 
   @override
   Widget build(BuildContext context) {
     print('Home rebuilding...');
+    // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
+    // final todos = ref.watch(todoListProvider);
+    final todos = ref.watch(filteredTodos);
+    print('current todos length = ${todos.length}');
+    for (var i = 0; i < todos.length; i++) {
+      print('Each plan\'s repetitionType = ${todos[i].repetitionType}');
+    }
+
     return Scaffold(
-        appBar: BomAppBar(),
+        appBar: const BomAppBar(),
         body: Center(
           child: Column(
             children: [
@@ -43,12 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 1.0, thickness: 0.3, color: Colors.grey)),
                   ]),
                 ),
-                  Positioned(child: Container(child: Text("오늘의 목표", style: TextStyle(color: Colors.grey))))  // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
+                  const Positioned(child: Text("오늘의 목표", style: TextStyle(color: Colors.grey)))  // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
                 ],
               ),
               Expanded(
                 child: Container(
-                  color: Color(0xffefefef),
+                  color: const Color(0xffefefef),
                   width: MediaQuery
                       .of(context)
                       .size
@@ -62,7 +71,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 14),
-                        Expanded(flex: 1, child: Plan()),
+                        Expanded(flex: 1, child: Column(
+                          children: [
+                            const Expanded(flex: 2, child: FilterButtons()),
+                            Expanded(
+                              flex: 7,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                child: ListView(
+                                  // ListView.builder 또한 ok -> Listview: home에는 필요 detail에는 필요 x
+                                  children: [
+                                    for (var i = 0; i < todos.length; i++) ...[
+                                      if (i > 0) const SizedBox(height: 5),
+                                      ProviderScope(
+                                        overrides: [
+                                          currentTodo.overrideWithValue(todos[i]),
+                                        ],
+                                        child: const PlanItem(type: true),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
                         const SizedBox(height: 19),
                       ],
                     ),
@@ -73,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.expand_less),
-          backgroundColor: Color(0xffffffff),
+          child: const Icon(Icons.expand_less),
+          backgroundColor: const Color(0xffffffff),
           foregroundColor: Colors.grey,
           hoverColor: Colors.white,
           hoverElevation: 0.0,
@@ -82,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mini: true,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HomeDetailScreen()));
+                MaterialPageRoute(builder: (context) => const HomeDetailScreen()));
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

@@ -86,4 +86,16 @@ class TodoRepository {
       return true;
     }
   }
+
+  Future deleteTodo(id) async {
+    var url = Uri.parse(urlApi + '/plan/' + '$id');
+    var response = await http.delete(url);
+
+    if (response.statusCode >= 404) {
+      print('Request failed with status: ${response.statusCode}.');
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

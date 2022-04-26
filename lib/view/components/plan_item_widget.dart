@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingController, useState, useEffect
 import 'package:bom_front/provider/todo_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/todo.dart';
 
@@ -49,7 +48,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                     focusNode: textFieldFocusNode,
                     controller: textEditingController,
                   )
-                : Text(todo.planName!, style: TextStyle(fontSize: 18.0)),
+                : Text(todo.planName!, style: const TextStyle(fontSize: 18.0)),
           ),
         )) : Container( // ------------------------------------------------------------------------------------------
         width: MediaQuery
@@ -95,14 +94,14 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                             )));
                   },
                   // 추후 카테고리 넣기 (daily)
-                  trailing: Text('00:00:00'),
+                  trailing: const Text('00:00:00'),
                   title: itemIsFocused
                       ? TextField(
                     autofocus: true,
                     focusNode: textFieldFocusNode,
                     controller: textEditingController,
                   )
-                      : Text(todo.planName!, style: TextStyle(fontSize: 18.0)),
+                      : Text(todo.planName!, style: const TextStyle(fontSize: 18.0)),
                 ),
               ),
             ),

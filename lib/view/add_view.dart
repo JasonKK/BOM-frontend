@@ -1,6 +1,5 @@
 import 'package:bom_front/model/todo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../provider/todo_provider.dart';
@@ -43,36 +42,36 @@ class _AddPlanState extends State<AddPlan> {
             foregroundColor: Colors.grey,
           ),
           body: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 TextField(
                   // obscureText: true,
                   controller: planName,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'planName',
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 TextField(
                   controller: dailyId,
                   // obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'dailyId',
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 TextField(
                   controller: categoryId,
                   // obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'categoryId',
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 widget.type == true
                     ? TextButton(
                         onPressed: () {
@@ -97,8 +96,8 @@ class _AddPlanState extends State<AddPlan> {
                                           context: context,
                                           builder: (BuildContext ctx) =>
                                               AlertDialog(
-                                            title: Text("응답"),
-                                            content: Text("수정은 성공적!"),
+                                            title: const Text("응답"),
+                                            content: const Text("수정은 성공적!"),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () {
@@ -115,7 +114,7 @@ class _AddPlanState extends State<AddPlan> {
                                                   //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
                                                   Navigator.of(ctx).pop(); // ok
                                                 },
-                                                child: Text("이응"),
+                                                child: const Text("이응"),
                                               ),
                                             ],
                                           ),
@@ -127,14 +126,14 @@ class _AddPlanState extends State<AddPlan> {
                                           context: context,
                                           builder: (BuildContext ctx) =>
                                               AlertDialog(
-                                            title: Text("응답"),
-                                            content: Text("잘못된 응답"),
+                                            title: const Text("응답"),
+                                            content: const Text("잘못된 응답"),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () {
                                                   Navigator.of(ctx).pop(); // ok
                                                 },
-                                                child: Text("이응"),
+                                                child: const Text("이응"),
                                               ),
                                             ],
                                           ),
@@ -142,7 +141,7 @@ class _AddPlanState extends State<AddPlan> {
                                       }
                                   });
                         },
-                        child: Text('일정 수정하기'),
+                        child: const Text('일정 수정하기'),
                       )
                     : TextButton(
                         onPressed: () {
@@ -162,8 +161,8 @@ class _AddPlanState extends State<AddPlan> {
                                           context: context,
                                           builder: (BuildContext ctx) =>
                                               AlertDialog(
-                                            title: Text("응답"),
-                                            content: Text("추가는 성공적!"),
+                                            title: const Text("응답"),
+                                            content: const Text("추가는 성공적!"),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () {
@@ -180,7 +179,7 @@ class _AddPlanState extends State<AddPlan> {
                                                   //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
                                                   Navigator.of(ctx).pop(); // ok
                                                 },
-                                                child: Text("이응"),
+                                                child: const Text("이응"),
                                               ),
                                             ],
                                           ),
@@ -188,7 +187,7 @@ class _AddPlanState extends State<AddPlan> {
                                       }
                                   });
                         },
-                        child: Text('일정 생성하기'),
+                        child: const Text('일정 생성하기'),
                       ),
               ],
             ),

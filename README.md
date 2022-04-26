@@ -40,3 +40,34 @@
     - 서버에서 로직을 구성 or 프론트에서 true/false를 정해서 patch해주는 방식
 2. dailyId의 time은 언제 update되는 것인가?
     - 항상 수동으로 해왔다.
+   
+
+
+# Data fetching stateful widget code without riverpod
+```
+class hi extends StatefulWidget {
+  // 나중에 stateful 로 빠궈서 initState 활용
+  const hi({Key? key}) : super(key: key);
+
+  @override
+  State<hi> createState() => _hiState();
+}
+
+class _hiState extends State<hi> {
+  TodoRepository _todoRepository = TodoRepository();
+  List<Todo> dataTodo = [];
+
+  @override
+  void initState() {
+    _todoRepository.loadTodos().then((value) {
+      setState(() => dataTodo = value);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```

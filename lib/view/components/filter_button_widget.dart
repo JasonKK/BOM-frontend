@@ -1,7 +1,6 @@
 import 'package:bom_front/provider/todo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:bom_front/main.dart';
-import 'package:bom_front/provider/todo_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,9 +13,9 @@ class FilterButtons extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(todoListFilter);
     Color textColorFor(TodoListFilter value) =>
-        filter == value ? Colors.white : Color(0xffA876DE);
+        filter == value ? Colors.white : const Color(0xffA876DE);
     Color primaryColorFor(TodoListFilter value) =>
-        filter == value ? Color(0xffA876DE) : Colors.white;
+        filter == value ? const Color(0xffA876DE) : Colors.white;
 
     return Material(
         child: Container(
@@ -45,7 +44,7 @@ class FilterButtons extends HookConsumerWidget {
                       fontSize: 18, fontWeight: FontWeight.w500)),
             ),
           )),
-          SizedBox(width: 5.0),
+          const SizedBox(width: 5.0),
           Expanded(
             child: Tooltip(
               key: activeFilterKey,
@@ -69,7 +68,7 @@ class FilterButtons extends HookConsumerWidget {
               ),
             ),
           ),
-          SizedBox(width: 5.0),
+          const SizedBox(width: 5.0),
           Expanded(
             child: Tooltip(
               key: completedFilterKey,
