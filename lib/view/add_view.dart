@@ -22,10 +22,10 @@ class _AddPlanState extends State<AddPlan> {
   @override
   void initState() {
     setState(() {
-      planName = TextEditingController(text: widget.data!.planName);
-      dailyId = TextEditingController(text: widget.data!.dailyId.toString());
+      planName = TextEditingController(text: widget.data?.planName);
+      dailyId = TextEditingController(text: widget.data?.dailyId.toString());
       categoryId =
-          TextEditingController(text: widget.data!.categoryId.toString());
+          TextEditingController(text: widget.data?.categoryId.toString());
     });
     super.initState();
   }

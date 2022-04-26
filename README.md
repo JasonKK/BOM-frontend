@@ -18,6 +18,7 @@
 
 1. 임시방편으로 수정은 각 plan을 길게 눌렀을 때 적용
     - 타이머는 짧게 한번 누르면 시작하는 로직 구상
+    - 혹은 slidable에 수정아이콘 넣어서 수정하는 로직 적용 고려
 
 2. dispose를 적용해야할 것 같다. redering이 너무 잦다
     - autodispose적용할 시 FutureProvider 도입 고려
@@ -25,6 +26,12 @@
 # 해야할 것
 
 1. mothly와 daily plan 디자인 구별
+    - 카테고리 추가하기
+2. calendar 날짜 특정 날짜 선택시 해당 plandetails로 이동(plandetails라면 해당 날짜 data update)하기
+3. calendar에 날짜별로 획득한 별 추가하기
+4. crud를 업데이트시 로컬에서 하는 것을 todo_provider의 future에 넣을지 고민
+5. 삭제시 옆으로 슬라이드 후 삭제 선택시 진행
+6. 수정 폼 만들기
 
 ## 도입해야할 것
 
@@ -40,10 +47,9 @@
     - 서버에서 로직을 구성 or 프론트에서 true/false를 정해서 patch해주는 방식
 2. dailyId의 time은 언제 update되는 것인가?
     - 항상 수동으로 해왔다.
-   
-
 
 # Data fetching stateful widget code without riverpod
+
 ```
 class hi extends StatefulWidget {
   // 나중에 stateful 로 빠궈서 initState 활용
