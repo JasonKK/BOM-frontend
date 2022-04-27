@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
-import 'main_view.dart';
 import 'package:bom_front/view/components/timer_appbar.dart';
 
 class TimerApp extends StatelessWidget {

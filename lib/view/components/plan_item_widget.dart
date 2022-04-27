@@ -7,7 +7,7 @@ import 'package:bom_front/provider/todo_provider.dart';
 
 import '../../model/todo.dart';
 import '../../provider/general_provider.dart';
-import '../main_view.dart';
+import '../timer_view.dart';
 
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
@@ -191,7 +191,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MainPage()));
+                                  builder: (context) => TimerPage()));
                         },
                         onLongPress: () {
                           Navigator.push(
