@@ -9,7 +9,7 @@ class TodoRepository {
 
   Future<List<Todo>> loadTodos() async {
     print('Fetch plan data...');
-    // var url =  Uri.parse(urlApi+'/plan/all?date=2022-04-18&userId=1');
+    // var url =  Uri.parse(urlApi+'/plan/all?date=2022-04-27&userId=1');
     var url = Uri.parse(urlApi + '/plan/all?date=${getToday()}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
@@ -19,7 +19,7 @@ class TodoRepository {
       // var body = jsonDecode(response.body) as List<dynamic>;
       Map<String, dynamic> body = json.decode(response.body);
       // print('body => $body');
-      if (body['plans'] == null) {
+      if (body['plans'] == null) {// opcode의 청체 파악 후 적용하기
         print('error because plan is empty');
       }
 
@@ -80,6 +80,43 @@ class TodoRepository {
     }
   }
 
+  Future<int> loadStars() async {
+    print('Fetch star data...');
+    var url = Uri.parse(urlApi + '/plan/star?date=${getToday()}&userId=1');
+    var response = await http.get(url);
+    if (response.body == null) {
+      print('error with get');
+    }
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = json.decode(response.body);
+      if (body['star'] == null) {
+        print('Error! because plan is empty');
+      }
+      return body['star'];
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      throw Exception('Can\'t get plans');
+    }
+  }
+
+  Future<int> loadDailyTotalTimes() async {
+    print('Fetch daily total times data...');
+    var url = Uri.parse(urlApi + '/plan/total?date=${getToday()}&userId=1');
+    var response = await http.get(url);
+    if (response.body == null) {
+      print('error with get');
+    }
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = json.decode(response.body);
+      if (body['totalTime'] == null) {
+        print('Error! because plan is empty');
+      }
+      return body['totalTime'];
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      throw Exception('Can\'t get plans');
+    }
+  }
   // 프론트단에서 처리하므로 필요 x
   // Future toggleCheck(Todo todos) async {
   //   var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}' + '/check');

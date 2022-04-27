@@ -54,3 +54,6 @@ String getToday(){
   String strToday = formatter.format(now);
   return strToday;
 }
+
+// int min = secTime ~/ 60;
+// int sec = secTime % 60;

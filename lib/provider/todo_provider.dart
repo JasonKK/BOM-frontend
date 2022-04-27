@@ -123,3 +123,11 @@ final currentTodo = Provider<Todo>((ref) {
   // 나중에 받을 것
   return throw UnimplementedError();
 });
+
+final dailyUserStars = FutureProvider<int>(
+  (ref) => ref.read(todoRepository).loadStars()
+);
+
+final loadDailyTotalTimes = FutureProvider<int>(
+    (ref) => ref.read(todoRepository).loadDailyTotalTimes()
+);

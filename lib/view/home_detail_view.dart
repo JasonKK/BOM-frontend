@@ -26,6 +26,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final todos = ref.watch(filteredTodos);
+    AsyncValue<int> userStar = ref.watch(dailyUserStars);
+    AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
     return Scaffold(
         appBar: const BomAppBar(),
@@ -76,7 +78,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                     Container(
                                       width: MediaQuery.of(context).size.width -
                                           60.0,
-                                      padding: const EdgeInsets.only(left: 18.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -101,7 +104,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       if (i > 0) const SizedBox(height: 5),
                                       ProviderScope(
                                         overrides: [
-                                          currentTodo.overrideWithValue(todos[i]),
+                                          currentTodo
+                                              .overrideWithValue(todos[i]),
                                         ],
                                         child: const PlanItem(type: false),
                                       ),
@@ -110,7 +114,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                 ),
                               ),
                             ),
-                            Card( // 통계 위치
+                            Card(
+                              // 통계 위치
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
                                 //모서리를 둥글게 하기 위해 사용
@@ -125,7 +130,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                     Container(
                                       // width: MediaQuery.of(context).size.width -
                                       //     60.0,
-                                      padding: const EdgeInsets.only(left: 18.0),
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0, bottom: 20.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -145,6 +151,49 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                         ],
                                       ),
                                     ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.star,
+                                            color: Colors.amberAccent,
+                                            size: 40.0),
+                                        userStar.when(
+                                            data: ((data) => Text(
+                                                '${data.toString()}개 획득',
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold, fontSize: 18.0))),
+                                            error: (err, stack) =>
+                                                Text('Error: $err'),
+                                            loading: () => Container()),
+                                      ],
+                                    ),
+                                    SizedBox(height: 30.0),
+                                    dailyTimes.when(
+                                        data: ((data) => data ~/ 60 > 59
+                                            ? Column(
+                                                children: [
+                                                  Text(
+                                                      '${((data ~/ 60) ~/ 60).toString()}시간',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      '${((data ~/ 60) % 60).toString()}분',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              )
+                                            : Text(
+                                                '${(data ~/ 60).toString()}분',
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold))),
+                                        error: (err, stack) =>
+                                            Text('Error: $err'),
+                                        loading: () => Container()),
                                     const SizedBox(height: 20.0),
                                   ],
                                 ),

@@ -48,11 +48,12 @@
       - front단에서 만들 것
 2. dailyId의 time은 언제 update되는 것인가?
     - 항상 수동으로 해왔다. -> 채진이가 손 볼 것
+3. 한 해(?)의 별 개수를 모두 가져온다.
 
 ## fontend 🧐 
 1. 기기별 사이즈 고려하기
-   - 수정: device height resolution : 2000.0px 이상일 경우 기존 유지, 2000.0px이하일 경우 크기 줄이고 오늘의 목표 제거 
-
+   - 수정: device height resolution : 2000.0px 이상일 경우 기존 유지, 2000.0px이하일 경우 크기 줄이고 오늘의 목표 제거
+   2. category 모델 만들기
 # 정현 part
 1. timer 넣는 곳 위치
 - plan_item_widget.dart
@@ -100,3 +101,7 @@ class _hiState extends State<hi> {
   }
 }
 ```
+
+# API 명세서
+- [Google Sheets](https://docs.google.com/spreadsheets/d/1EYzfAg_LJdW0g0yKkQs738Zvu3xNVzWYjcVTtgw34Is/edit#gid=0)
+- [Database Schema](https://slack-files.com/files-pri-safe/T02TZ17LQNB-F03B1HGK1FT/bom.pdf?c=1651018323-dd3ced303bb7c300)
