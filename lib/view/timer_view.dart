@@ -1,5 +1,5 @@
 /* this is timer_model.dart */
-import 'package:bom_front/repositories/timer_repository.dart';
+import 'package:bom_front/repository/timer_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

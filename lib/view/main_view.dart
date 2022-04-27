@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bom_front/view/timer_view.dart';
-import 'package:bom_front/repositories/timer_repository.dart';
+import 'package:bom_front/repository/timer_repository.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
