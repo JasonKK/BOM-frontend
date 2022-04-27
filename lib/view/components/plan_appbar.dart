@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const BomAppBar({Key? key}) : preferredSize = const Size.fromHeight(kToolbarHeight), super(key: key);
+  const BomAppBar({Key? key})
+      : preferredSize = const Size.fromHeight(kToolbarHeight),
+        super(key: key);
 
   @override
   State<BomAppBar> createState() => _BomAppBarState();

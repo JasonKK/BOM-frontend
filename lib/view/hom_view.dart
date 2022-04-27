@@ -1,4 +1,4 @@
-import 'package:bom_front/view/components/appbar.dart';
+import 'package:bom_front/view/components/plan_appbar.dart';
 import 'package:bom_front/view/components/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +24,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print('Home rebuilding...');
-    final deviceHeight = ref.watch(userDeviceHeight.notifier).state = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
+    final deviceHeight = ref.watch(userDeviceHeight.notifier).state =
+        MediaQuery.of(context).size.height *
+            MediaQuery.of(context).devicePixelRatio;
     // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
     // final todos = ref.watch(todoListProvider);
     final todos = ref.watch(filteredTodos);
@@ -41,59 +43,72 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                   child: BomCalendar(pageCalendarFormat: CalendarFormat.month)),
               const SizedBox(height: 4), // to protect appBar block
-              deviceHeight > 2000.0 ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(children: const <Widget>[
-                  Expanded(
-                      child: Divider(
-                          height: 1.0, thickness: 0.3, color: Colors.grey)),
-                  Text("오늘의 목표", style: TextStyle(color: Colors.grey)),  // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
-                  Expanded(
-                      child: Divider(
-                          height: 1.0, thickness: 0.3, color: Colors.grey)),
-                ]),
-              ) : Container(),
+              deviceHeight > 2000.0
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(children: const <Widget>[
+                        Expanded(
+                            child: Divider(
+                                height: 1.0,
+                                thickness: 0.3,
+                                color: Colors.grey)),
+                        Text("오늘의 목표",
+                            style: TextStyle(
+                                color: Colors
+                                    .grey)), // Text의 고정 높이 때문에 더이상 아래 Expanded가 안늘려짐
+                        Expanded(
+                            child: Divider(
+                                height: 1.0,
+                                thickness: 0.3,
+                                color: Colors.grey)),
+                      ]),
+                    )
+                  : Container(),
               Expanded(
                 child: Container(
                   color: const Color(0xffefefef),
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   child: Card(
                     color: Colors.white,
-                    shape: RoundedRectangleBorder( //모서리를 둥글게 하기 위해 사용
+                    shape: RoundedRectangleBorder(
+                      //모서리를 둥글게 하기 위해 사용
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     elevation: 1.0,
                     child: Column(
                       children: [
                         const SizedBox(height: 14),
-                        Expanded(flex: 1, child: Column(
-                          children: [
-                            const Expanded(flex: 2, child: FilterButtons()),
-                            Expanded(
-                              flex: 7,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                child: ListView(
-                                  // ListView.builder 또한 ok -> Listview: home에는 필요 detail에는 필요 x
-                                  children: [
-                                    for (var i = 0; i < todos.length; i++) ...[
-                                      if (i > 0) const SizedBox(height: 5),
-                                      ProviderScope(
-                                        overrides: [
-                                          currentTodo.overrideWithValue(todos[i]),
+                        Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                const Expanded(flex: 2, child: FilterButtons()),
+                                Expanded(
+                                  flex: 7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 16.0, bottom: 16.0),
+                                    child: ListView(
+                                      // ListView.builder 또한 ok -> Listview: home에는 필요 detail에는 필요 x
+                                      children: [
+                                        for (var i = 0;
+                                            i < todos.length;
+                                            i++) ...[
+                                          if (i > 0) const SizedBox(height: 5),
+                                          ProviderScope(
+                                            overrides: [
+                                              currentTodo
+                                                  .overrideWithValue(todos[i]),
+                                            ],
+                                            child: const PlanItem(type: true),
+                                          ),
                                         ],
-                                        child: const PlanItem(type: true),
-                                      ),
-                                    ],
-                                  ],
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        )),
+                              ],
+                            )),
                         const SizedBox(height: 19),
                       ],
                     ),
@@ -112,8 +127,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           elevation: 0.0,
           mini: true,
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomeDetailScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomeDetailScreen()));
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

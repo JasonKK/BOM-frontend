@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
-import 'components/appbar.dart';
+import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -131,7 +131,9 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       // width: MediaQuery.of(context).size.width -
                                       //     60.0,
                                       padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0, bottom: 20.0),
+                                          left: 15.0,
+                                          right: 15.0,
+                                          bottom: 20.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -162,8 +164,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                             data: ((data) => Text(
                                                 '${data.toString()}개 획득',
                                                 style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold, fontSize: 18.0))),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0))),
                                             error: (err, stack) =>
                                                 Text('Error: $err'),
                                             loading: () => Container()),
