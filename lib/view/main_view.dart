@@ -15,19 +15,6 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  void getTimerInfo() async {
-    TimerRepository timer_api = TimerRepository();
-
-    var timerInfo = await timer_api.getTimerData();
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return TimerPage(parseTimerData: timerInfo);
-      }),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +30,8 @@ class _MainPageState extends State<MainPage> {
       child: RaisedButton(
         child: Text("Press"),
         onPressed: () {
-          getTimerInfo();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TimerPage()));
         },
       ),
     );

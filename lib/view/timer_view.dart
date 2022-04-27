@@ -1,4 +1,5 @@
 /* this is timer_model.dart */
+import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/repository/timer_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,6 @@ class TimerApp extends StatelessWidget {
 }
 
 class TimerPage extends StatefulWidget {
-  TimerPage({this.parseTimerData});
-  final parseTimerData;
-
   @override
   State<TimerPage> createState() => _TimerPageState();
 }
@@ -30,11 +28,14 @@ class _TimerPageState extends State<TimerPage> {
 
   late Timer _timer; //타이머
   var _time = 0; //실제 늘어난 시간
-  var _isRunning = false; // 시작/정지의 상태값
+  var _isRunning = false; // 시작/정지의 상태
+
+  late Todo todo;
 
   void initState() {
+    TimerRepository().getTimerData();
     super.initState();
-    updateData(widget.parseTimerData);
+    updateData();
     //해당 일정의 시간, 카테고리 색,일정 내용 가져와야함
   }
 
@@ -46,12 +47,8 @@ class _TimerPageState extends State<TimerPage> {
     super.dispose();
   }
 
-  void updateData(dynamic timerData) {
-    color = timerData['Category']['color'];
-    planName = timerData['Plan']['planName'];
-    firsttime = timerData['Plan']['time'];
-
-    _time = firsttime;
+  void updateData() {
+    _time = todo.time!;
   }
 
   void _clickButton() {

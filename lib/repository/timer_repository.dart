@@ -6,16 +6,16 @@ class TimerRepository {
   static const urlApi =
       'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
 
-  Future<dynamic> getTimerData() async {
+  Future<Todo> getTimerData() async {
     print("this is for get category color, plan name, time");
 
-    http.Response response = await http.get(Uri.parse(urlApi + ''));
+    final http.Response response = await http.get(Uri.parse(urlApi + ''));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> parsingData = jsonDecode(response.body);
-      return parsingData;
+      return Todo.fromJson(jsonDecode(response.body));
     } else {
       print("ERROR by this status : ${response.statusCode}");
+      throw Exception("Failed to load timerdata");
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:bom_front/provider/todo_provider.dart';
 
 import '../../model/todo.dart';
 import '../../provider/general_provider.dart';
+import '../main_view.dart';
 
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
@@ -102,7 +103,10 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Row(mainAxisAlignment: MainAxisAlignment.start ,children: [Text('삭제')]),
+                                    title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [Text('삭제')]),
                                     content: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -122,7 +126,9 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                          child: const Text('확인', style:TextStyle(color: Colors.red)),
+                                          child: const Text('확인',
+                                              style:
+                                                  TextStyle(color: Colors.red)),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           }),
@@ -159,8 +165,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                             Navigator.of(context).pop();
                                             // final state = Slidable.of(ctx); // 삭제 확인 이후 dissmissed 적용시키려고 했는데 실패
                                             // state?.dismiss(ResizeRequest(Duration(milliseconds: 200), (){}));
-                                          }
-                                          )
+                                          })
                                     ],
                                   );
                                 },
@@ -183,7 +188,10 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                       child: ListTile(
                         enabled: !todo.check!,
                         onTap: () {
-                          /* start/stop timer*/
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainPage()));
                         },
                         onLongPress: () {
                           Navigator.push(
