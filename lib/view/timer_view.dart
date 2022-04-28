@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:bom_front/view/components/timer_appbar.dart';
+import 'package:simple_timer/simple_timer.dart';
 
 class TimerApp extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class _TimerPageState extends State<TimerPage> {
   var _time = 0; //실제 늘어난 시간
   var _isRunning = false; // 시작/정지의 상태
 
-  late Todo todo;
+  Todo todo = new Todo();
 
   void initState() {
     TimerRepository().getTimerData();
@@ -40,9 +41,6 @@ class _TimerPageState extends State<TimerPage> {
 
   void dispose() {
     _timer.cancel();
-    // TimerRepository timer_api = TimerRepository(
-    //         'http:// ec2-3-39-177-232.ap-northeast-2.compute.amzonaws.com/plan/star')
-    //     .postStarData('star', star) as timer_post_api; // star 보내기
     super.dispose();
   }
 
@@ -67,8 +65,9 @@ class _TimerPageState extends State<TimerPage> {
         _time++;
         count++;
         if (count == 30) {
-          star++;
-          count = 0; //별보내기
+          count = 0;
+          TimerRepository().postStarData(num)
+          //별보내기
         }
       });
     });
