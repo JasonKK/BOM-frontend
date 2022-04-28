@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BomRepetition extends StatefulWidget {
+import '../../provider/todo_provider.dart';
+
+class BomRepetition extends ConsumerStatefulWidget {
   @override
   _BomRepetitionState createState() => _BomRepetitionState();
 }
 
-class _BomRepetitionState extends State<BomRepetition> {
+class _BomRepetitionState extends ConsumerState<BomRepetition> {
   late List<bool> isSelected;
 
   @override
@@ -158,11 +161,13 @@ class _BomRepetitionState extends State<BomRepetition> {
                     ),
             ],
             onPressed: (int index) {
+              ref.read(repetitionTypeToCreate.notifier).state = index;
               setState(() {
                 for (int i = 0; i < isSelected.length; i++) {
                   isSelected[i] = i == index;
                 }
-              });
+              }
+              );
             },
             isSelected: isSelected,
           ),

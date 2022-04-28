@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../provider/todo_provider.dart';
 
-class BomCategory extends StatefulWidget {
+class BomCategory extends ConsumerStatefulWidget {
   @override
   _BomCategoryState createState() => _BomCategoryState();
 }
 
-class _BomCategoryState extends State<BomCategory> {
+class _BomCategoryState extends ConsumerState<BomCategory> {
   late List<bool> isSelected;
 
   @override
@@ -293,6 +295,7 @@ class _BomCategoryState extends State<BomCategory> {
                     ),
             ],
             onPressed: (int index) {
+              ref.read(categoryIdToCreate.notifier).state = index;
               setState(() {
                 for (int i = 0; i < isSelected.length; i++) {
                   isSelected[i] = i == index;

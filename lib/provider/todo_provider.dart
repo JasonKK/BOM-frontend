@@ -131,3 +131,6 @@ final dailyUserStars = FutureProvider<int>(
 final loadDailyTotalTimes = FutureProvider<int>(
     (ref) => ref.read(todoRepository).loadDailyTotalTimes()
 );
+
+final categoryIdToCreate = StateProvider((ref) => 1);
+final repetitionTypeToCreate = StateProvider((ref) => 0);

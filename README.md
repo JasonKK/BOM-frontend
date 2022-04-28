@@ -32,6 +32,7 @@
 4. crud를 업데이트시 로컬에서 하는 것을 todo_provider의 future에 넣을지 고민
 5. 삭제시 옆으로 슬라이드 후 삭제 선택시 진행
 6. 수정 폼 만들기
+7. dispose, didchangedependencies적용하기
 
 ## 도입해야할 것
 

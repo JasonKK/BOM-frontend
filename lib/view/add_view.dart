@@ -6,42 +6,33 @@ import '../provider/todo_provider.dart';
 import 'components/category_widget.dart';
 import 'components/repetition_widget.dart';
 
-class AddPlan extends StatefulWidget {
+class AddPlan extends ConsumerStatefulWidget {
   final bool type; // for mode(false: add/true: edit) change
   final Todo? data;
 
   const AddPlan({Key? key, required this.type, this.data}) : super(key: key);
 
   @override
-  State<AddPlan> createState() => _AddPlanState();
+  _AddPlanState createState() => _AddPlanState();
 }
 
-class _AddPlanState extends State<AddPlan> {
+class _AddPlanState extends ConsumerState<AddPlan> {
   // TextField에 있는 값을 가져오기 위함
   late TextEditingController planName = TextEditingController();
-  late TextEditingController dailyId = TextEditingController();
-  late TextEditingController categoryId = TextEditingController();
-
-  // List<String> selectedCategory = [];
-  // String all = 'All';
-  // String category1 = 'category 1';
-  // String category2 = 'category 2';
-  // String category3 = 'category 3';
-  // String category4 = 'category 4';
 
   @override
   void initState() {
     setState(() {
       planName = TextEditingController(text: widget.data?.planName);
-      dailyId = TextEditingController(text: widget.data?.dailyId.toString());
-      categoryId =
-          TextEditingController(text: widget.data?.categoryId.toString());
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final categoryId = ref.watch(categoryIdToCreate);
+    final repetitionTypeId = ref.watch(repetitionTypeToCreate);
+    print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId');
     return Consumer(builder: (context, ref, child) {
       // final todos = ref.watch(todoListProvider);
       return Scaffold(
@@ -110,39 +101,20 @@ class _AddPlanState extends State<AddPlan> {
                     ),
                   ),
                   BomRepetition(),
-                  TextField(
-                    controller: dailyId,
-                    // obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'dailyId',
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  TextField(
-                    controller: categoryId,
-                    // obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'categoryId',
-                    ),
-                  ),
                   const SizedBox(height: 10),
                   widget.type == true
                       //-------------------------------------------------------------------------------수정하기---------------------------------------------------------------------
                       ? TextButton(
                           onPressed: () {
                             final userPlanName = planName.text;
-                            final userDailyId = int.parse(dailyId.text);
-                            final userCategoryId = int.parse(categoryId.text);
                             ref
                                 .read(todoListProvider.notifier)
                                 .editReadTodo(Todo(
                                     planName: userPlanName,
-                                    dailyId: userDailyId,
-                                    categoryId: userCategoryId,
+                                    dailyId: widget.data?.dailyId ?? 6, // 아직 서버에서 미정
+                                    categoryId: categoryId, //
                                     planId: widget.data!.planId,
-                                    repetitionType: widget.data!.repetitionType,
+                                    repetitionType: repetitionTypeId,
                                     check: widget.data!.check,
                                     time: widget.data!.time))
                                 .then((val) => {
@@ -159,8 +131,6 @@ class _AddPlanState extends State<AddPlan> {
                                                   onPressed: () {
                                                     setState(() {
                                                       planName.clear();
-                                                      dailyId.clear();
-                                                      categoryId.clear();
                                                     });
                                                     ref
                                                         .refresh(
@@ -208,15 +178,15 @@ class _AddPlanState extends State<AddPlan> {
                           child: ElevatedButton(
                             onPressed: () {
                               final userPlanName = planName.text;
-                              final userDailyId = int.parse(dailyId.text);
-                              final userCategoryId = int.parse(categoryId.text);
 
                               ref
                                   .read(todoListProvider.notifier)
                                   .createReadTodo(Todo(
                                       planName: userPlanName,
-                                      dailyId: userDailyId,
-                                      categoryId: userCategoryId))
+                                      dailyId: widget.data?.dailyId ?? 6, // 서버에서 아직 미정
+                                      categoryId: categoryId,
+                                repetitionType: repetitionTypeId
+                              ))
                                   .then((val) => {
                                         if (val == true)
                                           {
@@ -231,8 +201,6 @@ class _AddPlanState extends State<AddPlan> {
                                                     onPressed: () {
                                                       setState(() {
                                                         planName.clear();
-                                                        dailyId.clear();
-                                                        categoryId.clear();
                                                       });
                                                       ref
                                                           .refresh(
@@ -254,11 +222,13 @@ class _AddPlanState extends State<AddPlan> {
                             },
                             child: const Text('완료',
                                 style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500)),
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w600)),
                             style: ElevatedButton.styleFrom(
                                 primary: Color(0xffA876DE),
-                                onPrimary: Colors.white),
+                                onPrimary: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 15.0)
+                            ),
                           ),
                         ),
                 ],
@@ -268,172 +238,4 @@ class _AddPlanState extends State<AddPlan> {
     });
   }
 
-// 반복 이후 요일 선택시 참고하기
-// Widget bomContainer() {
-//   return Container(
-//     padding: EdgeInsets.only(top: 4.0, left: 0.0, right: 0.0, bottom: 6.0),
-//     child: Container(
-//       child: Center(
-//         child: Column(
-//           children: <Widget>[
-//             SizedBox(
-//               height: 4.0,
-//             ),
-//             Container(
-//               margin: EdgeInsets.only(left: 10.0, right: 10.0),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                 children: <Widget>[
-//                   InkWell(
-//                     splashColor: Colors.blue[100],
-//                     onTap: () {
-//                       selectedCategory.add(all);
-//                       selectedCategory.add(category1);
-//                       selectedCategory.add(category2);
-//                       selectedCategory.add(category3);
-//                       selectedCategory.add(category4);
-//                       setState(() {});
-//                     },
-//                     child: Container(
-//                       padding: EdgeInsets.symmetric(
-//                           vertical: 10.0, horizontal: 12.0),
-//                       decoration: BoxDecoration(
-//                         color: selectedCategory.contains(all)
-//                             ? Colors.blueAccent[100]
-//                             : Colors.grey[500],
-//                         borderRadius: BorderRadius.all(Radius.circular(48.0)),
-//                       ),
-//                       child: Text(
-//                         'All',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 10.0,
-//                             fontWeight: FontWeight.w500),
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 2.0,
-//                   ),
-//                   InkWell(
-//                     splashColor: Colors.blue[100],
-//                     onTap: () {
-//                       selectedCategory = [];
-//                       selectedCategory.add(category1);
-//                       setState(() {});
-//                     },
-//                     child: Container(
-//                       padding: EdgeInsets.symmetric(
-//                           vertical: 10.0, horizontal: 12.0),
-//                       decoration: BoxDecoration(
-//                         color: selectedCategory.contains(category1)
-//                             ? Colors.blue[100]
-//                             : Colors.grey[300],
-//                         borderRadius: BorderRadius.all(Radius.circular(48.0)),
-//                       ),
-//                       child: Text(
-//                         'category 1',
-//                         style: TextStyle(
-//                             color: Colors.grey[900],
-//                             fontSize: 10.0,
-//                             fontWeight: FontWeight.w500),
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 2.0,
-//                   ),
-//                   InkWell(
-//                     splashColor: Colors.blue[100],
-//                     onTap: () {
-//                       selectedCategory = [];
-//                       selectedCategory.add(category2);
-//                       setState(() {});
-//                     },
-//                     child: Container(
-//                       padding: EdgeInsets.symmetric(
-//                           vertical: 10.0, horizontal: 12.0),
-//                       decoration: BoxDecoration(
-//                         color: selectedCategory.contains(category2)
-//                             ? Colors.blue[100]
-//                             : Colors.grey[300],
-//                         borderRadius: BorderRadius.all(Radius.circular(48.0)),
-//                       ),
-//                       child: Text(
-//                         'category 2',
-//                         style: TextStyle(
-//                             color: Colors.grey[900],
-//                             fontSize: 10.0,
-//                             fontWeight: FontWeight.w500),
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 2.0,
-//                   ),
-//                   InkWell(
-//                     splashColor: Colors.blue[100],
-//                     onTap: () {
-//                       selectedCategory = [];
-//                       selectedCategory.add(category3);
-//                       setState(() {});
-//                     },
-//                     child: Container(
-//                       padding: EdgeInsets.symmetric(
-//                           vertical: 10.0, horizontal: 12.0),
-//                       decoration: BoxDecoration(
-//                         color: selectedCategory.contains(category3)
-//                             ? Colors.blue[100]
-//                             : Colors.grey[300],
-//                         borderRadius: BorderRadius.all(Radius.circular(48.0)),
-//                       ),
-//                       child: Text(
-//                         'category 3',
-//                         style: TextStyle(
-//                             color: Colors.grey[900],
-//                             fontSize: 10.0,
-//                             fontWeight: FontWeight.w500),
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 2.0,
-//                   ),
-//                   InkWell(
-//                     splashColor: Colors.blue[100],
-//                     onTap: () {
-//                       selectedCategory = [];
-//                       selectedCategory.add(category4);
-//                       setState(() {});
-//                     },
-//                     child: Container(
-//                       padding: EdgeInsets.symmetric(
-//                           vertical: 10.0, horizontal: 12.0),
-//                       decoration: BoxDecoration(
-//                         color: selectedCategory.contains(category4)
-//                             ? Colors.blue[100]
-//                             : Colors.grey[300],
-//                         borderRadius: BorderRadius.all(Radius.circular(48.0)),
-//                       ),
-//                       child: Text(
-//                         'category 4',
-//                         style: TextStyle(
-//                             color: Colors.grey[900],
-//                             fontSize: 10.0,
-//                             fontWeight: FontWeight.w500),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(
-//               height: 6.0,
-//             )
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
 }
