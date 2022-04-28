@@ -105,3 +105,8 @@ class _hiState extends State<hi> {
 # API 명세서
 - [Google Sheets](https://docs.google.com/spreadsheets/d/1EYzfAg_LJdW0g0yKkQs738Zvu3xNVzWYjcVTtgw34Is/edit#gid=0)
 - [Database Schema](https://slack-files.com/files-pri-safe/T02TZ17LQNB-F03B1HGK1FT/bom.pdf?c=1651018323-dd3ced303bb7c300)
+  
+
+# ref
+- [Hexadecimal color code for transparency](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4)
+- [Icons](https://fonts.google.com/icons?selected=Material+Icons)
