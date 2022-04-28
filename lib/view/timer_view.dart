@@ -21,11 +21,6 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> {
-  late String color; // 카테고리 색-> 추후 원을 해당 카테고리 색상으로 지정
-  late String planName; // 일정 내용
-  late int firsttime; // 저장된 초기 시간
-  late int star; // 별 개수
-
   late Timer _timer; //타이머
   var _time = 0; //실제 늘어난 시간
   var _isRunning = false; // 시작/정지의 상태
@@ -66,8 +61,8 @@ class _TimerPageState extends State<TimerPage> {
         count++;
         if (count == 30) {
           count = 0;
-          TimerRepository().postStarData(num)
-          //별보내기
+          TimerRepository()
+              .postStarData(1); // 별개수 받아와야하는데 그거에 대해서 논의의          //별보내기
         }
       });
     });
@@ -75,11 +70,6 @@ class _TimerPageState extends State<TimerPage> {
 
   void _pause() {
     _timer.cancel();
-  }
-
-  void check_time(BuildContext context) {
-    var now = new DateTime.now();
-    String formatDate;
   }
 
   @override
