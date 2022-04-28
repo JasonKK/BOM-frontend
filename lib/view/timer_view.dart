@@ -1,5 +1,6 @@
 /* this is timer_model.dart */
 
+import 'package:bom_front/view/components/timer_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -60,7 +61,7 @@ class _TimerPageState extends State<TimerPage> {
         if (count == 30) {
           count = 0;
           TimerRepository()
-              .postStarData(1); // 별개수 받아와야하는데 그거에 대해서 논의의          //별보내기
+              .postStarData(); // 별개수 받아와야하는데 그거에 대해서 논의의          //별보내기
         }
       });
     });
@@ -73,15 +74,16 @@ class _TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple[300],
+      appBar: TimerAppBar(),
+      backgroundColor: Color(0xffC9A0F5),
       body: _buildbody(),
     );
   }
 
   Widget _buildbody() {
-    int hours = (_time ~/ 360000).truncate();
-    int minutes = (_time ~/ 6000).truncate();
-    int seconds = (_time ~/ 100).truncate();
+    int hours = (_time ~/ 216000).truncate();
+    int minutes = (_time ~/ 3600).truncate();
+    int seconds = (_time ~/ 60).truncate();
 
     var hour = (hours % 60).toString().padLeft(2, '0');
     var min = (minutes % 60).toString().padLeft(2, '0');
@@ -95,7 +97,7 @@ class _TimerPageState extends State<TimerPage> {
             width: 360,
             height: 360,
             decoration: BoxDecoration(
-              color: Colors.purple[200],
+              color: Color(0xffA876DE),
               shape: BoxShape.circle,
               border: Border.all(
                 color: Colors.white60,
@@ -124,12 +126,12 @@ class _TimerPageState extends State<TimerPage> {
                           ? Icon(
                               Icons.pause,
                               size: 300,
-                              color: Colors.purple.shade400,
+                              color: Color(0xff9747FF),
                             )
                           : Icon(
                               Icons.play_arrow,
                               size: 300,
-                              color: Colors.purple.shade400,
+                              color: Color(0xff9747FF),
                             ),
                     ),
                   ),
@@ -146,6 +148,18 @@ class _TimerPageState extends State<TimerPage> {
               ],
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+              child: Text(
+            "허용앱 설정하러 가기",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white60,
+              decoration: TextDecoration.underline,
+            ),
+          ))
         ],
       ),
     ));

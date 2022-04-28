@@ -19,13 +19,11 @@ class TimerRepository {
     }
   }
 
-  Future<Todo> postStarData(int num) async {
+  Future<Todo> postStarData() async {
     print("this is count seconds and send how many stars user get");
 
-    final http.Response response = await http.post(
-        Uri.parse(urlApi + '/plan/star'),
-        body: <String, int>{"star": num},
-        headers: <String, String>{'Content-type': 'application/json'});
+    final http.Response response =
+        await http.post(Uri.parse(urlApi + '/plan/star'));
 
     if (response.statusCode == 200) {
       return Todo.fromJson(jsonDecode(response.body));
