@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class BarChartData {
-  String x;
-  double y;
-  Color barColor;
+  final String date;
+  final int time;
+  final charts.Color barColor;
 
-  BarChartData({
-    required this.x,
-    required this.y,
-    this.barColor = Colors.grey,
-  });
+  BarChartData(
+      {required this.date, required this.time, required this.barColor});
 }

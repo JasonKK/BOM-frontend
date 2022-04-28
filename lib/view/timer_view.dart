@@ -3,10 +3,8 @@ import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/repository/timer_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:bom_front/view/components/timer_appbar.dart';
-import 'package:simple_timer/simple_timer.dart';
 
 class TimerApp extends StatelessWidget {
   @override
