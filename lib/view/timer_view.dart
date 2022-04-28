@@ -1,10 +1,10 @@
 /* this is timer_model.dart */
-import 'package:bom_front/model/todo.dart';
-import 'package:bom_front/repository/timer_repository.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:bom_front/view/components/timer_appbar.dart';
+import 'package:bom_front/model/todo.dart';
+import 'package:bom_front/repository/timer_repository.dart';
 
 class TimerApp extends StatelessWidget {
   @override
@@ -38,7 +38,7 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   void updateData() {
-    _time = todo.time!;
+    _time = todo.time ?? 0;
   }
 
   void _clickButton() {
@@ -73,7 +73,7 @@ class _TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TimerAppBar(),
+      backgroundColor: Colors.purple[300],
       body: _buildbody(),
     );
   }
@@ -87,94 +87,67 @@ class _TimerPageState extends State<TimerPage> {
     var min = (minutes % 60).toString().padLeft(2, '0');
     var sec = (seconds % 60).toString().padLeft(2, '0');
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Column(
+    return (Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 360,
+            height: 360,
+            decoration: BoxDecoration(
+              color: Colors.purple[200],
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white60,
+                width: 5,
+              ),
+            ),
+            child: Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Positioned(
+                  top: 20,
+                  right: 130,
+                  child: Text(
+                    "오늘\n" + "$hour:$min:$sec",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25, color: Colors.white70),
+                  ),
                 ),
-                Container(
-                  width: 360,
-                  height: 360,
-                  // color: Colors.grey,
-                  decoration: BoxDecoration(
-                    // color: '$color',
-                    color: Colors.grey.shade200,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.black38,
-                      width: 5,
+                Align(
+                  alignment: Alignment.center,
+                  child: Positioned(
+                    child: TextButton(
+                      onPressed: () => setState(() {
+                        _clickButton();
+                      }),
+                      child: _isRunning
+                          ? Icon(
+                              Icons.pause,
+                              size: 300,
+                              color: Colors.purple.shade400,
+                            )
+                          : Icon(
+                              Icons.play_arrow,
+                              size: 300,
+                              color: Colors.purple.shade400,
+                            ),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(10, 10),
-                          color: Colors.black38,
-                          blurRadius: 15),
-                      BoxShadow(
-                          offset: Offset(-10, -10),
-                          color: Colors.white.withOpacity(0.5),
-                          blurRadius: 15),
-                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Positioned(
+                    child: Text(
+                      "$hour:$min:$sec",
+                      style: TextStyle(fontSize: 80, color: Colors.white),
+                    ),
                   ),
                 ),
               ],
             ),
-            Positioned(
-              top: -20,
-              right: 110,
-              child: Container(
-                child: Image.asset(
-                  'lib/image/dog.png',
-                  width: 80,
-                  height: 80,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 150,
-              right: 30,
-              child: Text(
-                "$hour:$min:$sec",
-                style: TextStyle(fontSize: 60, color: Colors.grey.shade900),
-              ),
-            ),
-            Positioned(
-              top: 100,
-              right: 70,
-              child: Container(
-                child: Text(
-                  "오늘은: 00:00:00",
-                  style: TextStyle(fontSize: 20, color: Colors.grey.shade900),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 130,
-              right: 80,
-              child: TextButton(
-                onPressed: () => setState(() {
-                  _clickButton();
-                }),
-                child: _isRunning
-                    ? Icon(
-                        Icons.pause,
-                        size: 100,
-                      )
-                    : Icon(
-                        Icons.play_arrow,
-                        size: 100,
-                      ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
