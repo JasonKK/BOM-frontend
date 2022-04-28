@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bom_front/view/timer_view.dart';
 
-class Plan {
-  int? planId;
-  int? time;
-
-  Plan(this.planId, this.time);
-}
-
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -25,10 +18,9 @@ class MainPage extends StatelessWidget {
               child: RaisedButton(
             child: Text("timer"),
             onPressed: () {
-              final plan = Plan(1, 0);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TimerApp()),
+                MaterialPageRoute(builder: (context) => TimerPage()),
               );
             },
           ))),

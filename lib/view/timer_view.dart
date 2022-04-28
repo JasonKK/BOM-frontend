@@ -4,10 +4,6 @@ import 'dart:async';
 import 'package:bom_front/view/main_view.dart';
 
 class TimerPage extends StatefulWidget {
-  const TimerPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
   @override
   State<TimerPage> createState() => _TimerPageState();
 }
