@@ -79,9 +79,13 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   Widget _buildbody() {
-    var min = '${_time ~/ 6000}'.padLeft(2, '0');
-    var sec = '${_time ~/ 100}'.padLeft(2, '0');
-    var hundredth = '${_time % 100}'.padLeft(2, '0');
+    int hours = (_time ~/ 360000).truncate();
+    int minutes = (_time ~/ 6000).truncate();
+    int seconds = (_time ~/ 100).truncate();
+
+    var hour = (hours % 60).toString().padLeft(2, '0');
+    var min = (minutes % 60).toString().padLeft(2, '0');
+    var sec = (seconds % 60).toString().padLeft(2, '0');
 
     return Center(
       child: Padding(
@@ -136,7 +140,7 @@ class _TimerPageState extends State<TimerPage> {
               top: 150,
               right: 30,
               child: Text(
-                "$min:$sec:$hundredth",
+                "$hour:$min:$sec",
                 style: TextStyle(fontSize: 60, color: Colors.grey.shade900),
               ),
             ),
