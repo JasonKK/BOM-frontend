@@ -1,7 +1,6 @@
 /* this is timer_model.dart */
 import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/repository/timer_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:bom_front/view/components/timer_appbar.dart';
@@ -26,7 +25,8 @@ class _TimerPageState extends State<TimerPage> {
   Todo todo = new Todo();
 
   void initState() {
-    TimerRepository().getTimerData();
+    final result = TimerRepository().getTimerData();
+    print(result);
     super.initState();
     updateData();
     //해당 일정의 시간, 카테고리 색,일정 내용 가져와야함
@@ -38,7 +38,7 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   void updateData() {
-    _time = todo.time!;
+    _time = todo.time ?? 0;
   }
 
   void _clickButton() {
@@ -126,7 +126,7 @@ class _TimerPageState extends State<TimerPage> {
               right: 110,
               child: Container(
                 child: Image.asset(
-                  'lib/image/dog.png',
+                  'images/character.png',
                   width: 80,
                   height: 80,
                 ),

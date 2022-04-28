@@ -186,7 +186,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                         ],
                       ),
                       child: ListTile(
-                        enabled: !todo.check!,
+                        enabled: !(todo.check ?? false),
                         onTap: () {
                           print("눌러졌습니다.");
                           Navigator.push(

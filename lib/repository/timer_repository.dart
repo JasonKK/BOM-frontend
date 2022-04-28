@@ -9,9 +9,10 @@ class TimerRepository {
   Future<Todo> getTimerData() async {
     print("this is for get category color, plan name, time");
     final http.Response response =
-        await http.get(Uri.parse(urlApi + '/:planId=1/data'));
+        await http.get(Uri.parse(urlApi + '/1/data'));
 
     if (response.statusCode == 200) {
+      print(Todo.fromJson(jsonDecode(response.body)));
       return Todo.fromJson(jsonDecode(response.body));
     } else {
       print("ERROR by this status : ${response.statusCode}");
