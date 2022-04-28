@@ -21,7 +21,7 @@ class _TimerPageState extends State<TimerPage> {
   late Timer _timer; //타이머
   var _time = 0; //실제 늘어난 시간
   var _isRunning = false; // 시작/정지의 상태
-
+  int _total_time = 0;
   Todo todo = new Todo();
 
   void initState() {
@@ -36,8 +36,9 @@ class _TimerPageState extends State<TimerPage> {
     super.dispose();
   }
 
-  void updateData() {
+  Future<void> updateData() async {
     _time = todo.time ?? 0;
+    _total_time = await TimerRepository().getTotalTimeData();
   }
 
   void _clickButton() {
@@ -55,6 +56,7 @@ class _TimerPageState extends State<TimerPage> {
     _timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       setState(() {
         _time++;
+        _total_time++;
         count++;
         if (count == 30) {
           count = 0;
@@ -83,9 +85,17 @@ class _TimerPageState extends State<TimerPage> {
     int minutes = (_time ~/ 3600).truncate();
     int seconds = (_time ~/ 60).truncate();
 
+    int total_hours = (_total_time ~/ 216000).truncate();
+    int total_minutes = (_total_time ~/ 3600).truncate();
+    int total_seconds = (_total_time ~/ 60).truncate();
+
     var hour = (hours % 60).toString().padLeft(2, '0');
     var min = (minutes % 60).toString().padLeft(2, '0');
     var sec = (seconds % 60).toString().padLeft(2, '0');
+
+    var total_hour = (total_hours % 60).toString().padLeft(2, '0');
+    var total_min = (total_minutes % 60).toString().padLeft(2, '0');
+    var total_sec = (total_seconds % 60).toString().padLeft(2, '0');
 
     return (Center(
       child: Column(
@@ -108,7 +118,7 @@ class _TimerPageState extends State<TimerPage> {
                   top: 20,
                   right: 130,
                   child: Text(
-                    "오늘\n" + "$hour:$min:$sec",
+                    "오늘\n" + "$total_hour:$total_min:$total_sec",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 25, color: Colors.white70),
                   ),
