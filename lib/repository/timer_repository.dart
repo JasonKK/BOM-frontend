@@ -19,7 +19,7 @@ class TimerRepository {
     }
   }
 
-  Future<Todo> postStarData(int num) async {
+  Future<Todo> postStarData() async {
     print("this is count seconds and send how many stars user get");
 
     final http.Response response =
