@@ -1,3 +1,5 @@
+import 'package:bom_front/view/components_statistics/statistic_chart_view.dart';
+import 'package:bom_front/view/components_statistics/statistic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
