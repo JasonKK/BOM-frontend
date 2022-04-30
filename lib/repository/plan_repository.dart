@@ -19,7 +19,8 @@ class TodoRepository {
       // var body = jsonDecode(response.body) as List<dynamic>;
       Map<String, dynamic> body = json.decode(response.body);
       // print('body => $body');
-      if (body['plans'] == null) {// opcode의 청체 파악 후 적용하기
+      if (body['plans'] == null) {
+        // opcode의 청체 파악 후 적용하기
         print('error because plan is empty');
       }
 
@@ -35,11 +36,17 @@ class TodoRepository {
   Future createTodo(Todo todos) async {
     var url = Uri.parse(urlApi + '/plan');
     var response = await http.post(url,
-        body: jsonEncode(todos),
+        body: json.encode({
+          "planName": todos.planName,
+          "categoryId": todos.categoryId,
+          "userId": 1, // 추후 변경 하기
+          "date": '${getToday()}',
+          "repetitionType": todos.repetitionType,
+        }),
         headers: <String, String>{'Content-type': 'application/json'});
-    print(response.body);
+    print('createTodo => ${response.body}');
     if (response.body == null) {
-      print('error with get');
+      print('error with createTodo response');
     }
     if (response.body.isNotEmpty) {
       return true;
@@ -71,7 +78,7 @@ class TodoRepository {
   Future deleteTodo(id) async {
     var url = Uri.parse(urlApi + '/plan/' + '$id');
     var response = await http.delete(url);
-
+    print('delete success!');
     if (response.statusCode >= 404) {
       print('Request failed with status: ${response.statusCode}.');
       return false;
@@ -117,24 +124,23 @@ class TodoRepository {
       throw Exception('Can\'t get plans');
     }
   }
-  // 프론트단에서 처리하므로 필요 x
-  // Future toggleCheck(Todo todos) async {
-  //   var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}' + '/check');
-  //   var response = await http.patch(url,
-  //       // body: jsonEncode(todos),
-  //       headers: <String, String>{'Content-type': 'application/json'});
-  //   // print(response.body);
-  //   // print(response.headers);
-  //   // print(response.statusCode);
-  //   if (response.body == null) {
-  //     print('error with get');
-  //   }
-  //   if (response.statusCode == 404) {
-  //     print('Request failed with status: ${response.statusCode}.');
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+// 프론트단에서 처리하므로 필요 x
+// Future toggleCheck(Todo todos) async {
+//   var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}' + '/check');
+//   var response = await http.patch(url,
+//       // body: jsonEncode(todos),
+//       headers: <String, String>{'Content-type': 'application/json'});
+//   // print(response.body);
+//   // print(response.headers);
+//   // print(response.statusCode);
+//   if (response.body == null) {
+//     print('error with get');
+//   }
+//   if (response.statusCode == 404) {
+//     print('Request failed with status: ${response.statusCode}.');
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 }
-

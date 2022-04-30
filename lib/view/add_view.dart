@@ -147,9 +147,9 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                             {
                                               Navigator.pop(context),
                                               // 반환값이 없긴하는데 컴마로 구분해주는게 맞나?
-                                              setState(() {
-                                                planName.clear();
-                                              }),
+                                              // setState(() {
+                                              //   planName.clear();
+                                              // }),
                                               ref
                                                   .refresh(
                                                       todoListProvider.notifier)

@@ -106,7 +106,7 @@ class _BomColorState extends ConsumerState<BomColor> {
                           size: 38.0,
                         ),
                       ),
-                // if(isSelected.length > 4){
+                // if(isSelected.length > 4){ // provider로 생성해야할 듯
                 //
                 // }
               ],
@@ -151,7 +151,10 @@ class _BomColorState extends ConsumerState<BomColor> {
                   '선택',
                   style: TextStyle(fontSize: 20),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  isSelected.add(false); // provider refresh해주기
+                  Navigator.of(context).pop();
+                },
               ),
             ],
           )));
@@ -186,5 +189,5 @@ class _BomColorState extends ConsumerState<BomColor> {
         Colors.blueGrey,
         Colors.black,
       ],
-      onColorChanged: (color) => setState(() => this.color = color));
+      onColorChanged: (color) => setState(() => this.color = color)); // hexa값을 category에 넣기
 }

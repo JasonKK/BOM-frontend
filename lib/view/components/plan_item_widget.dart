@@ -102,7 +102,10 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Row(mainAxisAlignment: MainAxisAlignment.start ,children: [Text('삭제')]),
+                                    title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [Text('삭제')]),
                                     content: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -122,12 +125,9 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                          child: const Text('확인', style:TextStyle(color: Colors.red)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          }),
-                                      TextButton(
-                                          child: const Text('취소'),
+                                          child: const Text('확인',
+                                              style:
+                                                  TextStyle(color: Colors.red)),
                                           onPressed: () {
                                             ref
                                                 .read(todoListProvider.notifier)
@@ -157,10 +157,14 @@ class _PlanItemState extends ConsumerState<PlanItem> {
 //     .notifier)
 //     .getReadTodo(); // 이걸 써보고 로딩이 너무 길으면 위의 로컬에서 우선 대처로 유저경험 확보하기
                                             Navigator.of(context).pop();
+                                          }),
+                                      TextButton(
+                                          child: const Text('취소'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
                                             // final state = Slidable.of(ctx); // 삭제 확인 이후 dissmissed 적용시키려고 했는데 실패
                                             // state?.dismiss(ResizeRequest(Duration(milliseconds: 200), (){}));
-                                          }
-                                          )
+                                          })
                                     ],
                                   );
                                 },
@@ -195,7 +199,23 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                       )));
                         },
                         // 추후 카테고리 넣기 (daily)
-                        trailing: const Text('00:00:00'),
+                        leading: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 12.0),
+                          decoration: BoxDecoration(
+                            color: Color(0x26EF5DA8),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          child:
+                              Text(
+                                '과학', // plan의 category ID를 가지고 서버에서 category api 로직 만들면 적용
+                                style: TextStyle(
+                                    color: Colors.grey[900],
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                        ),
                         title: itemIsFocused
                             ? TextField(
                                 autofocus: true,
@@ -204,6 +224,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                               )
                             : Text(todo.planName!,
                                 style: const TextStyle(fontSize: 18.0)),
+                        trailing: const Text('00:00:00'), // plan의 time을 가져오기
                       ),
                     ),
                   ),
