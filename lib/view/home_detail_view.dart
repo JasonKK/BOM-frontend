@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
+import 'components/daily_statistic.dart';
 import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
@@ -171,6 +172,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                             loading: () => Container()),
                                       ],
                                     ),
+                                    SizedBox(height: 20.0),
+                                    HomePage(),
                                     SizedBox(height: 30.0),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
