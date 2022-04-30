@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
-import 'components/daily_statistic.dart';
+import 'components_statistics/daily_avg_data.dart';
+import 'components_statistics/daily_statistic.dart';
 import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
 import 'components/plan_item_widget.dart';
-import 'components/toggle_button_plan.dart';
+import 'components_statistics/toggle_button_plan.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);
@@ -182,6 +183,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       thickness: 2.0,
                                     ),
                                     plan_toggle_button(),
+                                    dailyAvgData(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
                                             ? Column(
