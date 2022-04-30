@@ -5,20 +5,13 @@ import 'dart:async';
 import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/repository/timer_repository.dart';
 
-class TimerApp extends StatelessWidget {
+class TimerApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'StopWatch', home: TimerPage());
-  }
+  State<TimerApp> createState() => _TimerAppState();
 }
 
-class TimerPage extends StatefulWidget {
-  @override
-  State<TimerPage> createState() => _TimerPageState();
-}
-
-class _TimerPageState extends State<TimerPage> {
-  late Timer _timer; //타이머
+class _TimerAppState extends State<TimerApp> {
+  Timer? _timer; //타이머
   var _time = 0; //실제 늘어난 시간
   var _isRunning = false; // 시작/정지의 상태
   int _total_time = 0;
@@ -32,7 +25,7 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -68,7 +61,7 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   void _pause() {
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   @override
@@ -113,6 +106,7 @@ class _TimerPageState extends State<TimerPage> {
               ),
             ),
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 Positioned(
                   top: 20,
@@ -123,34 +117,28 @@ class _TimerPageState extends State<TimerPage> {
                     style: TextStyle(fontSize: 25, color: Colors.white70),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Positioned(
-                    child: TextButton(
-                      onPressed: () => setState(() {
-                        _clickButton();
-                      }),
-                      child: _isRunning
-                          ? Icon(
-                              Icons.pause,
-                              size: 300,
-                              color: Color(0xff9747FF),
-                            )
-                          : Icon(
-                              Icons.play_arrow,
-                              size: 300,
-                              color: Color(0xff9747FF),
-                            ),
-                    ),
+                Positioned(
+                  child: TextButton(
+                    onPressed: () => setState(() {
+                      _clickButton();
+                    }),
+                    child: _isRunning
+                        ? Icon(
+                            Icons.pause,
+                            size: 300,
+                            color: Color(0xff9747FF),
+                          )
+                        : Icon(
+                            Icons.play_arrow,
+                            size: 300,
+                            color: Color(0xff9747FF),
+                          ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Positioned(
-                    child: Text(
-                      "$hour:$min:$sec",
-                      style: TextStyle(fontSize: 80, color: Colors.white),
-                    ),
+                Positioned(
+                  child: Text(
+                    "$hour:$min:$sec",
+                    style: TextStyle(fontSize: 80, color: Colors.white),
                   ),
                 ),
               ],

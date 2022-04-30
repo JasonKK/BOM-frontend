@@ -36,7 +36,7 @@ class TimerRepository {
   Future<int> getTotalTimeData() async {
     print("this is for get category color, plan name, time");
     final http.Response response = await http
-        .get(Uri.parse(urlApi + '/plan/total?date=2022-04-28&userId=1'));
+        .get(Uri.parse(urlApi + '/plan/total?date=2022-04-29&userId=1'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);

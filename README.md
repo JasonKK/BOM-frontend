@@ -32,6 +32,7 @@
 4. crud를 업데이트시 로컬에서 하는 것을 todo_provider의 future에 넣을지 고민
 5. 삭제시 옆으로 슬라이드 후 삭제 선택시 진행
 6. 수정 폼 만들기
+7. dispose, didchangedependencies적용하기
 
 ## 도입해야할 것
 
@@ -105,3 +106,8 @@ class _hiState extends State<hi> {
 # API 명세서
 - [Google Sheets](https://docs.google.com/spreadsheets/d/1EYzfAg_LJdW0g0yKkQs738Zvu3xNVzWYjcVTtgw34Is/edit#gid=0)
 - [Database Schema](https://slack-files.com/files-pri-safe/T02TZ17LQNB-F03B1HGK1FT/bom.pdf?c=1651018323-dd3ced303bb7c300)
+  
+
+# ref
+- [Hexadecimal color code for transparency](https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4)
+- [Icons](https://fonts.google.com/icons?selected=Material+Icons)
