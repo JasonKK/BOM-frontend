@@ -26,6 +26,7 @@ class _TimerPageState extends State<TimerPage> {
 
   Todo todo = new Todo();
 
+  @override
   void initState() {
     TimerRepository().getTimerData();
     super.initState();
