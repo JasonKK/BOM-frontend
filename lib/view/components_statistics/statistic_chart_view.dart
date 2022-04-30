@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:bom_front/model/statistic_model.dart';
+import 'package:bom_front/repository/statistic_repo.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +14,13 @@ class BarChartWeek extends StatefulWidget {
 
 class BarChartWeekState extends State<BarChartWeek> {
   final Color barBackgroundColor = const Color.fromRGBO(40, 35, 75, 0.1);
+  Statistic statistic_data = new Statistic();
 
   int touchedIndex = -1;
+
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +96,7 @@ class BarChartWeekState extends State<BarChartWeek> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        /*여기에 time 넣어야함 */
         switch (i) {
           case 0:
             return makeGroupData(0, 10, isTouched: i == touchedIndex);
