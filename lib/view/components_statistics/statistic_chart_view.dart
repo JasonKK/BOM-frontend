@@ -3,20 +3,17 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample1 extends StatefulWidget {
-  const BarChartSample1({Key? key}) : super(key: key);
+class BarChartWeek extends StatefulWidget {
+  const BarChartWeek({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => BarChartSample1State();
+  State<StatefulWidget> createState() => BarChartWeekState();
 }
 
-class BarChartSample1State extends State<BarChartSample1> {
-  final Color barBackgroundColor = const Color(0xbcbcbcbc);
-  final Duration animDuration = const Duration(milliseconds: 250);
+class BarChartWeekState extends State<BarChartWeek> {
+  final Color barBackgroundColor = const Color.fromRGBO(40, 35, 75, 0.1);
 
   int touchedIndex = -1;
-
-  bool isPlaying = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +44,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(
-                        isPlaying ? mainBarData() : mainBarData(),
-                        swapAnimationDuration: animDuration,
-                      ),
+                      child: BarChart(mainBarData()),
                     ),
                   ),
                   const SizedBox(
@@ -97,7 +91,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+            return makeGroupData(0, 10, isTouched: i == touchedIndex);
           case 1:
             return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
           case 2:
@@ -241,85 +235,5 @@ class BarChartSample1State extends State<BarChartSample1> {
         break;
     }
     return Padding(padding: const EdgeInsets.only(top: 16), child: text);
-  }
-
-  // BarChartData randomData() {
-  //   return BarChartData(
-  //     barTouchData: BarTouchData(
-  //       enabled: false,
-  //     ),
-  //     titlesData: FlTitlesData(
-  //       show: true,
-  //       bottomTitles: AxisTitles(
-  //         sideTitles: SideTitles(
-  //           showTitles: true,
-  //           getTitlesWidget: getTitles,
-  //           reservedSize: 38,
-  //         ),
-  //       ),
-  //       leftTitles: AxisTitles(
-  //         sideTitles: SideTitles(
-  //           showTitles: false,
-  //         ),
-  //       ),
-  //       topTitles: AxisTitles(
-  //         sideTitles: SideTitles(
-  //           showTitles: false,
-  //         ),
-  //       ),
-  //       rightTitles: AxisTitles(
-  //         sideTitles: SideTitles(
-  //           showTitles: false,
-  //         ),
-  //       ),
-  //     ),
-  //     borderData: FlBorderData(
-  //       show: false,
-  //     ),
-  //     barGroups: List.generate(7, (i) {
-  //       switch (i) {
-  //         case 0:
-  //           return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 1:
-  //           return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 2:
-  //           return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 3:
-  //           return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 4:
-  //           return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 5:
-  //           return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         case 6:
-  //           return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-  //               barColor: widget.availableColors[
-  //                   Random().nextInt(widget.availableColors.length)]);
-  //         default:
-  //           return throw Error();
-  //       }
-  //     }),
-  //     gridData: FlGridData(show: false),
-  //   );
-  // }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
-    if (isPlaying) {
-      await refreshState();
-    }
   }
 }

@@ -186,6 +186,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                     ),
                                     plan_toggle_button(),
                                     dailyAvgData(),
+                                    BarChartWeek(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
                                             ? Column(

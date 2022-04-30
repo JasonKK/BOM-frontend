@@ -13,7 +13,7 @@ class plan_toggle_button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6.0),
         child: CustomSlidingSegmentedControl<SegmentType>(
           initialValue: SegmentType.week,
           isStretch: true,
@@ -33,7 +33,7 @@ class plan_toggle_button extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
           thumbDecoration: BoxDecoration(
-            color: Colors.deepPurpleAccent,
+            color: Color(0xffA876DE),
             borderRadius: BorderRadius.circular(12),
           ),
           onValueChanged: (v) {
