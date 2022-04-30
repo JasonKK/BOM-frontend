@@ -1,18 +1,23 @@
+import 'package:bom_front/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../provider/todo_provider.dart';
 
 class BomCategory extends ConsumerStatefulWidget {
+  final Todo? data;
+  BomCategory({this.data});
+
   @override
   _BomCategoryState createState() => _BomCategoryState();
 }
 
 class _BomCategoryState extends ConsumerState<BomCategory> {
   late List<bool> isSelected;
-
   @override
   void initState() {
-    isSelected = [true, false, false, false, false];
+    isSelected = [false, false, false, false, false];
+    int index = widget.data?.categoryId ?? 0;
+    isSelected[index != 0 ? index - 1 : 0] = true;
     super.initState();
   }
 
@@ -295,7 +300,7 @@ class _BomCategoryState extends ConsumerState<BomCategory> {
                     ),
             ],
             onPressed: (int index) {
-              ref.read(categoryIdToCreate.notifier).state = index;
+              ref.read(categoryIdToCreate.notifier).state = index + 1;
               setState(() {
                 for (int i = 0; i < isSelected.length; i++) {
                   isSelected[i] = i == index;

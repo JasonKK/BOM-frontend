@@ -33,6 +33,10 @@
 5. 삭제시 옆으로 슬라이드 후 삭제 선택시 진행
 6. 수정 폼 만들기
 7. dispose, didchangedependencies적용하기
+8. Listview 적용하기 (카테고리 추가시)
+9. 반복 쪽 작업하기
+10. daily plan 페이지에서 날짜 별 클릭시 업데이트하기 plan Date
+11. plan 총 시간 업데이트하기
 
 ## 도입해야할 것
 

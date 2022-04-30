@@ -190,6 +190,12 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           /* start/stop timer*/
                         },
                         onLongPress: () {
+                          ref
+                              .read(categoryIdToCreate.notifier)
+                              .state = todo.categoryId!;
+                          ref
+                              .read(repetitionTypeToCreate.notifier)
+                              .state = todo.repetitionType!;
                           Navigator.push(
                               context,
                               MaterialPageRoute(

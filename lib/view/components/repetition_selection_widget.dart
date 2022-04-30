@@ -1,9 +1,13 @@
+import 'package:bom_front/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../provider/todo_provider.dart';
 
 class BomRepetition extends ConsumerStatefulWidget {
+  final Todo? data;
+  BomRepetition({this.data});
+
   @override
   _BomRepetitionState createState() => _BomRepetitionState();
 }
@@ -13,7 +17,8 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
 
   @override
   void initState() {
-    isSelected = [true, false, false, false];
+    isSelected = [false, false, false, false];
+    isSelected[widget.data?.repetitionType ?? 0] = true; // repetitionType이 3넘어갈 경우 에러 (오류 처리해주자)
     super.initState();
   }
 

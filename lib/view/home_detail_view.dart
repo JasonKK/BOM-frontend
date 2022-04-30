@@ -131,7 +131,9 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       // width: MediaQuery.of(context).size.width -
                                       //     60.0,
                                       padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0, bottom: 20.0),
+                                          left: 15.0,
+                                          right: 15.0,
+                                          bottom: 20.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -162,8 +164,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                             data: ((data) => Text(
                                                 '${data.toString()}개 획득',
                                                 style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold, fontSize: 18.0))),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0))),
                                             error: (err, stack) =>
                                                 Text('Error: $err'),
                                             loading: () => Container()),
@@ -215,6 +217,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
+                heroTag: 'back',
                 child: const Icon(Icons.expand_more),
                 backgroundColor: const Color(0xffffffff),
                 foregroundColor: Colors.grey,
@@ -227,71 +230,23 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 },
               ),
               const SizedBox(width: 105.0),
-              SpeedDial(
+              FloatingActionButton(
+                heroTag: 'add',
+                child: const Icon(Icons.add),
                 backgroundColor: const Color(0xffA876DE),
-                // add 0xff to front
-                icon: Icons.add,
-                activeIcon: Icons.close,
-                spacing: 3,
-                openCloseDial: isDialOpen,
-                buttonSize: const Size(56.0, 56.0),
-                childrenButtonSize: const Size(56.0, 56.0),
-                visible: true,
-                direction: SpeedDialDirection.up,
-                renderOverlay: true,
-                onOpen: () => debugPrint('OPENING DIAL'),
-                onClose: () => debugPrint('DIAL CLOSED'),
-                elevation: 8.0,
-                isOpenOnStart: false,
-                animationSpeed: 150,
-                overlayColor: Colors.black,
-                overlayOpacity: 0.5,
-                childMargin: const EdgeInsets.symmetric(horizontal: 8.0),
-                children: [
-                  SpeedDialChild(
-                    child: const Icon(
-                      Icons.post_add,
-                    ),
-                    backgroundColor: Colors.white,
-                    label: '추가',
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const AddPlan(type: false)));
-                    },
-                    onLongPress: () => debugPrint('FIRST CHILD LONG PRESS'),
-                  ),
-                  SpeedDialChild(
-                    child: const Icon(
-                      Icons.delete_outline,
-                    ),
-                    backgroundColor: Colors.white,
-                    label: '삭제',
-                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text(("Third Child Pressed")))),
-                    onLongPress: () => debugPrint('THIRD CHILD LONG PRESS'),
-                  ),
-                  SpeedDialChild(
-                      child: const Icon(
-                        Icons.edit_note,
-                      ),
-                      backgroundColor: Colors.white,
-                      // foregroundColor: Colors.white,
-                      label: '수정',
-                      visible: true,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AddPlan(
-                                      type: true,
-                                    ))); // 일단, 특정 플랜을 선택할 수 있게 하고 뒤에 그 플랜의 제목을 주어야한다.
-                        // 플랜을 눌렀을 때, 임시 수정할 수 있도록 하였다.
-                      }),
-                ],
-              ),
+                onPressed: () {
+                  ref
+                      .read(categoryIdToCreate.notifier)
+                      .state = 1;
+                  ref
+                      .read(repetitionTypeToCreate.notifier)
+                      .state = 0;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddPlan(type: false)));
+                },
+              )
             ],
           ),
         ),

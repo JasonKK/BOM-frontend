@@ -22,9 +22,6 @@ class _AddPlanState extends ConsumerState<AddPlan> {
 
   @override
   void initState() {
-    ref.read(categoryIdToCreate.notifier).state = 1;
-    ref.read(repetitionTypeToCreate.notifier).state = 0;
-
     setState(() {
       planName = TextEditingController(text: widget.data?.planName);
     });
@@ -32,9 +29,17 @@ class _AddPlanState extends ConsumerState<AddPlan> {
   }
 
   @override
+  void dispose() {
+    planName.dispose();
+    super.dispose();
+  }
+  // ref
+  //     .read(categoryIdToCreate.notifier)
+  //     .state = widget.data?.categoryId ?? 1;
+  @override
   Widget build(BuildContext context) {
-    final categoryId = ref.watch(categoryIdToCreate);
-    final repetitionTypeId = ref.watch(repetitionTypeToCreate);
+    int categoryId = ref.watch(categoryIdToCreate);
+    int repetitionTypeId = ref.watch(repetitionTypeToCreate);
     print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId');
     return Consumer(builder: (context, ref, child) {
       // final todos = ref.watch(todoListProvider);
@@ -58,23 +63,26 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                   children: [
                     widget.type == true
                         ? Text('목표 수정하기',
-                            style: TextStyle(
-                                fontSize: 30.0, fontWeight: FontWeight.bold))
+                        style: TextStyle(
+                            fontSize: 30.0, fontWeight: FontWeight.bold))
                         : Text('목표 만들기',
-                            style: TextStyle(
-                                fontSize: 30.0, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 30.0, fontWeight: FontWeight.bold)),
                     SizedBox(height: 20.0),
                     TextField(
                       // obscureText: true,
                       controller: planName,
+                      style: TextStyle(fontWeight: FontWeight.w600),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: '제목을 입력해주세요',
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                          const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                          const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                       ),
@@ -89,7 +97,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                         ],
                       ),
                     ),
-                    BomCategory(),
+                    BomCategory(data: widget.data),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -99,7 +107,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const CategoryPage()));
+                                      const CategoryPage()));
                             },
                             child: Text('+추가',
                                 style: TextStyle(
@@ -108,10 +116,6 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                     fontWeight: FontWeight.bold))),
                       ],
                     ),
-                    // Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: <Widget>[bomContainer()],
-                    // ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5.0),
                       child: Row(
@@ -122,142 +126,147 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                         ],
                       ),
                     ),
-                    BomRepetition(),
+                    BomRepetition(data: widget.data),
                     const SizedBox(height: 10),
                     widget.type == true
-                        //-------------------------------------------------------------------------------수정하기---------------------------------------------------------------------
+                    //-------------------------------------------------------------------------------수정하기---------------------------------------------------------------------
                         ? SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                final userPlanName = planName.text;
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final userPlanName = planName.text;
+                          ref
+                              .read(todoListProvider.notifier)
+                              .editReadTodo(Todo(
+                              planName: userPlanName,
+                              dailyId: widget.data!.dailyId,
+                              categoryId: categoryId,
+                              planId: widget.data!.planId,
+                              repetitionType: repetitionTypeId,
+                              check: widget.data!.check,
+                              time: widget.data!.time))
+                              .then((val) =>
+                          {
+                            if (val == true)
+                              {
                                 ref
-                                    .read(todoListProvider.notifier)
-                                    .editReadTodo(Todo(
-                                        planName: userPlanName,
-                                        dailyId: widget.data?.dailyId ?? 6,
-                                        // 아직 서버에서 미정
-                                        categoryId: categoryId,
-                                        planId: widget.data!.planId,
-                                        repetitionType: repetitionTypeId,
-                                        check: widget.data!.check,
-                                        time: widget.data!.time))
-                                    .then((val) => {
-                                          if (val == true)
-                                            {
-                                              Navigator.pop(context),
-                                              // 반환값이 없긴하는데 컴마로 구분해주는게 맞나?
+                                    .refresh(
+                                    todoListProvider.notifier)
+                                    .getReadTodo(),
+                                Navigator.pop(context),
+                                // 필수
+                                // 아래는 삭제 네트워크 만들고 테스트하기
+                                //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
+                              }
+                            else
+                              {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext ctx) =>
+                                      AlertDialog(
+                                        title: const Text("응답",
+                                            style: TextStyle(
+                                                color: Colors.red)),
+                                        content: const Text(
+                                            "수정작업이 실패하였습니다."),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(ctx)
+                                                  .pop(); // ok
+                                            },
+                                            child: const Text("뒤로가기"),
+                                          ),
+                                        ],
+                                      ),
+                                )
+                              }
+                          });
+                        },
+                        child: const Text('완료',
+                            style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w600)),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xffA876DE),
+                            onPrimary: Colors.white,
+                            padding:
+                            EdgeInsets.symmetric(vertical: 15.0)),
+                      ),
+                    )
+                    //-------------------------------------------------------------------------------추가하기---------------------------------------------------------------------
+                        : SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final userPlanName = planName.text;
+
+                          ref
+                              .read(todoListProvider.notifier)
+                              .createReadTodo(Todo(
+                              planName: userPlanName,
+                              categoryId: categoryId,
+                              repetitionType: repetitionTypeId))
+                              .then((val) =>
+                          {
+                            if (val == true)
+                              {
+                                ref
+                                    .refresh(
+                                    todoListProvider.notifier)
+                                    .getReadTodo(), // 필수
+                                Navigator.pop(context),
+                              }
+                            else
+                              {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext ctx) =>
+                                      AlertDialog(
+                                        title: const Text("응답",
+                                            style: TextStyle(
+                                                color: Colors.red)),
+                                        content: const Text(
+                                            "추가작업이 실패하였습니다."),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
                                               // setState(() {
                                               //   planName.clear();
-                                              // }),
+                                              // });
                                               ref
                                                   .refresh(
-                                                      todoListProvider.notifier)
-                                                  .getReadTodo(),
-                                              // 필수
-                                              // 아래는 삭제 네트워크 만들고 테스트하기
-                                              //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
-                                            }
-                                          else
-                                            {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext ctx) =>
-                                                    AlertDialog(
-                                                  title: const Text("응답",
-                                                      style: TextStyle(
-                                                          color: Colors.red)),
-                                                  content: const Text(
-                                                      "수정작업이 실패하였습니다."),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(ctx)
-                                                            .pop(); // ok
-                                                      },
-                                                      child: const Text("뒤로가기"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            }
-                                        });
-                              },
-                              child: const Text('완료',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      fontWeight: FontWeight.w600)),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffA876DE),
-                                  onPrimary: Colors.white,
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 15.0)),
-                            ),
-                          )
-                        //-------------------------------------------------------------------------------추가하기---------------------------------------------------------------------
-                        : SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                final userPlanName = planName.text;
-
-                                ref
-                                    .read(todoListProvider.notifier)
-                                    .createReadTodo(Todo(
-                                        planName: userPlanName,
-                                        dailyId: widget.data?.dailyId ??
-                                            6, // 서버에서 아직 미정
-                                        categoryId: categoryId,
-                                        repetitionType: repetitionTypeId))
-                                    .then((val) => {
-                                          if (val == true)
-                                            {Navigator.pop(context)}
-                                          else
-                                            {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext ctx) =>
-                                                    AlertDialog(
-                                                  title: const Text("응답",
-                                                      style: TextStyle(
-                                                          color: Colors.red)),
-                                                  content: const Text(
-                                                      "추가작업이 실패하였습니다."),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          planName.clear();
-                                                        });
-                                                        ref
-                                                            .refresh(
-                                                                todoListProvider
-                                                                    .notifier)
-                                                            .getReadTodo(); // 필수
-                                                        // 아래는 삭제 네트워크 만들고 테스트하기
-                                                        //ref.read(todoListProvider.notifier).add(userPlanName, userDailyId, userCategoryId); // watch때문에 필요x
-                                                        Navigator.of(ctx)
-                                                            .pop(); // ok
-                                                      },
-                                                      child: const Text("뒤로가기"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            }
-                                        });
-                              },
-                              child: const Text('완료',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      fontWeight: FontWeight.w600)),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffA876DE),
-                                  onPrimary: Colors.white,
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 15.0)),
-                            ),
-                          ),
+                                                  todoListProvider
+                                                      .notifier)
+                                                  .getReadTodo(); // 필수
+                                              Navigator.of(ctx)
+                                                  .pop(); // ok
+                                            },
+                                            child: const Text("뒤로가기"),
+                                          ),
+                                        ],
+                                      ),
+                                )
+                              }
+                          });
+                        },
+                        child: const Text('완료',
+                            style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w600)),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xffA876DE),
+                            onPrimary: Colors.white,
+                            padding:
+                            EdgeInsets.symmetric(vertical: 15.0)),
+                      ),
+                    ),
                   ],
                 ),
               ),
