@@ -10,8 +10,10 @@ import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
 import 'components/plan_item_widget.dart';
+import 'components/toggle_button_plan.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);
@@ -173,8 +175,13 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       ],
                                     ),
                                     SizedBox(height: 20.0),
-                                    HomePage(),
-                                    SizedBox(height: 30.0),
+                                    DailyChart(),
+                                    SizedBox(height: 40.0),
+                                    Divider(
+                                      color: Colors.grey,
+                                      thickness: 2.0,
+                                    ),
+                                    plan_toggle_button(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
                                             ? Column(

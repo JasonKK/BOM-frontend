@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-class HomePage extends StatelessWidget {
+class DailyChart extends StatelessWidget {
   Map<String, double> dataMap = {
     "국어": 5,
     "수학": 3,
