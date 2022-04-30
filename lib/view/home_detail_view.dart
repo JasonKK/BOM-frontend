@@ -1,3 +1,5 @@
+import 'package:bom_front/view/components_statistics/statistic_chart_view.dart';
+import 'package:bom_front/view/components_statistics/statistic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -5,12 +7,16 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
+import 'components_statistics/daily_avg_data.dart';
+import 'components_statistics/daily_statistic.dart';
 import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
 import 'components/plan_item_widget.dart';
+import 'components_statistics/toggle_button_plan.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);
@@ -171,7 +177,16 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                             loading: () => Container()),
                                       ],
                                     ),
-                                    SizedBox(height: 30.0),
+                                    SizedBox(height: 20.0),
+                                    DailyChart(),
+                                    SizedBox(height: 40.0),
+                                    Divider(
+                                      color: Colors.grey,
+                                      thickness: 2.0,
+                                    ),
+                                    plan_toggle_button(),
+                                    dailyAvgData(),
+                                    BarChartWeek(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
                                             ? Column(

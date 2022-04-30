@@ -1,3 +1,5 @@
+/* this is timer_model.dart */
+
 import 'package:bom_front/view/components/timer_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,16 +7,23 @@ import 'dart:async';
 import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/repository/timer_repository.dart';
 
-class TimerApp extends StatefulWidget {
+class TimerApp extends StatelessWidget {
   @override
-  State<TimerApp> createState() => _TimerAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(title: 'StopWatch', home: TimerPage());
+  }
 }
 
-class _TimerAppState extends State<TimerApp> {
-  Timer? _timer; //타이머
+class TimerPage extends StatefulWidget {
+  @override
+  State<TimerPage> createState() => _TimerPageState();
+}
+
+class _TimerPageState extends State<TimerPage> {
+  late Timer _timer; //타이머
   var _time = 0; //실제 늘어난 시간
   var _isRunning = false; // 시작/정지의 상태
-  int _total_time = 0;
+
   Todo todo = new Todo();
 
   void initState() {
@@ -25,13 +34,12 @@ class _TimerAppState extends State<TimerApp> {
   }
 
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     super.dispose();
   }
 
-  Future<void> updateData() async {
+  void updateData() {
     _time = todo.time ?? 0;
-    _total_time = await TimerRepository().getTotalTimeData();
   }
 
   void _clickButton() {
@@ -49,7 +57,6 @@ class _TimerAppState extends State<TimerApp> {
     _timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       setState(() {
         _time++;
-        _total_time++;
         count++;
         if (count == 30) {
           count = 0;
@@ -61,7 +68,7 @@ class _TimerAppState extends State<TimerApp> {
   }
 
   void _pause() {
-    _timer?.cancel();
+    _timer.cancel();
   }
 
   @override
@@ -78,17 +85,9 @@ class _TimerAppState extends State<TimerApp> {
     int minutes = (_time ~/ 3600).truncate();
     int seconds = (_time ~/ 60).truncate();
 
-    int total_hours = (_total_time ~/ 216000).truncate();
-    int total_minutes = (_total_time ~/ 3600).truncate();
-    int total_seconds = (_total_time ~/ 60).truncate();
-
     var hour = (hours % 60).toString().padLeft(2, '0');
     var min = (minutes % 60).toString().padLeft(2, '0');
     var sec = (seconds % 60).toString().padLeft(2, '0');
-
-    var total_hour = (total_hours % 60).toString().padLeft(2, '0');
-    var total_min = (total_minutes % 60).toString().padLeft(2, '0');
-    var total_sec = (total_seconds % 60).toString().padLeft(2, '0');
 
     return (Center(
       child: Column(
@@ -106,39 +105,44 @@ class _TimerAppState extends State<TimerApp> {
               ),
             ),
             child: Stack(
-              alignment: Alignment.center,
               children: [
                 Positioned(
                   top: 20,
                   right: 130,
                   child: Text(
-                    "오늘\n" + "$total_hour:$total_min:$total_sec",
+                    "오늘\n" + "$hour:$min:$sec",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 25, color: Colors.white70),
                   ),
                 ),
-                Positioned(
-                  child: TextButton(
-                    onPressed: () => setState(() {
-                      _clickButton();
-                    }),
-                    child: _isRunning
-                        ? Icon(
-                            Icons.pause,
-                            size: 300,
-                            color: Color(0xff9747FF),
-                          )
-                        : Icon(
-                            Icons.play_arrow,
-                            size: 300,
-                            color: Color(0xff9747FF),
-                          ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Positioned(
+                    child: TextButton(
+                      onPressed: () => setState(() {
+                        _clickButton();
+                      }),
+                      child: _isRunning
+                          ? Icon(
+                              Icons.pause,
+                              size: 300,
+                              color: Color(0xff9747FF),
+                            )
+                          : Icon(
+                              Icons.play_arrow,
+                              size: 300,
+                              color: Color(0xff9747FF),
+                            ),
+                    ),
                   ),
                 ),
-                Positioned(
-                  child: Text(
-                    "$hour:$min:$sec",
-                    style: TextStyle(fontSize: 80, color: Colors.white),
+                Align(
+                  alignment: Alignment.center,
+                  child: Positioned(
+                    child: Text(
+                      "$hour:$min:$sec",
+                      style: TextStyle(fontSize: 80, color: Colors.white),
+                    ),
                   ),
                 ),
               ],

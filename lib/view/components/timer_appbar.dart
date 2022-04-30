@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import '../../model/todo.dart';
 
 class TimerAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const TimerAppBar({Key? key})
-      : preferredSize = const Size.fromHeight(kToolbarHeight),
-        super(key: key);
-
   @override
   State<TimerAppBar> createState() => _TimerAppBarState();
 
-  final Size preferredSize;
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => throw UnimplementedError();
 }
 
 class _TimerAppBarState extends State<TimerAppBar> {
