@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TimerAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const TimerAppBar({Key? key})
+      : preferredSize = const Size.fromHeight(kToolbarHeight),
+        super(key: key);
+
   @override
   State<TimerAppBar> createState() => _TimerAppBarState();
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => throw UnimplementedError();
+  final Size preferredSize; // default is 56.0
 }
 
 class _TimerAppBarState extends State<TimerAppBar> {
@@ -23,7 +26,7 @@ class _TimerAppBarState extends State<TimerAppBar> {
       leading: IconButton(
         //뒤로가기 버튼
         icon: const Icon(Icons.arrow_back),
-        tooltip: "Next page",
+        tooltip: "Back page",
         onPressed: () {
           Navigator.pop(context); // 뒤로가기
         },
