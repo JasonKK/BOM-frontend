@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/statistic_model.dart';
+
 class dailyAvgData extends StatelessWidget {
-  const dailyAvgData({Key? key}) : super(key: key);
+  Statistic statistic_data = new Statistic();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class dailyAvgData extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "4시간 30분",
+                      "${statistic_data.averageTime}",
                       style: TextStyle(
                         fontSize: 25,
                       ),
