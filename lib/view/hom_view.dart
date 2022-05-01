@@ -1,3 +1,4 @@
+import 'package:bom_front/provider/user_privider.dart';
 import 'package:bom_front/view/components/appbar.dart';
 import 'package:bom_front/view/components/calendar.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // AsyncValue<List<Todo>> asyncTodos = ref.watch(planStateFuture); -> error 처리와 많은 양을 불러올 때 로딩필요시
     // final todos = ref.watch(todoListProvider);
     final todos = ref.watch(filteredTodos);
-    print('current todos length = ${todos.length}');
-    for (var i = 0; i < todos.length; i++) {
-      print('Each plan\'s repetitionType = ${todos[i].repetitionType}');
-    }
+    final user = ref.watch(userProvider);
+    // print('current todos length = ${todos.length}');
+    print('current user id = ${user.userId}');
+    // for (var i = 0; i < todos.length; i++) {
+    //   print('Each plan\'s repetitionType = ${todos[i].repetitionType}');
+    // }
 
     return Scaffold(
         appBar: const BomAppBar(),

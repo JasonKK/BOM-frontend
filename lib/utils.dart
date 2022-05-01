@@ -59,5 +59,10 @@ String getTodayAnotherFormat(){
   return DateFormat('yyy.MM.dd EEE', 'ko_KR')
       .format(DateTime.now().add(const Duration(hours: 9))).toString();
 }
+
+String getTodayKoreanFormat(){
+  return DateFormat('yyy년MM월dd일', 'ko_KR')
+      .format(DateTime.now().add(const Duration(hours: 9))).toString();
+}
 // int min = secTime ~/ 60;
 // int sec = secTime % 60;

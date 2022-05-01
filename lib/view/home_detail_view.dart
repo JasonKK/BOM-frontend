@@ -136,14 +136,14 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: const [
+                                        children: [
                                           Text('통계',
                                               style: TextStyle(
                                                 color: Color(0xff838383),
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16.0,
                                               )),
-                                          Text('2022년 4월 25일',
+                                          Text('${getTodayKoreanFormat()}',
                                               style: TextStyle(
                                                 color: Color(0xff838383),
                                                 fontWeight: FontWeight.w500,
