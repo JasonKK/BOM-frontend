@@ -219,16 +219,16 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                           ),
                                           onValueChanged: (v) {
                                             print(v);
-                                            Container(
-                                              child: SegmentType.week == v
-                                                  ? const BarChartWeek()
-                                                  : const BarChartMonthly(),
-                                            );
+                                            // Container(
+                                            //   child: SegmentType.week == v
+                                            //       ? const BarChartWeek()
+                                            //       : const BarChartMonthly(),
+                                            // );
                                           },
                                         ),
                                       ),
                                     ),
-                                    // BarChartWeek(),
+                                    BarChartWeek(),
                                     // BarChartMonthly(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
