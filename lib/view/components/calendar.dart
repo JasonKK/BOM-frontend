@@ -16,7 +16,7 @@ class BomCalendar extends ConsumerStatefulWidget {
 
 class _BomCalendarState extends ConsumerState<BomCalendar>
     with TickerProviderStateMixin {
-  DateTime _focusedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now().add(const Duration(hours: 9));
   DateTime? _selectedDay;
   late AnimationController _animationController;
 
@@ -36,6 +36,7 @@ class _BomCalendarState extends ConsumerState<BomCalendar>
       locale: 'ko-KR',
       firstDay: kFirstDay,
       lastDay: kLastDay,
+      currentDay: DateTime.now().add(const Duration(hours: 9)),
       focusedDay: _focusedDay,
       calendarFormat: widget.pageCalendarFormat,
       availableCalendarFormats: const {

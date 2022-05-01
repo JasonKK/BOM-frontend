@@ -44,16 +44,20 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
   );
 }
 
-final kToday = DateTime.now();
+final kToday = DateTime.now().add(const Duration(hours: 9));
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 String getToday(){
-  final now = DateTime.now();
+  final now = DateTime.now().add(const Duration(hours: 9)); // kr: utc + 9
   DateFormat formatter = DateFormat('yyyy-MM-dd');
   String strToday = formatter.format(now);
   return strToday;
 }
 
+String getTodayAnotherFormat(){
+  return DateFormat('yyy.MM.dd EEE', 'ko_KR')
+      .format(DateTime.now().add(const Duration(hours: 9))).toString();
+}
 // int min = secTime ~/ 60;
 // int sec = secTime % 60;

@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
+import '../utils.dart';
 import 'add_view.dart';
 import 'components/appbar.dart';
 import 'components/bottom_navigation.dart';
@@ -48,9 +49,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                DateFormat('yyy.MM.dd EEE', 'ko_KR')
-                                    .format(DateTime.now())
-                                    .toString(),
+                                getTodayAnotherFormat(),
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20.0)),
                             const Text("00:00:00",
