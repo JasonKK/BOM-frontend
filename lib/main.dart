@@ -1,4 +1,4 @@
-import 'package:bom_front/view/components_statistics/statistic_chart_view.dart';
+import 'package:bom_front/view/components_statistics/statistic_chart_view_weekly.dart';
 import 'package:bom_front/view/components_statistics/toggle_button_plan.dart';
 import 'package:bom_front/view/hom_view.dart';
 import 'package:flutter/material.dart';

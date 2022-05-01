@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/statistic_model.dart';
 
-class dailyAvgData extends StatelessWidget {
+class monthlyAvgData extends StatelessWidget {
   Statistic statistic_data = new Statistic();
 
   @override
@@ -48,7 +48,7 @@ class dailyAvgData extends StatelessWidget {
                     height: 15,
                   ),
                   Text(
-                    "63개",
+                    "500개",
                     style: TextStyle(
                       fontSize: 25,
                     ),

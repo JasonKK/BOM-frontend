@@ -1,4 +1,6 @@
-import 'package:bom_front/view/components_statistics/statistic_chart_view.dart';
+import 'package:bom_front/view/components_statistics/avg_data_monthly.dart';
+import 'package:bom_front/view/components_statistics/statistic_chart_view_monthly.dart';
+import 'package:bom_front/view/components_statistics/statistic_chart_view_weekly.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -6,8 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
-import 'components_statistics/daily_avg_data.dart';
-import 'components_statistics/daily_statistic.dart';
+import 'components_statistics/avg_data_weekly.dart';
+import 'components_statistics/statistic_daily.dart';
 import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
@@ -16,6 +18,8 @@ import 'package:custom_sliding_segmented_control/custom_sliding_segmented_contro
 
 import 'components/plan_item_widget.dart';
 import 'components_statistics/toggle_button_plan.dart';
+
+enum SegmentType { week, month }
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);
@@ -27,6 +31,7 @@ class HomeDetailScreen extends ConsumerStatefulWidget {
 class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   int index = 2;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+  late String value = "week";
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +188,48 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       color: Colors.grey,
                                       thickness: 2.0,
                                     ),
-                                    plan_toggle_button(),
-                                    dailyAvgData(),
-                                    BarChartWeek(),
+                                    Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6.0),
+                                        child: CustomSlidingSegmentedControl<
+                                            SegmentType>(
+                                          initialValue: SegmentType.week,
+                                          isStretch: true,
+                                          children: const {
+                                            SegmentType.week: Text(
+                                              '주',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SegmentType.month: Text(
+                                              '월',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          },
+                                          innerPadding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                          ),
+                                          thumbDecoration: BoxDecoration(
+                                            color: Color(0xffA876DE),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          onValueChanged: (v) {
+                                            print(v);
+                                            Container(
+                                              child: SegmentType.week == v
+                                                  ? const BarChartWeek()
+                                                  : const BarChartMonthly(),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    // BarChartWeek(),
+                                    // BarChartMonthly(),
                                     dailyTimes.when(
                                         data: ((data) => data ~/ 60 > 59
                                             ? Column(
