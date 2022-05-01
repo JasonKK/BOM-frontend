@@ -99,19 +99,26 @@ class BarChartWeekState extends State<BarChartWeek> {
         /*여기에 time 넣어야함 */
         switch (i) {
           case 0:
-            return makeGroupData(0, 10, isTouched: i == touchedIndex);
+            return makeGroupData(0, statistic_data.timeSumWeek?[0] ?? 0,
+                isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(1, statistic_data.timeSumWeek?[1] ?? 0,
+                isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
+            return makeGroupData(2, statistic_data.timeSumWeek?[2] ?? 0,
+                isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+            return makeGroupData(3, statistic_data.timeSumWeek?[3] ?? 0,
+                isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
+            return makeGroupData(4, statistic_data.timeSumWeek?[4] ?? 0,
+                isTouched: i == touchedIndex);
           case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
+            return makeGroupData(5, statistic_data.timeSumWeek?[5] ?? 0,
+                isTouched: i == touchedIndex);
           case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(6, statistic_data.timeSumWeek?[6] ?? 0,
+                isTouched: i == touchedIndex);
           default:
             return throw Error();
         }

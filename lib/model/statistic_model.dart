@@ -7,8 +7,8 @@ class Statistic {
   final int? stars;
   final int? averageTime;
   final int? time;
-  final Array<Int>? timeSumWeek;
-  final Array<Int>? timeSumMonth;
+  final List<double>? timeSumWeek;
+  final List<double>? timeSumMonth;
 
   const Statistic(
       {this.stars,
