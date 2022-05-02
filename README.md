@@ -25,18 +25,16 @@
 
 # 해야할 것
 
-1. mothly와 daily plan 디자인 구별
-    - 카테고리 (1: ) 추가하기
-2. calendar 날짜 특정 날짜 선택시 해당 plandetails로 이동(plandetails라면 해당 날짜 data update)하기
-3. calendar에 날짜별로 획득한 별 추가하기
-4. crud를 업데이트시 로컬에서 하는 것을 todo_provider의 future에 넣을지 고민
-5. 삭제시 옆으로 슬라이드 후 삭제 선택시 진행
-6. 수정 폼 만들기
-7. dispose, didchangedependencies적용하기
-8. Listview 적용하기 (카테고리 추가시)
-9. 반복 쪽 작업하기
-10. daily plan 페이지에서 날짜 별 클릭시 업데이트하기 plan Date
-11. plan 총 시간 업데이트하기
+1. calendar 날짜 특정 날짜 선택시 해당 plandetails로 이동(plandetails라면 해당 날짜 data update)하기
+   - daily plan 페이지에서 날짜 별 클릭시 업데이트하기 plan Date
+2. calendar에 날짜별로 획득한 별 추가하기
+3. crud를 업데이트시 로컬에서 하는 것을 todo_provider의 future에 넣을지 고민
+4. 수정 폼 만들기
+   - 카테고리
+   - 반복의 요일, 제한 날짜 선택 추가
+5. dispose, didchangedependencies적용하기
+6. Listview 적용하기 (카테고리 추가시)
+7. plan 총 시간 업데이트하기
 
 ## 도입해야할 것
 

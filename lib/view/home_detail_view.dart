@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import '../utils.dart';
@@ -9,8 +8,6 @@ import 'add_view.dart';
 import 'components/appbar.dart';
 import 'components/bottom_navigation.dart';
 import 'components/calendar.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
 import 'components/plan_item_widget.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {

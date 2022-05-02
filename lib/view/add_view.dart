@@ -1,9 +1,11 @@
 import 'package:bom_front/model/todo.dart';
 import 'package:bom_front/view/category_view.dart';
+import 'package:bom_front/view/components/show_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../provider/todo_provider.dart';
 import 'components/category_selection_widget.dart';
+import 'components/day_of_the_week_selection_widget.dart';
 import 'components/repetition_selection_widget.dart';
 
 class AddPlan extends ConsumerStatefulWidget {
@@ -127,6 +129,9 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                       ),
                     ),
                     BomRepetition(data: widget.data),
+                    WeekDaySelection(),
+                    ShowDate(),
+
                     const SizedBox(height: 10),
                     widget.type == true
                     //-------------------------------------------------------------------------------수정하기---------------------------------------------------------------------
