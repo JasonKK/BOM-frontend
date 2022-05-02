@@ -17,7 +17,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
 
   @override
   void initState() {
-    isSelected = [false, false, false, false];
+    isSelected = [false, false, false];
     isSelected[widget.data?.repetitionType ?? 0] = true; // repetitionType이 3넘어갈 경우 에러 (오류 처리해주자)
     super.initState();
   }
@@ -42,7 +42,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xffdddddd), width: 2.3),
+                        border: Border.all(color: Color(0xffdddddd), width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -58,7 +58,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2.3),
+                        border: Border.all(color: Colors.black, width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -75,7 +75,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xffdddddd), width: 2.3),
+                        border: Border.all(color: Color(0xffdddddd), width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -91,7 +91,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2.3),
+                        border: Border.all(color: Colors.black, width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -108,7 +108,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xffdddddd), width: 2.3),
+                        border: Border.all(color: Color(0xffdddddd), width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -124,7 +124,7 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2.3),
+                        border: Border.all(color: Colors.black, width: 1.8),
                         borderRadius: BorderRadius.all(Radius.circular(18.0)),
                       ),
                       child: Text(
@@ -133,35 +133,6 @@ class _BomRepetitionState extends ConsumerState<BomRepetition> {
                             color: Colors.grey[900],
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold),
-                      ),
-                    ),
-              !isSelected[3]
-                  ? Container(
-                      margin: EdgeInsets.only(right: 3.0),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xffdddddd), width: 2.3),
-                        borderRadius: BorderRadius.all(Radius.circular(18.0)),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        size: 22.0,
-                        color: Colors.black,
-                      ),
-                    )
-                  : Container(
-                      margin: EdgeInsets.only(right: 3.0),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 2.3),
-                        borderRadius: BorderRadius.all(Radius.circular(18.0)),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        size: 22.0,
-                        color: Colors.black,
                       ),
                     ),
             ],

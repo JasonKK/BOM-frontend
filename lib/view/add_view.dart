@@ -40,11 +40,11 @@ class _AddPlanState extends ConsumerState<AddPlan> {
   //     .state = widget.data?.categoryId ?? 1;
   @override
   Widget build(BuildContext context) {
-    int categoryId = ref.watch(categoryIdToCreate);
-    int repetitionTypeId = ref.watch(repetitionTypeToCreate);
-    print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId');
     return Consumer(builder: (context, ref, child) {
       // final todos = ref.watch(todoListProvider);
+      int categoryId = ref.watch(categoryIdToCreate);
+      int repetitionTypeId = ref.watch(repetitionTypeToCreate);
+      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId');
       return Scaffold(
           appBar: AppBar(
             title: const Text(''),
@@ -129,9 +129,15 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                       ),
                     ),
                     BomRepetition(data: widget.data),
-                    WeekDaySelection(),
-                    ShowDate(),
-
+                    if(repetitionTypeId != 0)...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ShowDate(),
+                        ],
+                      ),
+                      WeekDaySelection(),
+                    ],
                     const SizedBox(height: 10),
                     widget.type == true
                     //-------------------------------------------------------------------------------수정하기---------------------------------------------------------------------

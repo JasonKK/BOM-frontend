@@ -8,7 +8,7 @@ class WeekDaySelection extends StatefulWidget {
 }
 
 class _WeekDaySelectionState extends State<WeekDaySelection> {
-  final values = <bool?>[false, false, true, true, false, false, true]; // 일 월 화 수 목 금 토
+  final values = <bool?>[false, false, false, false, false, false, false]; // 일 월 화 수 목 금 토
 
   @override
   Widget build(BuildContext context) {
