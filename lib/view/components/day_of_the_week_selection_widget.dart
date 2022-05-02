@@ -21,7 +21,6 @@ class _WeekDaySelectionState extends State<WeekDaySelection> {
           selectedFillColor: Color(0xffA876DE),
           shape: CircleBorder(
             side: BorderSide(color: Colors.grey.withOpacity(0.5)),
-
           ),
           onChanged: (v) {
             setState(() {
