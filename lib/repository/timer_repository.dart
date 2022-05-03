@@ -5,41 +5,42 @@ import 'package:http/http.dart' as http;
 class TimerRepository {
   static const urlApi =
       'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
+  /*
+  시간 30분 될때마다 별 증가 API 탕탕탕!
 
-  Future<Todo> getTimerData() async {
-    print("this is for get category color, plan name, time");
-    final http.Response response =
-        await http.get(Uri.parse(urlApi + '/plan/1/data'));
-
-    if (response.statusCode == 200) {
-      return Todo.fromJson(jsonDecode(response.body));
-    } else {
-      print("ERROR by this status : ${response.statusCode}");
-      throw Exception("Failed to load timerdata");
-    }
-  }
-
-  Future<Todo> postStarData() async {
-    print("this is count seconds and send how many stars user get");
+   */
+  Future postStarData() async {
+    print("shooting stars");
 
     final http.Response response =
         await http.post(Uri.parse(urlApi + '/plan/star'));
-
-    if (response.statusCode == 200) {
-      return Todo.fromJson(jsonDecode(response.body));
+    print(response.body);
+    if (response.body == null) {
+      print('error with get stars');
+    }
+    if (response.body.isNotEmpty) {
+      return true;
     } else {
       print("ERROR by this status : ${response.statusCode}");
       throw Exception("Failed to load timerdata");
     }
   }
 
-  Future<int> getTotalTimeData() async {
-    print("this is for get category color, plan name, time");
-    final http.Response response = await http
-        .get(Uri.parse(urlApi + '/plan/total?date=2022-04-29&userId=1'));
-
+  /*
+  타이머 실행시 해당 타이머 데이터를 받아올 때 사용된다.
+   */
+  Future<int> getTimeData() async {
+    print("Fetch time data...");
+    final http.Response response =
+        await http.get(Uri.parse(urlApi + '/plan/' + 'planId' + 'time'));
+    if (response.body == null) {
+      print('error with get timeData');
+    }
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
+      if (body['totalTime'] == null) {
+        print("Error because totalTime is empty");
+      }
       return body['totalTime'];
     } else {
       print("ERROR by this status : ${response.statusCode}");
