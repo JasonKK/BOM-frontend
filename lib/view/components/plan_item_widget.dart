@@ -189,10 +189,8 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                         enabled: !todo.check!,
                         onTap: () {
                           print("눌러졌습니다.");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TimerApp()));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => MyApp()));
                         },
                         onLongPress: () {
                           Navigator.push(
