@@ -28,13 +28,13 @@ class TodoList extends StateNotifier<List<Todo>> {
    }
   }
 
-  Future createReadTodo(Todo todo) async{
-    final plans = await _repository.createTodo(todo); // final plans = await _repository!.createTodo(plan);
+  Future createReadTodo(Todo todo, String userSlectedDate) async{
+    final plans = await _repository.createTodo(todo, userSlectedDate); // final plans = await _repository!.createTodo(plan);
     return plans;
   }
 
-  Future editReadTodo(Todo todo) async{
-    final plans = await _repository.editTodo(todo);
+  Future editReadTodo(Todo todo, String userSlectedDate) async{
+    final plans = await _repository.editTodo(todo, userSlectedDate);
     return plans;
   }
 
@@ -134,3 +134,5 @@ final loadDailyTotalTimes = FutureProvider<int>(
 
 final categoryIdToCreate = StateProvider((ref) => 1);
 final repetitionTypeToCreate = StateProvider((ref) => 0);
+final limitedDate = StateProvider((ref) => '');
+final selectedWeek = StateProvider<List<int>>((ref) => [0,0,0,0,0,0,0]);

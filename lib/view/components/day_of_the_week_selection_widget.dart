@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:weekday_selector/weekday_selector.dart'; // 기본 내장
+import 'package:weekday_selector/weekday_selector.dart';
+
+import '../../model/todo.dart'; // 기본 내장
 
 class WeekDaySelection extends StatefulWidget {
+  final Todo? data;
+  const WeekDaySelection({Key? key, required this.data}) : super(key: key);
   @override
   _WeekDaySelectionState createState() =>
       _WeekDaySelectionState();

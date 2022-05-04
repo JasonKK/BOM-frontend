@@ -15,16 +15,12 @@ class TodoRepository {
       print('error with get');
     }
     if (response.statusCode == 200) {
-      // var body = jsonDecode(response.body) as List<dynamic>;
-      Map<String, dynamic> body = json.decode(response.body);
-      // print('body => $body');
+      Map<String, dynamic> body = json.decode(response.body); // var body = jsonDecode(response.body) as List<dynamic>;
       if (body['result'] == null) {
         // opcode의 청체 파악 후 적용하기
         print('error because plan is empty');
       }
-
       List<dynamic> list = body['result'];
-      // print('todolist => $list');
       return list.map<Todo>((plan) => Todo.fromJson(plan)).toList();
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -32,16 +28,28 @@ class TodoRepository {
     }
   }
 
-  Future createTodo(Todo todos) async {
-    print('createTodo param : ${todos.categoryId} , ${todos.repetitionType}');
+  Future createTodo(Todo todos, String userSlectedDate) async {
     var url = Uri.parse(urlApi + '/plan');
+    var dateResult = userSlectedDate != '' ? userSlectedDate.split('/') : null;
+    int? year;
+    int? month;
+    if(dateResult != null){
+      year = int.parse(dateResult[0]);
+      month = int.parse(dateResult[1]);
+    }
+    print('year = $year / month = $month');
+    print('userId = ${todos.userId}');
+
     var response = await http.post(url,
         body: json.encode({
           "planName": todos.planName,
           "categoryId": todos.categoryId,
-          "userId": 1, // 추후 변경 하기
+          "userId": todos.userId, // 추후 변경 하기
           "date": '${getToday()}',
           "repetitionType": todos.repetitionType,
+          "year": year,
+          "moth": month,
+          "days": [0,0,0,0,0,0,0],
         }),
         headers: <String, String>{'Content-type': 'application/json'});
     print('createTodo => ${response.body}');
@@ -56,7 +64,7 @@ class TodoRepository {
     }
   }
 
-  Future editTodo(Todo todos) async {
+  Future editTodo(Todo todos, String userSlectedDate) async {
     var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}');
     var response = await http.patch(url,
         body: jsonEncode(todos),

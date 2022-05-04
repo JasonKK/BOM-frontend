@@ -33,7 +33,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // print('current todos length = ${todos.length}');
     print('current user id = ${user.userId}');
     // for (var i = 0; i < todos.length; i++) {
-    //   print('Each plan\'s repetitionType = ${todos[i].repetitionType}');
+    //   print('Each plan\'s userId = ${todos[i].userId}');
     // }
 
     return Scaffold(

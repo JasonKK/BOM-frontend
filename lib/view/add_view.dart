@@ -4,6 +4,7 @@ import 'package:bom_front/view/components/show_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../provider/todo_provider.dart';
+import '../provider/user_privider.dart';
 import 'components/category_selection_widget.dart';
 import 'components/day_of_the_week_selection_widget.dart';
 import 'components/repetition_selection_widget.dart';
@@ -35,18 +36,16 @@ class _AddPlanState extends ConsumerState<AddPlan> {
     planName.dispose();
     super.dispose();
   }
-
-  // ref
-  //     .read(categoryIdToCreate.notifier)
-  //     .state = widget.data?.categoryId ?? 1;
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       // final todos = ref.watch(todoListProvider);
       int categoryId = ref.watch(categoryIdToCreate);
       int repetitionTypeId = ref.watch(repetitionTypeToCreate);
+      String userSlectedDate = ref.watch(limitedDate);
+      final user = ref.watch(userProvider);
 
-      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId');
+      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate');
       return Scaffold(
           appBar: AppBar(
             title: const Text(''),
@@ -135,10 +134,10 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          ShowDate(),
+                          ShowDate(data: widget.data),
                         ],
                       ),
-                      WeekDaySelection(),
+                      WeekDaySelection(data: widget.data),
                     ],
                     const SizedBox(height: 10),
                     widget.type == true
@@ -157,7 +156,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                         planId: widget.data!.planId,
                                         repetitionType: repetitionTypeId,
                                         check: widget.data!.check,
-                                        time: widget.data!.time))
+                                        time: widget.data!.time), userSlectedDate)
                                     .then((val) => {
                                           if (val == true)
                                             {
@@ -219,7 +218,8 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                           .createReadTodo(Todo(
                                               planName: userPlanName,
                                               categoryId: categoryId,
-                                              repetitionType: repetitionTypeId))
+                                              userId: user.userId,
+                                              repetitionType: repetitionTypeId), userSlectedDate)
                                           .then((val) => {
                                                 if (val == true)
                                                   {

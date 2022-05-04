@@ -9,15 +9,24 @@ class Todo {
   final int? repetitionType;
   final int? dailyId;
   final int? categoryId;
+  final String? categoryName;
+  final String? color;
+  final bool? type;
+  final int? userId;
 
-  const Todo(
-      {this.planId,
-      this.time,
-      this.check,
-      this.repetitionType,
-      this.planName,
-      this.dailyId,
-      this.categoryId});
+  const Todo({
+    this.planId,
+    this.time,
+    this.check,
+    this.repetitionType,
+    this.planName,
+    this.dailyId,
+    this.categoryId,
+    this.categoryName,
+    this.color,
+    this.type,
+    this.userId,
+  });
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
@@ -28,6 +37,10 @@ class Todo {
       repetitionType: json['repetitionType'],
       dailyId: json['dailyId'],
       categoryId: json['categoryId'],
+      categoryName: json['categoryName'],
+      color: json['color'],
+      type: json['type'],
+      userId: json['userId'],
     );
   }
 
@@ -40,6 +53,10 @@ class Todo {
     data['repetitionType'] = repetitionType;
     data['dailyId'] = dailyId;
     data['categoryId'] = categoryId;
+    data['categoryName'] = categoryName;
+    data['color'] = color;
+    data['type'] = type;
+    data['userId'] = userId;
     return data;
   }
 }

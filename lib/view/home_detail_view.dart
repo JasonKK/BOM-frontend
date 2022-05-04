@@ -21,7 +21,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   int index = 2;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
-  String secToMin(int num){ // 계산 잘못됨
+  String secToMin(int num) {
+    // 계산 잘못됨
     int hours = (num ~/ 216000).truncate();
     int minutes = (num ~/ 3600).truncate();
     int seconds = (num ~/ 60).truncate();
@@ -39,7 +40,9 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
 
-    todos.forEach((element) {print(element.time!);});
+    todos.forEach((element) {
+      print(element.time!);
+    });
 
     return Scaffold(
         appBar: const BomAppBar(),
@@ -59,11 +62,14 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                                getTodayAnotherFormat(),
+                            Text(getTodayAnotherFormat(),
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20.0)),
-                            Text(secToMin(todos.fold(0, (previous, current) => previous + current.time!)),
+                            Text(
+                                secToMin(todos.fold(
+                                    0,
+                                    (previous, current) =>
+                                        previous + current.time!)),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 60.0)),
                           ],
@@ -245,12 +251,10 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 child: const Icon(Icons.add),
                 backgroundColor: const Color(0xffA876DE),
                 onPressed: () {
-                  ref
-                      .read(categoryIdToCreate.notifier)
-                      .state = 1;
-                  ref
-                      .read(repetitionTypeToCreate.notifier)
-                      .state = 0;
+                  ref.read(categoryIdToCreate.notifier).state = 1;
+                  ref.read(repetitionTypeToCreate.notifier).state = 0;
+                  ref.read(limitedDate.notifier).state = '';
+                  ref.read(selectedWeek.notifier).state = [0,0,0,0,0,0,0];
                   Navigator.push(
                       context,
                       MaterialPageRoute(

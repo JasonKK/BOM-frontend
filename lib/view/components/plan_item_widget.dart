@@ -196,6 +196,8 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           ref
                               .read(repetitionTypeToCreate.notifier)
                               .state = todo.repetitionType!;
+                          // 유저 limited 날짜랑 가지고 오기
+                          // 유저 위클리 선택 요일 가지고 오기
                           Navigator.push(
                               context,
                               MaterialPageRoute(
