@@ -211,15 +211,15 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           padding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                            color: Color(0x26EF5DA8),
+                            color: Color(int.parse(todo.color!)),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           child:
                               Text(
-                                '과학', // plan의 category ID를 가지고 서버에서 category api 로직 만들면 적용
+                                todo.categoryName!, // plan의 category ID를 가지고 서버에서 category api 로직 만들면 적용
                                 style: TextStyle(
-                                    color: Colors.grey[900],
+                                    color: Colors.white,
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold),
                               ),

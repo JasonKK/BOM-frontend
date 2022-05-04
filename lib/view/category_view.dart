@@ -24,7 +24,7 @@ class _CategoryPageState extends State<CategoryPage> {
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: Padding(
@@ -55,14 +55,106 @@ class _CategoryPageState extends State<CategoryPage> {
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text('색상:',
-                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 17)),
                         SizedBox(width: 10.0),
                         BomColor(),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 30.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('카테고리 분류:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 17)),
+                      SizedBox(width: 30.0),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.trip_origin,
+                            color: Color(0xffA876DE),
+                            size: 18.0,
+                          ),
+                          SizedBox(width: 1.0),
+                          Text(
+                            '과목',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 17),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 30.0),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.radio_button_unchecked,
+                            color: Color(0xffA876DE),
+                            size: 18.0,
+                          ),
+                          SizedBox(width: 1.0),
+                          Text(
+                            '기타',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 160,
+                        height: 60,
+                        child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: Color(0xffA876DE),
+                                //background color of button
+                                // side: BorderSide(width:3, color:Colors.brown), //border width and color
+                                // elevation: 3, //elevation of button
+                                shape: RoundedRectangleBorder(
+                                    //to set border radius to button
+                                    borderRadius: BorderRadius.circular(30)),
+                                padding: EdgeInsets.all(
+                                    20) //content padding inside button
+                                ),
+                            child: Text('저장',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white))),
+                      ),
+                      SizedBox(
+                        width: 160,
+                        height: 60,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: Color(0xffececec),
+                                //background color of button
+                                // side: BorderSide(width:3, color:Colors.brown), //border width and color
+                                // elevation: 3, //elevation of button
+                                shape: RoundedRectangleBorder(
+                                    //to set border radius to button
+                                    borderRadius: BorderRadius.circular(30)),
+                                padding: EdgeInsets.all(
+                                    20) //content padding inside button
+                                ),
+                            child: Text('취소',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black))),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

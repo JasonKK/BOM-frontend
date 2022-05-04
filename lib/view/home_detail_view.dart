@@ -23,9 +23,9 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
 
   String secToMin(int num) {
     // 계산 잘못됨
-    int hours = (num ~/ 216000).truncate();
-    int minutes = (num ~/ 3600).truncate();
-    int seconds = (num ~/ 60).truncate();
+    int hours = (num ~/ 21600).truncate();
+    int minutes = (num ~/ 360).truncate();
+    int seconds = (num ~/ 6).truncate();
 
     var hour = (hours % 60).toString().padLeft(2, '0');
     var min = (minutes % 60).toString().padLeft(2, '0');
@@ -66,10 +66,13 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20.0)),
                             Text(
-                                secToMin(todos.fold(
-                                    0,
-                                    (previous, current) =>
-                                        previous + current.time!)),
+                                // secToMin(todos.fold(
+                                //     0,
+                                //     (previous, current) =>
+                                //         previous + current.time!)
+                                // ),
+                                secToMin(600)
+                              ,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 60.0)),
                           ],

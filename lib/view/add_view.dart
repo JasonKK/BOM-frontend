@@ -43,9 +43,10 @@ class _AddPlanState extends ConsumerState<AddPlan> {
       int categoryId = ref.watch(categoryIdToCreate);
       int repetitionTypeId = ref.watch(repetitionTypeToCreate);
       String userSlectedDate = ref.watch(limitedDate);
+      List<int> userSelectedWeek = ref.watch(selectedWeek);
       final user = ref.watch(userProvider);
 
-      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate');
+      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
       return Scaffold(
           appBar: AppBar(
             title: const Text(''),
