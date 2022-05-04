@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class StatisticRepository {
   static const urlApi =
-      'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
+      'http://ec2-3-39-10-54.ap-northeast-2.compute.amazonaws.com';
 
   /*하루 시간 가져오는 코드 */
   Future<Statistic> getDailyTime() async {

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class TodoRepository {
   static const urlApi =
-      'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
+      'http://ec2-3-39-10-54.ap-northeast-2.compute.amazonaws.com';
 
   Future<List<Todo>> loadTodos() async {
     print('Fetch plan data...');
@@ -19,7 +19,8 @@ class TodoRepository {
       // var body = jsonDecode(response.body) as List<dynamic>;
       Map<String, dynamic> body = json.decode(response.body);
       // print('body => $body');
-      if (body['plans'] == null) {// opcode의 청체 파악 후 적용하기
+      if (body['plans'] == null) {
+        // opcode의 청체 파악 후 적용하기
         print('error because plan is empty');
       }
 
@@ -118,4 +119,3 @@ class TodoRepository {
     }
   }
 }
-
