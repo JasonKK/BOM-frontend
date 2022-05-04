@@ -4,7 +4,7 @@ import '../model/user.dart';
 
 class UserRepository{
   static const urlApi =
-      'http://ec2-3-39-177-232.ap-northeast-2.compute.amazonaws.com';
+      'http://ec2-3-39-10-54.ap-northeast-2.compute.amazonaws.com';
 
   Future<User> loadUser() async {
     print('Fetch User\'s data...');

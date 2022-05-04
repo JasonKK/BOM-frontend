@@ -21,12 +21,26 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   int index = 2;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
+  String secToMin(int num){ // 계산 잘못됨
+    int hours = (num ~/ 216000).truncate();
+    int minutes = (num ~/ 3600).truncate();
+    int seconds = (num ~/ 60).truncate();
+
+    var hour = (hours % 60).toString().padLeft(2, '0');
+    var min = (minutes % 60).toString().padLeft(2, '0');
+    var sec = (seconds % 60).toString().padLeft(2, '0');
+    return "${hour}:${min}:${sec}";
+  }
+
   @override
   Widget build(BuildContext context) {
     final todos = ref.watch(filteredTodos);
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
+
+    todos.forEach((element) {print(element.time!);});
+
     return Scaffold(
         appBar: const BomAppBar(),
         body: Center(
@@ -49,7 +63,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                 getTodayAnotherFormat(),
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20.0)),
-                            const Text("00:00:00",
+                            Text(secToMin(todos.fold(0, (previous, current) => previous + current.time!)),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 60.0)),
                           ],
