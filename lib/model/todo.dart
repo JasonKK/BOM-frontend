@@ -60,3 +60,25 @@ class Todo {
     return data;
   }
 }
+
+@immutable
+class MonthlyStars{
+  final int? obtainedStar;
+  final String? date;
+
+  MonthlyStars({this.obtainedStar, this.date});
+
+  factory MonthlyStars.fromJson(Map<String, dynamic> json) {
+    return MonthlyStars(
+        obtainedStar: json['obtainedStar'],
+        date: json['date']
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['obtainedStar'] = obtainedStar;
+    data['date'] = date;
+    return data;
+  }
+}

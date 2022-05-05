@@ -96,7 +96,7 @@ class TodoRepository {
   }
 
   Future<int> loadStars() async {
-    print('Fetch star data...');
+    // print('Fetch star data...');
     var url = Uri.parse(urlApi + '/plan/star?date=${getToday()}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
@@ -108,6 +108,27 @@ class TodoRepository {
         print('Error! because plan is empty');
       }
       return body['star'];
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      throw Exception('Can\'t get plans');
+    }
+  }
+
+  Future<List<MonthlyStars>> loadMonthlyStars() async {
+    print('Fetch ${DateTime.now().add(const Duration(hours: 9)).month}월 star data...');
+    var url = Uri.parse(urlApi + '/plan/month/all/star?date=${getToday()}&userId=1');
+    var response = await http.get(url);
+    if (response.body == null) {
+      print('error with get');
+    }
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = json.decode(response.body);
+      if (body['allMonthlyStars'] == null) {
+        print('Error! because plan is empty');
+      }
+      print('body => $body');
+      List<dynamic> list = body['allMonthlyStars'];
+      return list.map<MonthlyStars>((plan) => MonthlyStars.fromJson(plan)).toList();
     } else {
       print('Request failed with status: ${response.statusCode}.');
       throw Exception('Can\'t get plans');

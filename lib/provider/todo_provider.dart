@@ -136,3 +136,7 @@ final categoryIdToCreate = StateProvider((ref) => 1);
 final repetitionTypeToCreate = StateProvider((ref) => 0);
 final limitedDate = StateProvider((ref) => '');
 final selectedWeek = StateProvider<List<int>>((ref) => [0,0,0,0,0,0,0]);
+
+final montlyStarsProvider = FutureProvider.autoDispose<List<MonthlyStars>>(
+    (ref) => ref.watch(todoRepository).loadMonthlyStars()
+);
