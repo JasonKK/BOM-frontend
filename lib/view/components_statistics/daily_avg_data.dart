@@ -1,13 +1,17 @@
+import 'package:bom_front/provider/statistic_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../model/statistic_model.dart';
 
-class dailyAvgData extends StatelessWidget {
+class dailyAvgData extends ConsumerWidget {
   Statistic statistic_data = new Statistic();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final week_times = ref.watch(userWeekTimeProvider);
+    final week_stars = ref.watch(userWeekStarProvider);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: Padding(
@@ -29,7 +33,7 @@ class dailyAvgData extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      "${statistic_data.averageTime}",
+                      "$week_times",
                       style: TextStyle(
                         fontSize: 25,
                       ),
@@ -48,7 +52,7 @@ class dailyAvgData extends StatelessWidget {
                     height: 15,
                   ),
                   Text(
-                    "63개",
+                    "$week_stars",
                     style: TextStyle(
                       fontSize: 25,
                     ),
