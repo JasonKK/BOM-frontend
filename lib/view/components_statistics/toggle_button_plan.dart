@@ -1,16 +1,21 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../provider/statistic_provider.dart';
+import 'daily_avg_data.dart';
+import 'month_avg_data.dart';
 
 enum SegmentType { week, month }
 
-class plan_toggle_button extends StatelessWidget {
-  const plan_toggle_button({Key? key}) : super(key: key);
+final segmentType = StateProvider((ref) => SegmentType.week);
 
+class togglebuttonState extends HookConsumerWidget {
+  int? value;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -37,7 +42,11 @@ class plan_toggle_button extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           onValueChanged: (v) {
-            print(v);
+            if (v == SegmentType.week) {
+              ref.read(segmentType.notifier).state = SegmentType.week;
+            } else {
+              ref.read(segmentType.notifier).state = SegmentType.month;
+            }
           },
         ),
       ),
