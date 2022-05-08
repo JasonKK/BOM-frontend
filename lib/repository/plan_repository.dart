@@ -35,13 +35,16 @@ class TodoRepository {
   }
 
   Future createTodo(Todo todos, String userSlectedDate) async {
+    print('user => $day');
     var url = Uri.parse(urlApi + '/plan');
     var dateResult = userSlectedDate != '' ? userSlectedDate.split('/') : null;
     int? year;
     int? month;
+    int? theday;
     if (dateResult != null) {
       year = int.parse(dateResult[0]);
       month = int.parse(dateResult[1]);
+      theday = int.parse(dateResult[2]);
     }
     print('year = $year / month = $month');
     print('userId = ${todos.userId}');
@@ -51,10 +54,11 @@ class TodoRepository {
           "planName": todos.planName,
           "categoryId": todos.categoryId,
           "userId": todos.userId, // 추후 변경 하기
-          "date": '${getToday()}',
+          "date": '${getBasicDateFormat(day)}',
           "repetitionType": todos.repetitionType,
           "year": year,
           "moth": month,
+          "day": theday,
           "days": [0, 0, 0, 0, 0, 0, 0],
         }),
         headers: <String, String>{'Content-type': 'application/json'});

@@ -278,7 +278,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddPlan(type: false)));
+                          builder: (context) => AddPlan(type: false, dayToCreatePlan: userSelectedDay)));
                 },
               )
             ],

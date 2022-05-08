@@ -12,8 +12,9 @@ import 'components/repetition_selection_widget.dart';
 class AddPlan extends ConsumerStatefulWidget {
   final bool type; // for mode(false: add/true: edit) change
   final Todo? data;
+  final DateTime? dayToCreatePlan;
 
-  const AddPlan({Key? key, required this.type, this.data}) : super(key: key);
+  AddPlan({Key? key, required this.type, this.data, this.dayToCreatePlan}) : super(key: key);
 
   @override
   _AddPlanState createState() => _AddPlanState();
@@ -46,6 +47,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
       List<int> userSelectedWeek = ref.watch(selectedWeek);
       final user = ref.watch(userProvider);
 
+      print('plan Date : ${widget.dayToCreatePlan}');
       print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
       return Scaffold(
           appBar: AppBar(
