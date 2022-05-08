@@ -47,7 +47,7 @@ class StatisticRepository {
   }
 
 /*한주의 시간 가져오는 코드 */
-  Future<int> getWeekTime() async {
+  Future<double> getWeekTime() async {
     print("this is for get week time data");
     final http.Response response = await http.get(
         Uri.parse(urlApi + '/plan/week/average?date=${getToday()}&userId=1'));
@@ -65,7 +65,7 @@ class StatisticRepository {
   }
 
 /*한달의간시간 가져오는 코드 */
-  Future<int> getMonthTime() async {
+  Future<double> getMonthTime() async {
     print("tthis is for get month time data");
     final http.Response response = await http.get(
         Uri.parse(urlApi + '/plan/month/average?date=${getToday()}&userId=1'));
