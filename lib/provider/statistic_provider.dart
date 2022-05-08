@@ -7,11 +7,11 @@ final userWeekStarProvider =
 final userMonthStarProvider =
     FutureProvider<int>((ref) => ref.read(statisticRepository).getMonthstar());
 
-final userWeekTimeProvider =
-    FutureProvider<int>((ref) => ref.read(statisticRepository).getWeekTime());
+final userWeekTimeProvider = FutureProvider<double>(
+    (ref) => ref.read(statisticRepository).getWeekTime());
 
-final userMonthTimeProvider =
-    FutureProvider<int>((ref) => ref.read(statisticRepository).getMonthTime());
+final userMonthTimeProvider = FutureProvider<double>(
+    (ref) => ref.read(statisticRepository).getMonthTime());
 
 final userWeekTimeListProvider = FutureProvider<List<int>>(
     (ref) => ref.read(statisticRepository).getWeekTimeChart());
