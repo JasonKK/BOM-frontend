@@ -28,7 +28,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
-    // print('User select the $userSelectedDay');
+    print('${userSelectedDay} ${DateTime.now().add(const Duration(hours: 9))} ${DateTime.now()}');
 
     todos.forEach((element) {
       print(element.time!);
@@ -262,7 +262,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 },
               ),
               const SizedBox(width: 105.0),
-              if(userSelectedDay.compareTo(DateTime.now().add(const Duration(hours: 9))) < 0) FloatingActionButton(
+              if(userSelectedDay.compareTo(DateTime.now().add(const Duration(hours: 9))) < 0 && !isToday(userSelectedDay)) FloatingActionButton(
                 child: const Icon(Icons.close),
                 backgroundColor: Colors.grey,
                 onPressed: null,

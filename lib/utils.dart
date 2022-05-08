@@ -78,3 +78,12 @@ String secToMin(int num) {
   var sec = (seconds % 60).toString().padLeft(2, '0');
   return "${hour}:${min}:${sec}";
 }
+
+bool isToday(DateTime other) {
+  final now = DateTime.now().add(const Duration(hours: 9));
+  final year = now.year;
+  final month = now.month;
+  final day = now.day;
+  return year == other.year && month == other.month
+      && day == other.day;
+}
