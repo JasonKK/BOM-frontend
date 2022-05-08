@@ -6,17 +6,22 @@ import 'package:http/http.dart' as http;
 class TodoRepository {
   static const urlApi =
       'http://ec2-3-39-10-54.ap-northeast-2.compute.amazonaws.com';
+  final DateTime day;
+
+  TodoRepository(this.day);
 
   Future<List<Todo>> loadTodos() async {
     print('Fetch plan data...');
-    var url = Uri.parse(urlApi + '/plan/all?date=1999-01-01&userId=1');
-    // var url = Uri.parse(urlApi + '/plan/all?date=${getToday()}&userId=1');
+    // var url = Uri.parse(urlApi + '/plan/all?date=1999-01-01&userId=1');
+    var url = Uri.parse(
+        urlApi + '/plan/all?date=${getBasicDateFormat(day)}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
       print('error with get');
     }
     if (response.statusCode == 200) {
-      Map<String, dynamic> body = json.decode(response.body); // var body = jsonDecode(response.body) as List<dynamic>;
+      Map<String, dynamic> body = json.decode(response
+          .body); // var body = jsonDecode(response.body) as List<dynamic>;
       if (body['result'] == null) {
         // opcode의 청체 파악 후 적용하기
         print('error because plan is empty');
@@ -34,7 +39,7 @@ class TodoRepository {
     var dateResult = userSlectedDate != '' ? userSlectedDate.split('/') : null;
     int? year;
     int? month;
-    if(dateResult != null){
+    if (dateResult != null) {
       year = int.parse(dateResult[0]);
       month = int.parse(dateResult[1]);
     }
@@ -50,7 +55,7 @@ class TodoRepository {
           "repetitionType": todos.repetitionType,
           "year": year,
           "moth": month,
-          "days": [0,0,0,0,0,0,0],
+          "days": [0, 0, 0, 0, 0, 0, 0],
         }),
         headers: <String, String>{'Content-type': 'application/json'});
     print('createTodo => ${response.body}');
@@ -65,7 +70,8 @@ class TodoRepository {
     }
   }
 
-  Future editTodo(Todo todos, String userSlectedDate) async {
+  Future editTodo(Todo todos) async {
+    print('in editTodo ${todos.planId}\'s ${todos.check} ${todos.repetitionType} ${todos.categoryId}');
     var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}');
     var response = await http.patch(url,
         body: jsonEncode(todos),
@@ -98,7 +104,8 @@ class TodoRepository {
 
   Future<int> loadStars() async {
     // print('Fetch star data...');
-    var url = Uri.parse(urlApi + '/plan/star?date=${getToday()}&userId=1');
+    var url = Uri.parse(
+        urlApi + '/plan/star?date=${getBasicDateFormat(day)}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
       print('error with get');
@@ -116,8 +123,9 @@ class TodoRepository {
   }
 
   Future<List<MonthlyStars>> loadMonthlyStars() async {
-    print('Fetch ${DateTime.now().add(const Duration(hours: 9)).month}월 star data...');
-    var url = Uri.parse(urlApi + '/plan/month/all/star?date=${getToday()}&userId=1');
+    print('Fetch ${getBasicDateFormat(day)}월 star data...');
+    var url = Uri.parse(urlApi +
+        '/plan/month/all/star?date=${getBasicDateFormat(day)}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
       print('error with get');
@@ -129,7 +137,9 @@ class TodoRepository {
       }
       print('body => $body');
       List<dynamic> list = body['allMonthlyStars'];
-      return list.map<MonthlyStars>((plan) => MonthlyStars.fromJson(plan)).toList();
+      return list
+          .map<MonthlyStars>((plan) => MonthlyStars.fromJson(plan))
+          .toList();
     } else {
       print('Request failed with status: ${response.statusCode}.');
       throw Exception('Can\'t get plans');
@@ -138,7 +148,9 @@ class TodoRepository {
 
   Future<int> loadDailyTotalTimes() async {
     print('Fetch daily total times data...');
-    var url = Uri.parse(urlApi + '/plan/total?date=${getToday()}&userId=1');
+    print('time repo -> $day');
+    var url = Uri.parse(
+        urlApi + '/plan/total?date=${getBasicDateFormat(day)}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
       print('error with get');
@@ -154,23 +166,4 @@ class TodoRepository {
       throw Exception('Can\'t get plans');
     }
   }
-// 프론트단에서 처리하므로 필요 x
-// Future toggleCheck(Todo todos) async {
-//   var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}' + '/check');
-//   var response = await http.patch(url,
-//       // body: jsonEncode(todos),
-//       headers: <String, String>{'Content-type': 'application/json'});
-//   // print(response.body);
-//   // print(response.headers);
-//   // print(response.statusCode);
-//   if (response.body == null) {
-//     print('error with get');
-//   }
-//   if (response.statusCode == 404) {
-//     print('Request failed with status: ${response.statusCode}.');
-//     return false;
-//   } else {
-//     return true;
-//   }
-// }
 }

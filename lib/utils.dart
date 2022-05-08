@@ -50,10 +50,13 @@ final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 String getToday(){
   final now = DateTime.now().add(const Duration(hours: 9)); // kr: utc + 9
-  DateFormat formatter = DateFormat('yyyy-MM-dd');
-  String strToday = formatter.format(now);
-  return strToday;
+  return getBasicDateFormat(now);
 }
+
+String getBasicDateFormat<DateTiem>(day){
+  return DateFormat('yyyy-MM-dd', 'ko_KR').format(day).toString();
+}
+
 
 String changeDateFormat<DateTime>(day){
   return DateFormat('yyy.MM.dd EEE', 'ko_KR')
@@ -64,5 +67,14 @@ String getTodayKoreanFormat<DateTime>(day){
   return DateFormat('yyy년MM월dd일', 'ko_KR')
       .format(day).toString();
 }
-// int min = secTime ~/ 60;
-// int sec = secTime % 60;
+
+String secToMin(int num) {
+  int hours = (num ~/ 3600).truncate();
+  int minutes = (num ~/ 60).truncate();
+  int seconds = (num).truncate();
+
+  var hour = (hours % 60).toString().padLeft(2, '0');
+  var min = (minutes % 60).toString().padLeft(2, '0');
+  var sec = (seconds % 60).toString().padLeft(2, '0');
+  return "${hour}:${min}:${sec}";
+}

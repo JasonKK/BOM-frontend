@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../provider/todo_provider.dart';
 import '../hom_view.dart';
+import '../home_detail_view.dart';
 
 class BomCalendar extends ConsumerStatefulWidget {
   late CalendarFormat pageCalendarFormat;
@@ -141,11 +142,12 @@ class _BomCalendarState extends ConsumerState<BomCalendar>
                 if (!isSameDay(_selectedDay, selectedDay)) {
                   // Call `setState()` when updating the selected day
                   if(widget.pageCalendarFormat == CalendarFormat.week){
-                    print('this is week ${selectedDay.toString().split(' ')[0]}');
-                    // ref.read(selectedDate.notifier).state = selectedDay.toString().split(' ')[0];
+                    // print('this is week ${selectedDay.toString().split(' ')[0]}');
                     ref.read(selectedDate.notifier).state = selectedDay;
                   }else{
-                    print('this is month $selectedDay');
+                    ref.read(selectedDate.notifier).state = selectedDay;
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HomeDetailScreen()));
                   }
                   setState(() {
                     _selectedDay = selectedDay;

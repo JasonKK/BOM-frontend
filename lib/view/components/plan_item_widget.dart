@@ -4,9 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingController, useState, useEffect
 import 'package:bom_front/provider/todo_provider.dart';
-
 import '../../model/todo.dart';
-import '../../provider/general_provider.dart';
+import '../../utils.dart';
 
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
@@ -19,8 +18,8 @@ class PlanItem extends StatefulHookConsumerWidget {
 class _PlanItemState extends ConsumerState<PlanItem> {
   @override
   Widget build(BuildContext context) {
-    print('planItem rebuilding...');
     final todo = ref.watch(currentTodo);
+    print('planItem ${todo.planId} ${todo.repetitionType} rebuilding...');
     final itemFocusNode = useFocusNode();
     final itemIsFocused = useIsFocused(itemFocusNode);
     final textEditingController = useTextEditingController();
@@ -60,24 +59,18 @@ class _PlanItemState extends ConsumerState<PlanItem> {
             child: Row(
               children: [
                 Checkbox(
-                    shape: const CircleBorder(),
-                    activeColor: const Color(0xffA876DE),
-                    value: todo.check,
-                    onChanged: (value) {
-                      ref
-                          .read(todoListProvider.notifier)
-                          .toggle(todo.planId!); // 바로 refresh 방지
-                      // 위의 toggle로직으로 프론트단에서 처리하므로 필요  x
-                      // ref.read(todoListProvider.notifier).toggleTodoCheck(Todo(
-                      //     // api는 false -> true 만 고려 / 이후 상의
-                      //     planName: todo.planName,
-                      //     dailyId: todo.dailyId,
-                      //     categoryId: todo.categoryId,
-                      //     planId: todo.planId,
-                      //     repetitionType: todo.repetitionType,
-                      //     check: todo.check,
-                      //     time: todo.time));
-                    }),
+                  shape: const CircleBorder(),
+                  activeColor: const Color(0xffA876DE),
+                  value: todo.check,
+                  onChanged: (value) {
+                    ref.read(todoListProvider.notifier).editReadTodo(Todo(
+                        planId: todo.planId,
+                        check: !todo.check!)); // 여기만 수정되고 나머지는 rebuild x
+                    ref
+                        .read(todoListProvider.notifier)
+                        .toggle(todo.planId);
+                  }, // 바로 refresh 방지
+                ),
                 Expanded(
                   child: Material(
                     color: Colors.white,
@@ -133,8 +126,8 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                                                 .read(todoListProvider.notifier)
                                                 .remove(todo); // 🌟
                                             ref
-                                                .read(todoRepository)
-                                                .deleteTodo(todo.planId)
+                                                .read(todoListProvider.notifier)
+                                                .deleteReadTodo(todo.planId!)
                                                 .then((value) => {
                                                       if (value == true)
                                                         {
@@ -190,12 +183,10 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           /* start/stop timer*/
                         },
                         onLongPress: () {
-                          ref
-                              .read(categoryIdToCreate.notifier)
-                              .state = todo.categoryId!;
-                          ref
-                              .read(repetitionTypeToCreate.notifier)
-                              .state = todo.repetitionType!;
+                          ref.read(categoryIdToCreate.notifier).state =
+                              todo.categoryId!;
+                          ref.read(repetitionTypeToCreate.notifier).state =
+                              todo.repetitionType!;
                           // 유저 limited 날짜랑 가지고 오기
                           // 유저 위클리 선택 요일 가지고 오기
                           Navigator.push(
@@ -211,18 +202,18 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           padding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                            color: Color(int.parse(todo.color!)),
+                            color: Color(int.parse(todo.color as String)),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
-                          child:
-                              Text(
-                                todo.categoryName!, // plan의 category ID를 가지고 서버에서 category api 로직 만들면 적용
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                          child: Text(
+                            todo.categoryName as String,
+                            // plan의 category ID를 가지고 서버에서 category api 로직 만들면 적용
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         title: itemIsFocused
                             ? TextField(
@@ -232,7 +223,8 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                               )
                             : Text(todo.planName!,
                                 style: const TextStyle(fontSize: 18.0)),
-                        trailing: const Text('00:00:00'), // plan의 time을 가져오기
+                        trailing:
+                            Text('${secToMin(todo.time!)}'), // plan의 time을 가져오기
                       ),
                     ),
                   ),

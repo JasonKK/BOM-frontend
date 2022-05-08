@@ -157,7 +157,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                         planId: widget.data!.planId,
                                         repetitionType: repetitionTypeId,
                                         check: widget.data!.check,
-                                        time: widget.data!.time), userSlectedDate)
+                                        time: widget.data!.time))
                                     .then((val) => {
                                           if (val == true)
                                             {

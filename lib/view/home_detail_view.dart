@@ -21,22 +21,10 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   int index = 2;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
-  String secToMin(int num) {
-    // 계산 잘못됨
-    int hours = (num ~/ 21600).truncate();
-    int minutes = (num ~/ 360).truncate();
-    int seconds = (num ~/ 6).truncate();
-
-    var hour = (hours % 60).toString().padLeft(2, '0');
-    var min = (minutes % 60).toString().padLeft(2, '0');
-    var sec = (seconds % 60).toString().padLeft(2, '0');
-    return "${hour}:${min}:${sec}";
-  }
-
   @override
   Widget build(BuildContext context) {
-    final todos = ref.watch(filteredTodos);
     final userSelectedDay = ref.watch(selectedDate);
+    final todos = ref.watch(filteredTodos);
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
@@ -58,10 +46,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                       BomCalendar(pageCalendarFormat: CalendarFormat.week),
                       const SizedBox(height: 15.0),
                       Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: MediaQuery.of(context).size.width,
                         height: 120.0,
                         color: const Color(0xffA876DE),
                         child: Column(
@@ -71,12 +56,11 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 20.0)),
                             Text(
-                              // secToMin(todos.fold(
-                              //     0,
-                              //     (previous, current) =>
-                              //         previous + current.time!)
-                              // ),
-                                secToMin(600),
+                                secToMin(todos.fold(
+                                    0,
+                                    (previous, current) =>
+                                        previous +
+                                        current.time!)), // 1800 = 30min
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 60.0)),
                           ],
@@ -95,18 +79,17 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                               elevation: 1.0,
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 25.0),
+                                    const EdgeInsets.symmetric(vertical: 25.0),
                                 child: Column(
                                   children: [
                                     Container(
                                       // width: MediaQuery.of(context).size.w idth -
                                       //     60.0,
-                                      padding:
-                                      const EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 30.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: const [
                                           Text('과목/목표',
                                               style: TextStyle(
@@ -124,25 +107,32 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 20.0),
-                                    if (todos.length == 0) Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('작성한 플랜이 없습니다.', style: TextStyle(
-                                          color: Color(0xff838383),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15.0,
-                                        )),
-                                      ],
-                                    ) else for (var i = 0; i < todos.length; i++) ...[
-                                      if (i > 0) const SizedBox(height: 5),
-                                      ProviderScope(
-                                        overrides: [
-                                          currentTodo
-                                              .overrideWithValue(todos[i]),
+                                    if (todos.length == 0)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text('작성한 플랜이 없습니다.',
+                                              style: TextStyle(
+                                                color: Color(0xff838383),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15.0,
+                                              )),
                                         ],
-                                        child: const PlanItem(type: false),
-                                      ),
-                                    ],
+                                      )
+                                    else
+                                      for (var i = 0;
+                                          i < todos.length;
+                                          i++) ...[
+                                        if (i > 0) const SizedBox(height: 5),
+                                        ProviderScope(
+                                          overrides: [
+                                            currentTodo
+                                                .overrideWithValue(todos[i]),
+                                          ],
+                                          child: const PlanItem(type: false),
+                                        ),
+                                      ],
                                   ],
                                 ),
                               ),
@@ -156,7 +146,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                               elevation: 1.0,
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 25.0),
+                                    const EdgeInsets.symmetric(vertical: 25.0),
                                 child: Column(
                                   children: [
                                     Container(
@@ -168,7 +158,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                           bottom: 20.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('통계',
                                               style: TextStyle(
@@ -176,7 +166,8 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16.0,
                                               )),
-                                          Text('${getTodayKoreanFormat(userSelectedDay)}',
+                                          Text(
+                                              '${getTodayKoreanFormat(userSelectedDay)}',
                                               style: TextStyle(
                                                 color: Color(0xff838383),
                                                 fontWeight: FontWeight.w500,
@@ -187,51 +178,54 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.star,
                                             color: Colors.amberAccent,
                                             size: 40.0),
                                         userStar.when(
-                                            data: ((data) =>
-                                                Text(
-                                                    '${data.toString()}개 획득',
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .bold,
-                                                        fontSize: 18.0))),
+                                            data: ((data) => Text(
+                                                '${data.toString()}개 획득',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0))),
+                                            // error: (err, stack) =>
+                                            //     Text('Error: $err'), // throw한 error를 알려주기 때문에 유저경험을 위해 0개로 default
                                             error: (err, stack) =>
-                                                Text('Error: $err'),
+                                                Text('0개 획득',style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0)), // 우는 캐릭터로 대체하기
                                             loading: () => Container()),
                                       ],
                                     ),
                                     SizedBox(height: 30.0),
                                     dailyTimes.when(
-                                        data: ((data) =>
-                                        data ~/ 60 > 59
+                                        data: ((data) => data ~/ 60 > 59
                                             ? Column(
-                                          children: [
-                                            Text(
-                                                '${((data ~/ 60) ~/ 60)
-                                                    .toString()}시간',
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                    FontWeight.bold)),
-                                            Text(
-                                                '${((data ~/ 60) % 60)
-                                                    .toString()}분',
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                    FontWeight.bold))
-                                          ],
-                                        )
+                                                children: [
+                                                  Text(
+                                                      '${((data ~/ 60) ~/ 60).toString()}시간',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      '${((data ~/ 60) % 60).toString()}분',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ],
+                                              )
                                             : Text(
-                                            '${(data ~/ 60).toString()}분',
-                                            style: const TextStyle(
-                                                fontWeight:
-                                                FontWeight.bold))),
+                                                '${(data ~/ 60).toString()}분',
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold))),
+                                        // error: (err, stack) =>
+                                        //     Text('Error: $err'),
                                         error: (err, stack) =>
-                                            Text('Error: $err'),
+                                            Text('0분', style: const TextStyle(
+                                                fontWeight:
+                                                FontWeight.bold)),
                                         loading: () => Container()),
                                     const SizedBox(height: 20.0),
                                   ],
@@ -263,6 +257,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 hoverColor: Colors.white,
                 hoverElevation: 0.0,
                 onPressed: () {
+                  ref.read(selectedDate.notifier).state = DateTime.now().add(const Duration(hours: 9));
                   Navigator.pop(context);
                 },
               ),
@@ -272,18 +267,10 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 child: const Icon(Icons.add),
                 backgroundColor: const Color(0xffA876DE),
                 onPressed: () {
-                  ref
-                      .read(categoryIdToCreate.notifier)
-                      .state = 1;
-                  ref
-                      .read(repetitionTypeToCreate.notifier)
-                      .state = 0;
-                  ref
-                      .read(limitedDate.notifier)
-                      .state = '';
-                  ref
-                      .read(selectedWeek.notifier)
-                      .state = [0, 0, 0, 0, 0, 0, 0];
+                  ref.read(categoryIdToCreate.notifier).state = 1;
+                  ref.read(repetitionTypeToCreate.notifier).state = 0;
+                  ref.read(limitedDate.notifier).state = '';
+                  ref.read(selectedWeek.notifier).state = [0, 0, 0, 0, 0, 0, 0];
                   Navigator.push(
                       context,
                       MaterialPageRoute(
