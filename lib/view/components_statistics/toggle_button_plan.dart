@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../provider/statistic_provider.dart';
-import 'daily_avg_data.dart';
+import 'weekly_avg_data.dart';
 import 'month_avg_data.dart';
 
 enum SegmentType { week, month }
