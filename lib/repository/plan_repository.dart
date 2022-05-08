@@ -9,7 +9,8 @@ class TodoRepository {
 
   Future<List<Todo>> loadTodos() async {
     print('Fetch plan data...');
-    var url = Uri.parse(urlApi + '/plan/all?date=${getToday()}&userId=1');
+    var url = Uri.parse(urlApi + '/plan/all?date=1999-01-01&userId=1');
+    // var url = Uri.parse(urlApi + '/plan/all?date=${getToday()}&userId=1');
     var response = await http.get(url);
     if (response.body == null) {
       print('error with get');

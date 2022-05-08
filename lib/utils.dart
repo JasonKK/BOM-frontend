@@ -55,14 +55,14 @@ String getToday(){
   return strToday;
 }
 
-String getTodayAnotherFormat(){
+String changeDateFormat<DateTime>(day){
   return DateFormat('yyy.MM.dd EEE', 'ko_KR')
-      .format(DateTime.now().add(const Duration(hours: 9))).toString();
+      .format(day).toString();
 }
 
-String getTodayKoreanFormat(){
+String getTodayKoreanFormat<DateTime>(day){
   return DateFormat('yyy년MM월dd일', 'ko_KR')
-      .format(DateTime.now().add(const Duration(hours: 9))).toString();
+      .format(day).toString();
 }
 // int min = secTime ~/ 60;
 // int sec = secTime % 60;

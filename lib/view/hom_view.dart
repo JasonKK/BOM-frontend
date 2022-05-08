@@ -79,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               flex: 7,
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                child: ListView(
+                                child: todos.length != 0 ? ListView(
                                   // ListView.builder 또한 ok -> Listview: home에는 필요 detail에는 필요 x
                                   children: [
                                     for (var i = 0; i < todos.length; i++) ...[
@@ -91,6 +91,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         child: const PlanItem(type: true),
                                       ),
                                     ],
+                                  ],
+                                ) : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('작성한 플랜이 없습니다.', style: TextStyle(
+                                      color: Color(0xff838383),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15.0,
+                                    )),
                                   ],
                                 ),
                               ),
