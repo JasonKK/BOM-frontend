@@ -262,7 +262,11 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 },
               ),
               const SizedBox(width: 105.0),
-              FloatingActionButton(
+              if(userSelectedDay.compareTo(DateTime.now().add(const Duration(hours: 9))) < 0) FloatingActionButton(
+                child: const Icon(Icons.close),
+                backgroundColor: Colors.grey,
+                onPressed: null,
+              ) else FloatingActionButton(
                 heroTag: 'add',
                 child: const Icon(Icons.add),
                 backgroundColor: const Color(0xffA876DE),
