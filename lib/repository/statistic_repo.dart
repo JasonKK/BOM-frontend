@@ -99,7 +99,7 @@ class StatisticRepository {
     }
   }
 
-  Future<List<int>> getMonthTimChart() async {
+  Future<List<int>> getMonthTimeChart() async {
     print("this is for get month time ");
     final http.Response response = await http.get(
         Uri.parse(urlApi + '/plan/month/total?date=${getToday()}&userId=1'));
