@@ -53,10 +53,10 @@ class Todo {
     data['repetitionType'] = repetitionType;
     data['dailyId'] = dailyId;
     data['categoryId'] = categoryId;
-    data['categoryName'] = categoryName;
-    data['color'] = color;
-    data['type'] = type;
-    data['userId'] = userId;
+    // data['categoryName'] = categoryName;
+    // data['color'] = color;
+    // data['type'] = type;
+    // data['userId'] = userId;
     return data;
   }
 }

@@ -152,14 +152,15 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                 final userPlanName = planName.text;
                                 ref
                                     .read(todoListProvider.notifier)
-                                    .editReadTodo(Todo(
-                                        planName: userPlanName,
-                                        dailyId: widget.data!.dailyId,
-                                        categoryId: categoryId,
-                                        planId: widget.data!.planId,
-                                        repetitionType: repetitionTypeId,
-                                        check: widget.data!.check,
-                                        time: widget.data!.time))
+                                    .editReadTodo(
+                                        widget.data!.planId,
+                                        planName: userPlanName == widget.data!.planName ? null : userPlanName,
+                                        categoryId: categoryId == widget.data!.categoryId ? null : categoryId,
+                                        repetitionType: repetitionTypeId == widget.data!.repetitionType ? null : repetitionTypeId,
+                                        userSelectedDate: repetitionTypeId == 0 ? null : userSlectedDate,
+                                        userSelectedWeek: repetitionTypeId == 0 ? null : userSelectedWeek,
+                                        check: null
+                                )
                                     .then((val) => {
                                           if (val == true)
                                             {

@@ -117,7 +117,7 @@ class _BomCalendarState extends ConsumerState<BomCalendar>
                 }
                 return null;
               }, selectedBuilder: (context, date, events) {
-                    print(date);
+                    // print(date);
                 return Container(
                   margin: const EdgeInsets.all(4.0),
                   padding: EdgeInsets.all(0),

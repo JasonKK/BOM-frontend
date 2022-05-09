@@ -74,13 +74,34 @@ class TodoRepository {
     }
   }
 
-  Future editTodo(Todo todos) async {
-    print('in editTodo ${todos.planId}\'s ${todos.check} ${todos.repetitionType} ${todos.categoryId}');
-    var url = Uri.parse(urlApi + '/plan/' + '${todos.planId}');
+  Future editTodo(int? planId,
+      {bool? check,
+      String? planName,
+      int? repetitionType,
+      int? categoryId,
+      String? userSelectedDate,
+      List<int>? userSelectedWeek}) async {
+    var url = Uri.parse(urlApi + '/plan/' + '$planId');
+    var paramObject = {};
+    if(check != null) paramObject.addAll({"check": check});
+    if(planName != null) paramObject.addAll({"planName": planName});
+    if(repetitionType != null)  paramObject.addAll({"repetitionType": repetitionType});
+    if(categoryId != null) paramObject.addAll({"categoryId": categoryId});
+    if(userSelectedDate != null) {
+      var dateResult = userSelectedDate.split('/');
+      paramObject.addAll({
+        "year": int.parse(dateResult[0]),
+        "month": int.parse(dateResult[1]),
+        "day": int.parse(dateResult[2])
+      });
+    }
+    if(userSelectedWeek != null) paramObject.addAll({"userSelectedWeek": userSelectedWeek});
+
+    print('paramObject => $paramObject');
     var response = await http.patch(url,
-        body: jsonEncode(todos),
+        body: json.encode(paramObject),
         headers: <String, String>{'Content-type': 'application/json'});
-    // print(response.body);
+    print(response.body);
     // print(response.headers);
     // print(response.statusCode);
     if (response.body == null) {

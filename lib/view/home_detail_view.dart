@@ -28,7 +28,6 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
     print('Home detail rebuilding...');
-    print('${userSelectedDay} ${DateTime.now().add(const Duration(hours: 9))} ${DateTime.now()}');
 
     todos.forEach((element) {
       print(element.time!);

@@ -38,9 +38,9 @@ class TodoList extends StateNotifier<List<Todo>> {
     return plans;
   }
 
-  Future editReadTodo(Todo todo) async {
+  Future editReadTodo(int? planId, {bool? check, String? planName, int? repetitionType, int? categoryId, String? userSelectedDate, List<int>? userSelectedWeek}) async {
     print('in editReadTodo');
-    final plans = await _repository.editTodo(todo);
+    final plans = await _repository.editTodo(planId, check: check, planName: planName, repetitionType: repetitionType, categoryId: categoryId, userSelectedDate: userSelectedDate, userSelectedWeek: userSelectedWeek);
     return plans;
   }
 

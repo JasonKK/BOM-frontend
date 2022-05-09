@@ -63,9 +63,9 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                   activeColor: const Color(0xffA876DE),
                   value: todo.check,
                   onChanged: (value) {
-                    ref.read(todoListProvider.notifier).editReadTodo(Todo(
-                        planId: todo.planId,
-                        check: !todo.check!)); // 여기만 수정되고 나머지는 rebuild x
+                    ref.read(todoListProvider.notifier).editReadTodo(
+                        todo.planId,
+                        check: !todo.check!); // 여기만 수정되고 나머지는 rebuild x
                     ref
                         .read(todoListProvider.notifier)
                         .toggle(todo.planId);
@@ -183,6 +183,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           /* start/stop timer*/
                         },
                         onLongPress: () {
+                          print('todo repetitionType -> ${todo.repetitionType}');
                           ref.read(categoryIdToCreate.notifier).state =
                               todo.categoryId!;
                           ref.read(repetitionTypeToCreate.notifier).state =
