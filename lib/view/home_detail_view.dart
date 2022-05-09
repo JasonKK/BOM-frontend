@@ -1,4 +1,5 @@
-import 'package:bom_front/view/components_statistics/statistic_chart_view.dart';
+import 'package:bom_front/view/components_statistics/monthly_chart_view.dart';
+import 'package:bom_front/view/components_statistics/weekly_chart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -6,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
-import 'components_statistics/daily_avg_data.dart';
+import 'components_statistics/weekly_avg_data.dart';
 import 'components_statistics/daily_statistic.dart';
 import 'components/plan_appbar.dart';
 import 'components/bottom_navigation.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
 import 'components/plan_item_widget.dart';
+import 'components_statistics/month_avg_data.dart';
 import 'components_statistics/toggle_button_plan.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
@@ -30,6 +32,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final filter = ref.watch(segmentType);
     final todos = ref.watch(filteredTodos);
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
@@ -142,19 +145,23 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: const [
+                                        children: [
                                           Text('통계',
                                               style: TextStyle(
                                                 color: Color(0xff838383),
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16.0,
                                               )),
-                                          Text('2022년 4월 25일',
+                                          Text(
+                                              DateFormat(
+                                                      'yyy.MM.dd EEE', 'ko_KR')
+                                                  .format(DateTime.now())
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: Color(0xff838383),
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16.0,
-                                              ))
+                                              )),
                                         ],
                                       ),
                                     ),
@@ -183,34 +190,13 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                       color: Colors.grey,
                                       thickness: 2.0,
                                     ),
-                                    plan_toggle_button(),
-                                    dailyAvgData(),
-                                    BarChartWeek(),
-                                    dailyTimes.when(
-                                        data: ((data) => data ~/ 60 > 59
-                                            ? Column(
-                                                children: [
-                                                  Text(
-                                                      '${((data ~/ 60) ~/ 60).toString()}시간',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(
-                                                      '${((data ~/ 60) % 60).toString()}분',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              )
-                                            : Text(
-                                                '${(data ~/ 60).toString()}분',
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold))),
-                                        error: (err, stack) =>
-                                            Text('Error: $err'),
-                                        loading: () => Container()),
-                                    const SizedBox(height: 20.0),
+                                    togglebuttonState(),
+                                    filter == SegmentType.week
+                                        ? dailyAvgData()
+                                        : monthAvgData(),
+                                    filter == SegmentType.week
+                                        ? BarChartWeek()
+                                        : BarChartMonth(),
                                   ],
                                 ),
                               ),
