@@ -3,6 +3,7 @@ import 'package:bom_front/view/category_view.dart';
 import 'package:bom_front/view/components/show_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../model/category.dart';
 import '../provider/todo_provider.dart';
 import '../provider/user_privider.dart';
 import 'components/category_selection_widget.dart';
@@ -14,7 +15,8 @@ class AddPlan extends ConsumerStatefulWidget {
   final Todo? data;
   final DateTime? dayToCreatePlan;
 
-  AddPlan({Key? key, required this.type, this.data, this.dayToCreatePlan}) : super(key: key);
+  AddPlan({Key? key, required this.type, this.data, this.dayToCreatePlan})
+      : super(key: key);
 
   @override
   _AddPlanState createState() => _AddPlanState();
@@ -37,6 +39,7 @@ class _AddPlanState extends ConsumerState<AddPlan> {
     planName.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
@@ -45,10 +48,15 @@ class _AddPlanState extends ConsumerState<AddPlan> {
       int repetitionTypeId = ref.watch(repetitionTypeToCreate);
       String userSlectedDate = ref.watch(limitedDate);
       List<int> userSelectedWeek = ref.watch(selectedWeek);
+      final userCategory = ref.watch(categoryListProvider);
+
       final user = ref.watch(userProvider);
 
+      print('userCategory => $userCategory');
+
       print('plan Date : ${widget.dayToCreatePlan}');
-      print('categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
+      print(
+          'categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
       return Scaffold(
           appBar: AppBar(
             title: const Text(''),
@@ -103,7 +111,11 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                         ],
                       ),
                     ),
-                    BomCategory(data: widget.data),
+                    userCategory.when(
+                        data: (data) =>
+                            BomCategory(data: widget.data, userCategory: data),
+                        error: (e, st) => Container(),
+                        loading: () => Container()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -152,15 +164,26 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                 final userPlanName = planName.text;
                                 ref
                                     .read(todoListProvider.notifier)
-                                    .editReadTodo(
-                                        widget.data!.planId,
-                                        planName: userPlanName == widget.data!.planName ? null : userPlanName,
-                                        categoryId: categoryId == widget.data!.categoryId ? null : categoryId,
-                                        repetitionType: repetitionTypeId == widget.data!.repetitionType ? null : repetitionTypeId,
-                                        userSelectedDate: repetitionTypeId == 0 ? null : userSlectedDate,
-                                        userSelectedWeek: repetitionTypeId == 0 ? null : userSelectedWeek,
-                                        check: null
-                                )
+                                    .editReadTodo(widget.data!.planId,
+                                        planName: userPlanName ==
+                                                widget.data!.planName
+                                            ? null
+                                            : userPlanName,
+                                        categoryId: categoryId ==
+                                                widget.data!.categoryId
+                                            ? null
+                                            : categoryId,
+                                        repetitionType: repetitionTypeId ==
+                                                widget.data!.repetitionType
+                                            ? null
+                                            : repetitionTypeId,
+                                        userSelectedDate: repetitionTypeId == 0
+                                            ? null
+                                            : userSlectedDate,
+                                        userSelectedWeek: repetitionTypeId == 0
+                                            ? null
+                                            : userSelectedWeek,
+                                        check: null)
                                     .then((val) => {
                                           if (val == true)
                                             {
@@ -219,11 +242,14 @@ class _AddPlanState extends ConsumerState<AddPlan> {
                                       final userPlanName = planName.text;
                                       ref
                                           .read(todoListProvider.notifier)
-                                          .createReadTodo(Todo(
-                                              planName: userPlanName,
-                                              categoryId: categoryId,
-                                              userId: user.userId,
-                                              repetitionType: repetitionTypeId), userSlectedDate)
+                                          .createReadTodo(
+                                              Todo(
+                                                  planName: userPlanName,
+                                                  categoryId: categoryId,
+                                                  userId: user.userId,
+                                                  repetitionType:
+                                                      repetitionTypeId),
+                                              userSlectedDate)
                                           .then((val) => {
                                                 if (val == true)
                                                   {

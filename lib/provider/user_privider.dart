@@ -3,16 +3,18 @@ import 'package:bom_front/provider/general_provider.dart';
 import 'package:bom_front/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userProvider = StateNotifierProvider<theUser, User>((ref) {
+import '../model/category.dart';
+
+final userProvider = StateNotifierProvider<UserInfo, User>((ref) {
   final userData = ref.read(userRepository);
-  return theUser(userData, ref);
+  return UserInfo(userData, ref);
 });
 
-class theUser extends StateNotifier<User>{
+class UserInfo extends StateNotifier<User>{
   late final UserRepository _repository;
   final ref;
 
-  theUser(this._repository, this.ref, [User? initState]) : super(User()){
+  UserInfo(this._repository, this.ref, [User? initState]) : super(User()){
     getUser();
   }
 
@@ -22,4 +24,29 @@ class theUser extends StateNotifier<User>{
       state = user;
     }
   }
+}
+
+final categoryListProvider = StateNotifierProvider<CategoryList, AsyncValue<List<Category>>>((ref) {
+  final categoryData = ref.read(userRepository);
+  return CategoryList(categoryData, ref);
+});
+
+class CategoryList extends StateNotifier<AsyncValue<List<Category>>>{
+  late final UserRepository _repository;
+  final ref;
+
+  CategoryList(this._repository, this.ref, [AsyncValue<List<Category>>? initState]) : super(AsyncValue.data([])) {
+    getUserCategory();
+  }
+
+  Future<void> getUserCategory() async {
+    state = AsyncValue.loading();
+    final category = await _repository
+        .loadUserCategory(); // final todos = await _repository!.loadTodos();
+    if (mounted) {
+      // check data
+      state = AsyncValue.data([...category]);
+    }
+  }
+
 }
