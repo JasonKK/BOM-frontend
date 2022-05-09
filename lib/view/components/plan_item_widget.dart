@@ -203,7 +203,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           padding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                            color: Color(int.parse(todo.color as String)),
+                            color: Color(int.parse('0xcc' + todo.color!)),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),

@@ -49,4 +49,9 @@ class CategoryList extends StateNotifier<AsyncValue<List<Category>>>{
     }
   }
 
+  Future createUserCategory(int? userId, {String? categoryName, String? color}) async {
+    final category = await _repository.createCategory(userId, categoryName: categoryName, color: color);
+    return category;
+  }
+
 }

@@ -37,7 +37,7 @@ class UserRepository{
     }
     if (response.statusCode == 200) {
       Map<String, dynamic> body = json.decode(response.body);
-      print('body => $body');
+      print('category.len => ${body['category'].length}');
       if (body['category'] == null) {
         print('error because plan is empty');
       }
@@ -49,5 +49,24 @@ class UserRepository{
     }
   }
 
+  Future createCategory(int? userId, {String? categoryName, String? color}) async {
+    var url = Uri.parse(urlApi + '/category');
+    var paramObject = {};
+    paramObject.addAll({"userId": userId});
+    if(categoryName != null) paramObject.addAll({"categoryName": categoryName});
+    if(color != null) paramObject.addAll({"color": color});
+    var response = await http.post(url,
+        body: json.encode(paramObject),
+        headers: <String, String>{'Content-type': 'application/json'});
+    if (response.body == null) {
+      print('error with createCategory response');
+    }
+    if (response.body.isNotEmpty) {
+      return true;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return false;
+    }
+  }
 
 }

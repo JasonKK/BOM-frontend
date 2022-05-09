@@ -52,11 +52,10 @@ class _AddPlanState extends ConsumerState<AddPlan> {
 
       final user = ref.watch(userProvider);
 
-      print('userCategory => $userCategory');
-
-      print('plan Date : ${widget.dayToCreatePlan}');
-      print(
-          'categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
+      // print('userCategory => $userCategory');
+      // print('plan Date : ${widget.dayToCreatePlan}'); // 수정은 필요 x
+      // print(
+      //     'categoryId = $categoryId / repetitionTypeId = $repetitionTypeId / limitedDate = $userSlectedDate / userSelectedWeek = $userSelectedWeek');
       return Scaffold(
           appBar: AppBar(
             title: const Text(''),
