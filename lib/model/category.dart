@@ -17,11 +17,10 @@ class Category {
         categoryName: json['categoryName'],
         color: json['color'],
         userId: json['userId'],
-        type: json['type']
-    );
+        type: json['type']);
   }
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['categoryId'] = categoryId;
     data['categoryName'] = categoryName;

@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingC
 import 'package:bom_front/provider/todo_provider.dart';
 import '../../../model/todo.dart';
 import '../../../utils.dart';
+import '../../timer_view.dart';
 
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
@@ -66,9 +67,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                     ref.read(todoListProvider.notifier).editReadTodo(
                         todo.planId,
                         check: !todo.check!); // 여기만 수정되고 나머지는 rebuild x
-                    ref
-                        .read(todoListProvider.notifier)
-                        .toggle(todo.planId);
+                    ref.read(todoListProvider.notifier).toggle(todo.planId);
                   }, // 바로 refresh 방지
                 ),
                 Expanded(
@@ -180,10 +179,11 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                       child: ListTile(
                         enabled: !todo.check!,
                         onTap: () {
-                          /* start/stop timer*/
+                          TimerPage();
                         },
                         onLongPress: () {
-                          print('todo repetitionType -> ${todo.repetitionType}');
+                          print(
+                              'todo repetitionType -> ${todo.repetitionType}');
                           ref.read(categoryIdToCreate.notifier).state =
                               todo.categoryId!;
                           ref.read(repetitionTypeToCreate.notifier).state =

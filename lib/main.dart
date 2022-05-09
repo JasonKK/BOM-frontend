@@ -12,7 +12,7 @@ final allFilterKey = UniqueKey();
 void main() {
   // initializeDateFormatting('ko_KR', null)
   //     .then((_) => runApp(const ProviderScope(child: MyApp()))); // flutter_localizations와 충돌
-      runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

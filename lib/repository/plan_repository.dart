@@ -83,11 +83,12 @@ class TodoRepository {
       List<int>? userSelectedWeek}) async {
     var url = Uri.parse(urlApi + '/plan/' + '$planId');
     var paramObject = {};
-    if(check != null) paramObject.addAll({"check": check});
-    if(planName != null) paramObject.addAll({"planName": planName});
-    if(repetitionType != null)  paramObject.addAll({"repetitionType": repetitionType});
-    if(categoryId != null) paramObject.addAll({"categoryId": categoryId});
-    if(userSelectedDate != null) {
+    if (check != null) paramObject.addAll({"check": check});
+    if (planName != null) paramObject.addAll({"planName": planName});
+    if (repetitionType != null)
+      paramObject.addAll({"repetitionType": repetitionType});
+    if (categoryId != null) paramObject.addAll({"categoryId": categoryId});
+    if (userSelectedDate != null) {
       var dateResult = userSelectedDate.split('/');
       paramObject.addAll({
         "year": int.parse(dateResult[0]),
@@ -95,7 +96,8 @@ class TodoRepository {
         "day": int.parse(dateResult[2])
       });
     }
-    if(userSelectedWeek != null) paramObject.addAll({"userSelectedWeek": userSelectedWeek});
+    if (userSelectedWeek != null)
+      paramObject.addAll({"userSelectedWeek": userSelectedWeek});
 
     print('paramObject => $paramObject');
     var response = await http.patch(url,

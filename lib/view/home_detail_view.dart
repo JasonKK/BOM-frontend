@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import '../utils.dart';
@@ -9,6 +10,11 @@ import 'components/plan/appbar.dart';
 import 'components/plan/bottom_navigation.dart';
 import 'components/plan/calendar.dart';
 import 'components/plan/plan_item_widget.dart';
+import 'components_statistics/daily_statistic.dart';
+import 'components_statistics/month_avg_data.dart';
+import 'components_statistics/statistic_chart_view.dart';
+import 'components_statistics/toggle_button_plan.dart';
+import 'components_statistics/weekly_avg_data.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);
@@ -24,6 +30,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final userSelectedDay = ref.watch(selectedDate);
+    final filter = ref.watch(segmentType);
     final todos = ref.watch(filteredTodos);
     AsyncValue<int> userStar = ref.watch(dailyUserStars);
     AsyncValue<int> dailyTimes = ref.watch(loadDailyTotalTimes);
@@ -140,6 +147,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                               // 통계 위치
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
+                                //모서리를 둥글게 하기 위해 사용
                                 borderRadius: BorderRadius.circular(16.0),
                               ),
                               elevation: 1.0,
@@ -190,43 +198,28 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                                     fontSize: 18.0))),
                                             // error: (err, stack) =>
                                             //     Text('Error: $err'), // throw한 error를 알려주기 때문에 유저경험을 위해 0개로 default
-                                            error: (err, stack) =>
-                                                Text('0개 획득',style: const TextStyle(
+                                            error: (err, stack) => Text('0개 획득',
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0)), // 우는 캐릭터로 대체하기
+                                                    fontSize:
+                                                        18.0)), // 우는 캐릭터로 대체하기
                                             loading: () => Container()),
                                       ],
                                     ),
-                                    SizedBox(height: 30.0),
-                                    dailyTimes.when(
-                                        data: ((data) => data ~/ 60 > 59
-                                            ? Column(
-                                                children: [
-                                                  Text(
-                                                      '${((data ~/ 60) ~/ 60).toString()}시간',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(
-                                                      '${((data ~/ 60) % 60).toString()}분',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              )
-                                            : Text(
-                                                '${(data ~/ 60).toString()}분',
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold))),
-                                        // error: (err, stack) =>
-                                        //     Text('Error: $err'),
-                                        error: (err, stack) =>
-                                            Text('0분', style: const TextStyle(
-                                                fontWeight:
-                                                FontWeight.bold)),
-                                        loading: () => Container()),
-                                    const SizedBox(height: 20.0),
+                                    SizedBox(height: 20.0),
+                                    DailyChart(),
+                                    SizedBox(height: 40.0),
+                                    Divider(
+                                      color: Colors.grey,
+                                      thickness: 2.0,
+                                    ),
+                                    togglebuttonState(),
+                                    filter == SegmentType.week
+                                        ? dailyAvgData()
+                                        : monthAvgData(),
+                                    filter == SegmentType.week
+                                        ? BarChartWeek()
+                                        : BarChartWeek(),
                                   ],
                                 ),
                               ),
@@ -247,7 +240,6 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
-                heroTag: 'back',
                 child: const Icon(Icons.expand_more),
                 backgroundColor: const Color(0xffffffff),
                 foregroundColor: Colors.grey,
@@ -256,30 +248,47 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                 hoverColor: Colors.white,
                 hoverElevation: 0.0,
                 onPressed: () {
-                  ref.read(selectedDate.notifier).state = DateTime.now().add(const Duration(hours: 9));
+                  ref.read(selectedDate.notifier).state =
+                      DateTime.now().add(const Duration(hours: 9));
                   Navigator.pop(context);
                 },
               ),
               const SizedBox(width: 105.0),
-              if(userSelectedDay.compareTo(DateTime.now().add(const Duration(hours: 9))) < 0 && !isToday(userSelectedDay)) FloatingActionButton(
-                child: const Icon(Icons.close),
-                backgroundColor: Colors.grey,
-                onPressed: null,
-              ) else FloatingActionButton(
-                heroTag: 'add',
-                child: const Icon(Icons.add),
-                backgroundColor: const Color(0xffA876DE),
-                onPressed: () {
-                  ref.read(categoryIdToCreate.notifier).state = 1;
-                  ref.read(repetitionTypeToCreate.notifier).state = 0;
-                  ref.read(limitedDate.notifier).state = '';
-                  ref.read(selectedWeek.notifier).state = [0, 0, 0, 0, 0, 0, 0];
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddPlan(type: false, dayToCreatePlan: userSelectedDay)));
-                },
-              )
+              if (userSelectedDay.compareTo(
+                          DateTime.now().add(const Duration(hours: 9))) <
+                      0 &&
+                  !isToday(userSelectedDay))
+                FloatingActionButton(
+                  child: const Icon(Icons.close),
+                  backgroundColor: Colors.grey,
+                  onPressed: null,
+                )
+              else
+                FloatingActionButton(
+                  heroTag: 'add',
+                  child: const Icon(Icons.add),
+                  backgroundColor: const Color(0xffA876DE),
+                  onPressed: () {
+                    ref.read(categoryIdToCreate.notifier).state = 1;
+                    ref.read(repetitionTypeToCreate.notifier).state = 0;
+                    ref.read(limitedDate.notifier).state = '';
+                    ref.read(selectedWeek.notifier).state = [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ];
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddPlan(
+                                type: false,
+                                dayToCreatePlan: userSelectedDay)));
+                  },
+                )
             ],
           ),
         ),
