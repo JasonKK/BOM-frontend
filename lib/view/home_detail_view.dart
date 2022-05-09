@@ -1,5 +1,3 @@
-import 'package:bom_front/view/components_statistics/monthly_chart_view.dart';
-import 'package:bom_front/view/components_statistics/weekly_chart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -7,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import 'add_view.dart';
+import 'components_statistics/statistic_chart_view.dart';
 import 'components_statistics/weekly_avg_data.dart';
 import 'components_statistics/daily_statistic.dart';
 import 'components/plan_appbar.dart';
@@ -196,7 +195,7 @@ class _HomeDetailScreenState extends ConsumerState<HomeDetailScreen> {
                                         : monthAvgData(),
                                     filter == SegmentType.week
                                         ? BarChartWeek()
-                                        : BarChartMonth(),
+                                        : BarChartWeek(),
                                   ],
                                 ),
                               ),

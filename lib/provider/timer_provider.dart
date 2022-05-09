@@ -1,3 +1,5 @@
+import 'package:bom_front/view/timer_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bom_front/model/todo.dart';
 import '../repository/timer_repository.dart';
@@ -8,7 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TimerNotifier extends StateNotifier<TimerModel> {
   TimerNotifier() : super(_initialState);
 
-  static const int _initialTime = 0;
+  static int _initialTime = initState();
   static final _initialState = TimerModel(
     _durationString(_initialTime),
     ButtonState.initial,
@@ -28,8 +30,6 @@ class TimerNotifier extends StateNotifier<TimerModel> {
     return '$hour:$minutes:$seconds';
   }
 
-  void initState() {}
-
   void start() {
     if (state.buttonState == ButtonState.paused) {
       _restartTimer();
@@ -37,13 +37,6 @@ class TimerNotifier extends StateNotifier<TimerModel> {
       _startTimer();
     }
   }
-
-  // void _sendStar() {
-  //   if (int.parse(state.timeLeft) % 30 == 0) {
-  //     TimerRepository().postStarData();
-  //     print("star sended");
-  //   }
-  // }
 
   void _restartTimer() {
     _tickerSubscription?.resume();
@@ -106,3 +99,6 @@ enum ButtonState {
   paused,
   finished,
 }
+
+final userTimeLeftProvider =
+    FutureProvider<int>((ref) => ref.read(timerRepository).getTimeData());

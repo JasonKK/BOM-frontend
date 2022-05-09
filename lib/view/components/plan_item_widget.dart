@@ -192,7 +192,7 @@ class _PlanItemState extends ConsumerState<PlanItem> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TimerApp()));
+                                  builder: (context) => TimerPage()));
                         },
                         onLongPress: () {
                           Navigator.push(
