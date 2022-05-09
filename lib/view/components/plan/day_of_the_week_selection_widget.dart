@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
-import '../../model/todo.dart'; // 기본 내장
+import '../../../model/todo.dart'; // 기본 내장
 
 class WeekDaySelection extends StatefulWidget {
   final Todo? data;

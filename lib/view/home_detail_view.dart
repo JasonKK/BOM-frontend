@@ -5,10 +5,10 @@ import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
 import '../utils.dart';
 import 'add_view.dart';
-import 'components/appbar.dart';
-import 'components/bottom_navigation.dart';
-import 'components/calendar.dart';
-import 'components/plan_item_widget.dart';
+import 'components/plan/appbar.dart';
+import 'components/plan/bottom_navigation.dart';
+import 'components/plan/calendar.dart';
+import 'components/plan/plan_item_widget.dart';
 
 class HomeDetailScreen extends ConsumerStatefulWidget {
   const HomeDetailScreen({Key? key}) : super(key: key);

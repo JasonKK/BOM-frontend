@@ -1,13 +1,13 @@
 import 'package:bom_front/provider/user_privider.dart';
-import 'package:bom_front/view/components/appbar.dart';
-import 'package:bom_front/view/components/calendar.dart';
+import 'package:bom_front/view/components/plan/appbar.dart';
+import 'package:bom_front/view/components/plan/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../provider/todo_provider.dart';
-import 'components/bottom_navigation.dart';
-import 'components/filter_button_widget.dart';
-import 'components/plan_item_widget.dart';
+import 'components/plan/bottom_navigation.dart';
+import 'components/plan/filter_button_widget.dart';
+import 'components/plan/plan_item_widget.dart';
 import 'home_detail_view.dart';
 
 final userDeviceHeight = StateProvider<double>((ref) => 0.0);

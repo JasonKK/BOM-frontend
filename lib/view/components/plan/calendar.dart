@@ -3,9 +3,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:bom_front/utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../provider/todo_provider.dart';
-import '../hom_view.dart';
-import '../home_detail_view.dart';
+import '../../../provider/todo_provider.dart';
+import '../../hom_view.dart';
+import '../../home_detail_view.dart';
 
 class BomCalendar extends ConsumerStatefulWidget {
   late CalendarFormat pageCalendarFormat;

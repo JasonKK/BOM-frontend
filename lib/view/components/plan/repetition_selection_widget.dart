@@ -2,7 +2,7 @@ import 'package:bom_front/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../provider/todo_provider.dart';
+import '../../../provider/todo_provider.dart';
 
 class BomRepetition extends ConsumerStatefulWidget {
   final Todo? data;

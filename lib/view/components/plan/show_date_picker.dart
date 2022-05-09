@@ -2,7 +2,7 @@ import 'package:bom_front/provider/todo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../model/todo.dart';
+import '../../../model/todo.dart';
 
 class ShowDate extends StatefulWidget {
   final Todo? data;

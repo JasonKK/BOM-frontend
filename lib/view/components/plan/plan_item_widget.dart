@@ -4,8 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // useFocus , useTextEditingController, useState, useEffect
 import 'package:bom_front/provider/todo_provider.dart';
-import '../../model/todo.dart';
-import '../../utils.dart';
+import '../../../model/todo.dart';
+import '../../../utils.dart';
 
 class PlanItem extends StatefulHookConsumerWidget {
   final bool type; // for each page change
