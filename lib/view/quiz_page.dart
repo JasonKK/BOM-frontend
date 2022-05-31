@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:bom_front/repository/mock_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
+import '../models/mock.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key, required this.title}) : super(key: key);
@@ -13,19 +17,17 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final List<PlatformFile> _files = [];
+  final _answerController = TextEditingController();
+  late Future<List<Mock>> futuremock;
 
-  void _pickFiles() async {
-    List<PlatformFile>? uploadedFiles = (await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-    ))
-        ?.files;
+  void initState() {
+    super.initState();
+    futuremock = MockRepository().loadTodos();
+  }
 
-    setState(() {
-      for (PlatformFile file in uploadedFiles!) {
-        _files.add(file);
-      }
-    });
+  void dispose() {
+    _answerController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,9 +40,16 @@ class _QuizPageState extends State<QuizPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: _pickFiles,
-              child: Text("Choose a file"),
+            FutureBuilder<List<Mock>>(
+              future: futuremock,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data![2].questionImage!);
+                } else {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
+              },
             ),
             Container(
               decoration: BoxDecoration(
@@ -50,32 +59,38 @@ class _QuizPageState extends State<QuizPage> {
               ),
               width: 350,
               height: 500,
-              child: Scrollbar(
-                  isAlwaysShown: true,
-                  child: ListView.builder(
-                    itemCount: _files.isEmpty ? 1 : _files.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _files.isEmpty
-                          ? const ListTile(
-                              title:
-                                  Text("파일을 업로드해주세요 - 한 번에 여러 파일을 업로드할 수 있습니다"))
-                          : ListTile(
-                              title: Text(_files.elementAt(index).name),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  setState(() {
-                                    _files.removeAt(index);
-                                  });
-                                },
-                              ),
-                            );
-                    },
-                  )),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text("Upload to S3"),
+            Container(
+              width: 300,
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "입력해주세요";
+                  }
+                },
+                controller: _answerController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '답 입력',
+                ),
+                // onChanged: (text) {
+                //   StreamBuilder<List<Mock>>(
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData) {
+                //         print("Success");
+                //         if (snapshot.data![2].answer! != text) {
+                //           print("Wrong answer");
+                //         } else {
+                //           print("Correct answer");
+                //         }
+                //       } else {
+                //         return Text('${snapshot.error}');
+                //       }
+                //       return const CircularProgressIndicator();
+                //     },
+                //   );
+                // },
+              ),
             ),
           ],
         ),
