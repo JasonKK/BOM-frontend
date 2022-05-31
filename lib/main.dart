@@ -1,5 +1,6 @@
 import 'package:bom_front/view/quiz_popup.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,16 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
-              child: Text(
-                "Dialog Open",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.blue,
-                ),
-              ),
-              onPressed: () => FlutterDialog(context),
-            ),
+            IconButton(
+                icon: Icon(Icons.card_giftcard),
+                color: Colors.black,
+                iconSize: 100.0,
+                onPressed: () => quizPop(context)),
           ],
         ),
       ),

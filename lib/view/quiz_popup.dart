@@ -1,7 +1,7 @@
 import 'package:bom_front/view/quiz_page.dart';
 import 'package:flutter/material.dart';
 
-void FlutterDialog(BuildContext context) {
+void quizPop(BuildContext context) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -11,47 +11,54 @@ void FlutterDialog(BuildContext context) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Column(
             children: [
-              new Text("일일 퀘스트"),
+              new Text("일일퀘스트"),
             ],
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                children: [
-                  Card(
-                    child: TextButton(
+              Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("국어"),
+                    Image.asset(
+                      'lib/images/present.png',
+                      width: 100,
+                      height: 100,
+                    ),
+                    FlatButton(
                       onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => QuizPage(title: "국어"))),
-                      child: Text("국어"),
+                      child: Text("열기"),
+                      color: Colors.limeAccent,
                     ),
-                  ),
-                  Card(
-                    child: TextButton(
+                  ],
+                ),
+              ),
+              Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("수학"),
+                    Image.asset(
+                      'lib/images/present.png',
+                      width: 100,
+                      height: 100,
+                    ),
+                    FlatButton(
                       onPressed: () {},
-                      child: Text("수학"),
+                      child: Text("열기"),
+                      color: Colors.limeAccent,
                     ),
-                  ),
-                  Card(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text("영어"),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
-          actions: [
-            new FlatButton(
-              child: new Text("확인"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
         );
       });
 }
