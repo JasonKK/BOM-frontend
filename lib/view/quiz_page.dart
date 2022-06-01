@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import '../models/mock.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key, required this.title}) : super(key: key);
@@ -17,8 +18,10 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final _answerController = TextEditingController();
+  final TextEditingController _answerController = new TextEditingController();
   late Future<List<Mock>> futuremock;
+  String? realanswer;
+  String? description;
 
   void initState() {
     super.initState();
@@ -44,58 +47,59 @@ class _QuizPageState extends State<QuizPage> {
               future: futuremock,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  // return Text(snapshot.data![2].questionImage!);
-                  return Image.network(snapshot.data![4].questionImage!);
+                  realanswer = snapshot.data![6].answer;
+                  description = snapshot.data![6].explanation;
+                  return Image.network(snapshot.data![6].questionImage!);
                 } else {
-                  return Text('${snapshot.error}');
+                  return const CircularProgressIndicator();
                 }
-                return const CircularProgressIndicator();
               },
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                ),
-              ),
-              width: 350,
-              height: 500,
+            SizedBox(
+              height: 40,
             ),
-            Container(
-              width: 300,
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "입력해주세요";
-                  }
-                },
-                controller: _answerController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '답 입력',
-                ),
-                // onChanged: (text) {
-                //   StreamBuilder<List<Mock>>(
-                //     builder: (context, snapshot) {
-                //       if (snapshot.hasData) {
-                //         print("Success");
-                //         if (snapshot.data![2].answer! != text) {
-                //           print("Wrong answer");
-                //         } else {
-                //           print("Correct answer");
-                //         }
-                //       } else {
-                //         return Text('${snapshot.error}');
-                //       }
-                //       return const CircularProgressIndicator();
-                //     },
-                //   );
-                // },
+            TextField(
+              controller: _answerController,
+              onSubmitted: (text) {
+                checkAnswer(text);
+              },
+              decoration: InputDecoration(
+                hintText: "답을 입력해주세요",
+                border: OutlineInputBorder(),
               ),
-            ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  void checkAnswer(String text) {
+    print(realanswer);
+    if (text == realanswer) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                new Text("정답입니다!"),
+                Image.network(description!),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("틀렸습니다!"),
+          );
+        },
+      );
+    }
+    print(text);
   }
 }
