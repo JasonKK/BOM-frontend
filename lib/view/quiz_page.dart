@@ -23,6 +23,7 @@ class _QuizPageState extends State<QuizPage> {
   late Future<List<Mock>> futuremock;
   String? realanswer;
   String? description;
+  int? trial;
 
   void initState() {
     super.initState();
@@ -48,6 +49,8 @@ class _QuizPageState extends State<QuizPage> {
               future: futuremock,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  print(snapshot.data![6].totalNumSolved);
+                  trial = snapshot.data![6].totalNumSolved;
                   realanswer = snapshot.data![6].answer;
                   description = snapshot.data![6].explanation;
                   return Image.network(snapshot.data![6].questionImage!);
@@ -62,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
             TextField(
               controller: _answerController,
               onSubmitted: (text) {
-                AnswerPopup(context, text, realanswer!);
+                AnswerPopup(context, text, realanswer!, trial!);
               },
               decoration: InputDecoration(
                 hintText: "답을 입력해주세요",

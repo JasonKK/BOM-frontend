@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import '../models/mock.dart';
 import '../repository/mock_repository.dart';
 
-void AnswerPopup(BuildContext context, String text, String answer) {
-  Mock mock;
+void AnswerPopup(BuildContext context, String text, String answer, int trial) {
   if (text == answer) {
     showDialog(
         context: context,
@@ -63,14 +62,20 @@ void AnswerPopup(BuildContext context, String text, String answer) {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("여기에 시도횟수 보여주기"),
+                Text("$trial/3회 시도하셨습니다."),
               ],
             ),
             actions: [
-              new FlatButton(
+              FlatButton(
                   child: new Text("재시도"),
-                  onPressed: () => Navigator.pop(context)),
-              new FlatButton(
+                  onPressed: () {
+                    MockRepository().fetchMock();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QuizPage(title: "국어")));
+                  }),
+              FlatButton(
                 child: new Text("홈화면으로 가기"),
                 onPressed: () => Navigator.push(
                     context,
