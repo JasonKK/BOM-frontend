@@ -44,7 +44,8 @@ class _QuizPageState extends State<QuizPage> {
               future: futuremock,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data![2].questionImage!);
+                  // return Text(snapshot.data![2].questionImage!);
+                  return Image.network(snapshot.data![4].questionImage!);
                 } else {
                   return Text('${snapshot.error}');
                 }
