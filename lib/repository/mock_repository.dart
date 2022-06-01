@@ -18,7 +18,6 @@ class MockRepository {
       Map<String, dynamic> body = json.decode(response
           .body); // var body = jsonDecode(response.body) as List<dynamic>;
       if (body["Questions"] == null) {
-        // opcode의 청체 파악 후 적용하기
         print('error because mock is empty');
       }
       List<dynamic> list = body['Questions'];
