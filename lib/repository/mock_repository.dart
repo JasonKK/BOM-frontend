@@ -27,4 +27,18 @@ class MockRepository {
       throw Exception('Can\'t get mock');
     }
   }
+
+  Future<Mock> fetchMock() async {
+    var url = Uri.parse(urlApi + '/mock/11/total');
+    var response = await http.patch(url);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Mock.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to fetch mock');
+    }
+  }
 }
