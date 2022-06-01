@@ -7,7 +7,7 @@ class MockRepository {
   static const urlApi =
       'http://ec2-3-37-166-70.ap-northeast-2.compute.amazonaws.com';
 
-  Future<List<Mock>> loadTodos() async {
+  Future<List<Mock>> loadMocks() async {
     print('Fetch mock data...');
     var url = Uri.parse(urlApi + '/mock?grade=2&subject=영어');
     var response = await http.get(url);
