@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bom_front/repository/mock_repository.dart';
+import 'package:bom_front/view/quiz_answer_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +26,7 @@ class _QuizPageState extends State<QuizPage> {
 
   void initState() {
     super.initState();
-    futuremock = MockRepository().loadTodos();
+    futuremock = MockRepository().loadMocks();
   }
 
   void dispose() {
@@ -61,7 +62,7 @@ class _QuizPageState extends State<QuizPage> {
             TextField(
               controller: _answerController,
               onSubmitted: (text) {
-                checkAnswer(text);
+                AnswerPopup(context, text, realanswer!);
               },
               decoration: InputDecoration(
                 hintText: "답을 입력해주세요",
@@ -72,34 +73,5 @@ class _QuizPageState extends State<QuizPage> {
         ),
       ),
     );
-  }
-
-  void checkAnswer(String text) {
-    print(realanswer);
-    if (text == realanswer) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Row(
-              children: [
-                new Text("정답입니다!"),
-                Image.network(description!),
-              ],
-            ),
-          );
-        },
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("틀렸습니다!"),
-          );
-        },
-      );
-    }
-    print(text);
   }
 }
