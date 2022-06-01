@@ -29,6 +29,12 @@ dependencies:
     sdk: flutter
   http: ^0.13.4
   flutter_riverpod: ^2.0.0-dev.0
+  kakao_flutter_sdk: ^1.1.1
+  dio:
+  json_annotation:
+  package_info:
+  platform:
+  shared_preferences:
 
 
 
