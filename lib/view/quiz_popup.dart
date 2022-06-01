@@ -17,7 +17,24 @@ void quizPop(BuildContext context) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Column(
             children: [
-              new Text("일일퀘스트"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new Text(
+                    "일일퀘스트",
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  IconButton(
+                    alignment: Alignment.topRight,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.close_rounded),
+                  ),
+                ],
+              ),
             ],
           ),
           content: Container(
