@@ -25,7 +25,7 @@ class Mock {
     grade = json['grade'];
     subject = json['subject'];
     questionImage = json['questionImage'];
-    answer = json['answwer'];
+    answer = json['answer'];
     explanation = json['explanation'];
     provisionCheck = json['provisionCheck'];
     totalNumSolved = json['totalNumSolved'];
