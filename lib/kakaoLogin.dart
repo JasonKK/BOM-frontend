@@ -1,4 +1,3 @@
-import 'package:bom_front/testpage.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -36,11 +35,6 @@ class _OnlyKakaoLoginState extends State<OnlyKakaoLogin> {
   _issueAccessToken(String authCode) async {
     try {
       var token = await AuthApi.instance.issueAccessToken(authCode: authCode);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => testPage(),
-          ));
       print("로그인 성공 ${token.accessToken}");
     } catch (error) {
       print("로그인 실패 $error");
