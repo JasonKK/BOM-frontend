@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'kakaoLogin.dart';
+
+import 'kakaologinScreen.dart';
 
 void main() {
-  KakaoSdk.init(
-      nativeAppKey: 'e90865b33f82b549a1c0c0c784221503',
-      javaScriptAppKey: "d56096838102c2292bc2fa305a58d261");
-  runApp(MyApp());
+  KakaoSdk.init(nativeAppKey: '5891951633964d982bdcdb38f6ae35d0');
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'KakaoLogin',
-      home: KakaoLoginPage(),
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const KakaoLoginScreen(),
     );
   }
 }

@@ -1,8 +1,10 @@
+import 'package:bom_front/testpage.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'kakaologinScreen.dart';
 import 'login_button.dart';
+import 'package:http/http.dart' as http;
 
 class OnlyKakaoLogin extends StatefulWidget {
   const OnlyKakaoLogin({Key? key}) : super(key: key);
@@ -34,30 +36,65 @@ class _OnlyKakaoLoginState extends State<OnlyKakaoLogin> {
   _issueAccessToken(String authCode) async {
     try {
       var token = await AuthApi.instance.issueAccessToken(authCode: authCode);
-
-      validateToken = await UserApi.instance.accessTokenInfo();
-
-      if (validateToken.refreshToken == null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  const KakaoLoginScreen(), // 로그인 화면으로 다시 가야 함
-            ));
-      } else {
-        print("YEAH!");
-      }
-    } catch (e) {
-      print(e.toString());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => testPage(),
+          ));
+      print("로그인 성공 ${token.accessToken}");
+    } catch (error) {
+      print("로그인 실패 $error");
     }
+  }
+
+  _loggingout() async {
+    try {
+      await UserApi.instance.logout();
+      print("로그아웃 성공, SDK에서 토큰 삭제");
+    } catch (error) {
+      print("로그아웃 실패!");
+    }
+  }
+
+  myInfo() async {
+    try {
+      User user = await UserApi.instance.me();
+      print("사용자 정보 요청 성공"
+          '\n회원번호: ${user.id}'
+          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+    } catch (error) {
+      print("사용자 정보 요청 실패 $error");
+    }
+  }
+
+  _postRequest(var token) async {
+    final url = Uri.parse(
+        'http://ec2-3-37-166-70.ap-northeast-2.compute.amazonaws.com/auth/login');
+    print("post() url: $url");
+
+    http.Response response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: <String, String>{'platform': 'kakao', 'accessToken': '$token'},
+    );
   }
 
   loginWithKakao() async {
     try {
-      var code = await AuthCodeClient.instance.request();
-      await _issueAccessToken(code);
+      print("entered loginWithKakao");
+      // var code = await AuthCodeClient.instance.request();
+      // await _issueAccessToken(code);
+      OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
+      print("카카오톡 로그인 성공 ${token.accessToken}");
+      var temptoken = token.accessToken;
+      _postRequest(temptoken);
+
+      myInfo();
     } catch (e) {
       print(e.toString());
+      print("can't enter");
     }
   }
 
@@ -77,5 +114,10 @@ class _OnlyKakaoLoginState extends State<OnlyKakaoLogin> {
     setState(() {
       _isKakaoTalkInstalled = installed;
     });
+  }
+
+  Future<void> _loginButtonPressed() async {
+    String authCode = await AuthCodeClient.instance.request();
+    print(authCode);
   }
 }
