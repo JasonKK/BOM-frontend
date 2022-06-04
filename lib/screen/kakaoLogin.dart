@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'kakaologinScreen.dart';
-import 'login_button.dart';
+import '../utils/login_button.dart';
 import 'package:http/http.dart' as http;
 
 class OnlyKakaoLogin extends StatefulWidget {

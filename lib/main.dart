@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-import 'kakaologinScreen.dart';
+import 'screen/kakaologinScreen.dart';
 
 void main() {
   KakaoSdk.init(nativeAppKey: '5891951633964d982bdcdb38f6ae35d0');
