@@ -1,27 +1,47 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Token {
-  Token({required this.accessToken, required this.refreshToken});
+class Info {
+  String? emailId;
+  int? grade;
+  String? password;
+  String? userName;
+  String? phoneNum;
+  DateTime? birth;
+  String? nickname;
+  String? introduction;
 
-  final String accessToken;
-  final String refreshToken;
+  Info({
+    this.emailId,
+    this.grade,
+    this.password,
+    this.userName,
+    this.phoneNum,
+    this.birth,
+    this.nickname,
+    this.introduction,
+  });
 
-  factory Token.fromJson(Map json) {
-    return Token(
-      accessToken: json['accessToken'],
-      refreshToken: json['refreshToken'],
-    );
+  Info.fromJson(Map<String, dynamic> json) {
+    emailId = json['emailId'];
+    grade = json['grade'];
+    password = json['password'];
+    userName = json['userName'];
+    phoneNum = json['phoneNum'];
+    birth = json['birth'];
+    nickname = json['nickname'];
+    introduction = json['introduction'];
   }
 
-  Map toMap() {
-    var map = new Map();
-    map['accessToken'] = accessToken;
-    map['refreshToken'] = refreshToken;
-
-    return map;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['emailId'] = this.emailId;
+    data['grade'] = this.grade;
+    data['password'] = this.password;
+    data['userName'] = this.userName;
+    data['phoneNum'] = this.phoneNum;
+    data['birth'] = this.birth;
+    data['nickname'] = this.nickname;
+    data['introduction'] = this.introduction;
+    return data;
   }
 }
-
-final tokenStateProvider = StateProvider<String>((ref) {
-  return '';
-});

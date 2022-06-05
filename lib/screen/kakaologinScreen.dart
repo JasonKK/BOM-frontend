@@ -21,7 +21,7 @@ class _KakaoLoginScreenState extends State<KakaoLoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  OnlyKakaoLogin(),
+                  LoginPage(),
                   SizedBox(height: 10),
                 ],
               ),

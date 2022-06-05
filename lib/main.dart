@@ -1,3 +1,4 @@
+import 'package:bom_front/screen/kakaoLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const KakaoLoginScreen(),
+      // home: const KakaoLoginScreen(),
+      home: const LoginPage(),
     );
   }
 }
