@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:bom_front/screen/kakaoAdditionalScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -31,6 +32,7 @@ class _OnlyKakaoLoginState extends State<LoginMainPage> {
   var kakaoToken;
   var accessToken;
   var refreshToken;
+  var userId;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -39,7 +41,7 @@ class _OnlyKakaoLoginState extends State<LoginMainPage> {
   void initState() {
     super.initState();
     initKakaoTalkInstalled();
-    LoginPage();
+    const additionalPage();
   }
 
   @override
@@ -139,7 +141,7 @@ class _OnlyKakaoLoginState extends State<LoginMainPage> {
     );
   }
 
-  //token
+  //token 유효성 체크 및 만료되었을때 refresh token 생성
   _tokenAccessOkay(String authCode) async {
     if (await AuthApi.instance.hasToken()) {
       try {
@@ -170,10 +172,27 @@ class _OnlyKakaoLoginState extends State<LoginMainPage> {
       body: {'platform': 'kakao', 'accessToken': '$kakaotoken'},
     );
 
+    print(response.body);
+
     String jsonData = response.body;
     accessToken = jsonDecode(jsonData)['payload']['accessToken'];
     refreshToken = jsonDecode(jsonData)['payload']['refreshToken'];
+    userId = jsonDecode(jsonData)['user']['userId'];
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => additionalPage()));
+    }
   }
+
+  // _patchInfo(var userId) async{
+  //   final url = Uri.parse("http://ec2-3-37-166-70.ap-northeast-2.compute.amazonaws.com/user/$userId");
+  //   print("Let's modify my account");
+  //
+  //   http.Response response = await http.patch(url, headers: {)
+  //
+  //   )
+  // }
 
   _getrefreshToken(var refreshtoken) async {
     final url = Uri.parse(
@@ -218,7 +237,6 @@ class _OnlyKakaoLoginState extends State<LoginMainPage> {
       kakaoToken = token.accessToken;
       _postRequest(kakaoToken);
       _tokenAccessOkay(kakaoToken); // refreshtoken 생성 및
-      _getInfo();
     } catch (e) {
       print(e.toString());
     }
